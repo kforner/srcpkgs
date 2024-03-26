@@ -4,3 +4,8 @@
 ^\.github$
 ^\.devcontainer$
 ^Makefile
+^log
+^\..*
+^_pkgdown\.yml$
+^docs$
+^pkgdown$
