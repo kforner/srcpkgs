@@ -29,4 +29,3 @@ Useful links:
 \strong{Maintainer}: Karl Forner \email{karl.forner@gmail.com}
 
 }
-\keyword{internal}

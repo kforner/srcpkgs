@@ -16,3 +16,5 @@ manual: rox
 clean:
 	rm -rf .checks* .Rd2*
 	
+pkgdown:
+	Rscript --no-save -e 'pkgdown::build_site()'
