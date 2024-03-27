@@ -10,3 +10,7 @@ use_package_doc()
 use_pkgdown()
 use_pkgdown_github_pages()
 use_github_action("pkgdown")
+
+use_coverage()
+use_github_action("test-coverage")
+
