@@ -15,7 +15,7 @@
 			"installRMarkdown": true,
 			"installRadian": true,
 			"installVscDebugger": true,
-			"installBspm": true,
+			"installBspm": true
 		},
 
     // search for APT R packages with: `apt-cache search "^r-.*" | sort`
@@ -38,7 +38,8 @@
 		// Settings for VS Code.
 		"vscode": {
 			"extensions": [
-				"RDebugger.r-debugger"
+				"RDebugger.r-debugger",
+				"meakbiyik.vscode-r-test-adapter"
 			],
 			"settings": {
 				"r.rterm.linux": "/usr/local/bin/radian",
@@ -46,7 +47,7 @@
 				"r.plot.useHttpgd": true
 			}
 		}
-	},
+	}
 
 	// Uncomment to connect as root instead. More info: https://aka.ms/dev-containers-non-root.
 	// "remoteUser": "root"
