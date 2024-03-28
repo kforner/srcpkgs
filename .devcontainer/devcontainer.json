@@ -21,7 +21,7 @@
     // search for APT R packages with: `apt-cache search "^r-.*" | sort`
 
     "ghcr.io/rocker-org/devcontainer-features/apt-packages:1": {
-      "packages": "bash-completion,pandoc,qpdf,r-cran-debugme,r-cran-covr"
+      "packages": "bash-completion,pandoc,qpdf,r-cran-debugme,r-cran-cli,r-cran-covr, r-cran-igraph"
     }
 	},
   "overrideFeatureInstallOrder": [

@@ -46,22 +46,52 @@ test_that("stop_unless",
 {
   stop_unless <- srcpkgs:::stop_unless
 
-  expect_error(stop_unless(TRUE), 'missing')
-  expect_error(stop_unless(1:2, 'argh'), 'scalar')
+  ### no stop
+  expect_error(stop_unless(TRUE, 'argh'), NA)
+  expect_error(stop_unless(length(1), 'argh'), NA)
+  # test if the message args are evaluated even if the condition is TRUE
+  expect_error(stop_unless(TRUE, stop('beurk')), NA)
 
+  ### expected stop
 	expect_error(stop_unless(FALSE, 'argh'), 'argh')
   expect_error(stop_unless(length(NULL), 'argh'), 'argh')
-  expect_error(stop_unless(length(1), 'argh'), NA)
-
-	# messages
+  # sprintf message
 	expect_error(stop_unless(FALSE, "i = %i s = %s",3,'toto'), "i = 3 s = toto")
-
-  # test vectors in additional arguments (...) for sprintf
   expect_error(stop_unless(FALSE, 'ints=%s', 1:3), 'ints=1,2,3')
 
-  # empty condition (logical)
-  expect_error(stop_unless(NULL == 1, 'Argh'), 'scalar')
+  ### errors
+  # error in the call --> bad params
+  expect_error(stop_unless(TRUE), 'format')
 
-  ### see if the message args are evaluated even if the condition is TRUE
-  expect_error(stop_unless(TRUE, stop('beurk')), NA)
+  # error in the condition
+  expect_error(stop_unless(1:2, 'argh'), 'scalar')
+  expect_error(stop_unless(NA, 'argh'), 'missing')
+  expect_error(stop_unless(NULL == 1, 'Argh'), 'scalar')
+})
+
+test_that("stop_if", 
+{
+  stop_if <- srcpkgs:::stop_if
+
+  ### no stop
+  expect_error(stop_if(FALSE, 'argh'), NA)
+  expect_error(stop_if(length(NULL), 'argh'), NA)
+  # test if the message args are evaluated even if the condition is TRUE
+  expect_error(stop_if(FALSE, stop('beurk')), NA)
+
+  ### expected stop
+	expect_error(stop_if(TRUE, 'argh'), 'argh')
+  expect_error(stop_if(length(1), 'argh'), 'argh')
+  # sprintf message
+	expect_error(stop_if(TRUE, "i = %i s = %s",3,'toto'), "i = 3 s = toto")
+  expect_error(stop_if(TRUE, 'ints=%s', 1:3), 'ints=1,2,3')
+
+  ### errors
+  # error in the call --> bad params
+  expect_error(stop_if(FALSE), 'format')
+
+  # error in the condition
+  expect_error(stop_if(1:2, 'argh'), 'scalar')
+  expect_error(stop_if(NA, 'argh'), 'missing')
+  expect_error(stop_if(NULL == 1, 'Argh'), 'scalar')
 })

@@ -6,8 +6,9 @@ rox:
 check: rox
 	Rscript --no-save -e 'devtools::check(".", check_dir = ".checks")'
 
+FILTER=
 test: rox
-	Rscript --no-save -e 'devtools::test()'
+	Rscript --no-save -e 'devtools::test(filter="$(FILTER)")'
 
 manual: rox
 	rm -f $(PKG).pdf

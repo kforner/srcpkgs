@@ -13,7 +13,7 @@
 #' @return a vector of (relative) package paths
 #' @keywords internal
 find_srcpkgs_paths <- function(dir, src = TRUE,  prune = TRUE, ...) {
-  stopifnot(dir.exists(dir))
+  stop_unless(dir.exists(dir), 'bad directory "%s"', dir)
 
   # look for all folders with a DESCRIPTION file (required for a R package)
   desc <- list.files(dir, pattern = '^DESCRIPTION$', recursive = TRUE, ...)
@@ -45,5 +45,6 @@ prune_paths <- function(paths) {
 
   paths
 }
+
 
 

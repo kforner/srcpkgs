@@ -1,7 +1,7 @@
 # implements my view on when a condition is true, e.g. length(1) is true
 
 
-#' wrapper of sprintf that automatically collapses vectors
+# wrapper of sprintf that automatically collapses vectors
 enhanced_sprintf <- function(fmt, ..., collapse = ',') {
   if (length(fmt) != 1) stop('Arg "format" must be a scalar (length 1)')
 
@@ -56,4 +56,18 @@ stop_unless <- function(cond, format, ...) {
 
 stop_if <- function(cond, ...) {
   stop_unless(!cond, ...)
+}
+
+mute <- function(..., messages = TRUE, warnings = TRUE, output = TRUE) {
+  msg <- if (messages) suppressMessages else identity
+  warn <- if (warnings) suppressWarnings else identity
+  out <- identity
+  if (output) {
+    out <- function(...) {
+        utils::capture.output(msg <- utils::capture.output(...), type = 'message')
+        msg
+    }
+  } 
+
+  invisible(out(warn(msg(...))))
 }

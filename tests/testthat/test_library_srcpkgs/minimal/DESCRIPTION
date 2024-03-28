@@ -1,0 +1,8 @@
+Package: minimal
+Title: minimal package
+Version: 1.0
+Description: minimal package for testing.
+Author: Karl Forner <karl.forner@gmail.com>
+Maintainer: Karl Forner <karl.forner@gmail.com>
+License: GPL
+Encoding: UTF-8
