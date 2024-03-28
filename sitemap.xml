@@ -25,6 +25,9 @@
     <loc>/reference/index.html</loc>
   </url>
   <url>
+    <loc>/reference/pkg_create.html</loc>
+  </url>
+  <url>
     <loc>/reference/srcpkgs-package.html</loc>
   </url>
 </urlset>
