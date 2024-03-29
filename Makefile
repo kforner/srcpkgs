@@ -19,3 +19,14 @@ clean:
 	
 pkgdown:
 	Rscript --no-save -e 'pkgdown::build_site()'
+
+zero-coverage:
+	Rscript -e 'library(covr); zero_coverage(package_coverage())'
+
+covr:
+	Rscript -e 'library(covr); print(package_coverage())'
+
+
+COVR_REPORT=.tmp/cov.html
+report_covr:
+	Rscript -e 'library(covr); print(report(package_coverage(), "$(COVR_REPORT)"))'

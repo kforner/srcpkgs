@@ -1,13 +1,14 @@
 #######################################################################
 # wraps a devtools package object into a derived S3 "srcpkg" object
-###################################################################
+######################################################################
 
-# creates a new "srcpkg" object from a devtools::package, or a path
-srcpkg <- function(pkg = devtools::as.package(path), path = NULL) {
+# creates a new "srcpkg" object from a devtools::package, or a path, or a srcpkg (noop)
+srcpkg <- function(pkg = devtools::as.package(path), path = NULL, md5 = NA_character_) {
   force(pkg)
+  if (inherits(pkg, 'srcpkg')) return(pkg) 
   stop_unless(devtools::is.package(pkg), 'pkg is not a devtools package object')
 
-  pkg$MD5 <- NA_character_
+  pkg$MD5 <- md5
   class(pkg) <- c("srcpkg", "package")
 
   pkg

@@ -36,10 +36,13 @@ find_srcpkgs_paths <- function(dir, src = TRUE,  prune = TRUE, ...) {
 
 
 prune_paths <- function(paths) {
+  # add trailing slash to distinguish between dirs and prefixes
+  dirs <- paste0(paths, '/')
+
   .strictly_contained_by <- function(path) {
-    which(path != paths & startsWith(paths, path))
+    which(path != dirs & startsWith(dirs, path))
   }
-  ind <- unlist(lapply(paths, .strictly_contained_by), use.names = FALSE)
+  ind <- unlist(lapply(dirs, .strictly_contained_by), use.names = FALSE)
   if (length(ind) > 0)
     paths <- paths[-ind]
 

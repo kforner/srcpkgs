@@ -10,97 +10,95 @@
   expect_identical(prune_paths(c('AA/T/CD/B', 'AA', 'BB')), c('AA', 'BB'))
   expect_identical(prune_paths(c('AA', 'BB/A/C')), c('AA', 'BB/A/C'))
 
+  # prefixes
+  expect_identical(prune_paths(c('AA', 'AAA')), c('AA', 'AAA'))
+
   # circular relations
   expect_identical(prune_paths(c('AA', 'AA/B/C', 'AA/B')), 'AA')
 }
 test_that("prune_paths", {.prune_paths()})
 
 
+test_that("find_srcpkgs_paths", { 
+  find_srcpkgs_paths <- srcpkgs:::find_srcpkgs_paths
 
-# .find_srcpkgs_paths <- function() {
-#   find_srcpkgs_paths <- srcpkgs:::find_srcpkgs_paths
+  dir <- setup_temp_dir(setwd = FALSE)
 
-#   dir <- setup_temp_dir(chdir = FALSE)
+  ### edge cases
+  # no dir
+  expect_error(find_srcpkgs_paths('does_not_exist'), 'bad directory')
+  # dir empty
+  expect_true(length(find_srcpkgs_paths(dir)) == 0)
 
-#   ### edge cases
-#   # no dir
-#   expect_error(find_srcpkgs_paths('does_not_exist'), 'dir.exists')
-#   # dir empty
-#   expect_true(length(find_srcpkgs_paths(dir)) == 0)
+  ### A package as level 1
+  pkg_create(dir, 'AA')
+  pkgs <- find_srcpkgs_paths(dir)
+  expect_identical(pkgs, file.path(dir, 'AA'))
+  expect_identical(pkgs, find_srcpkgs_paths(dir))
 
-
-#   ### A package as level 1
-#   create_package(dir, 'AA')
-#   pkgs <- find_srcpkgs_paths(dir)
-#   expect_identical(pkgs, file.path(dir, 'AA'))
-#   expect_identical(pkgs, find_src_pkgs_paths(dir))
-
-#   #### A and B in same level 1
-#   create_package(dir, 'BB')
-#   pkgs <- find_srcpkgs_paths(dir)
-#   expect_identical(pkgs, find_src_pkgs_paths(dir))
-#   expect_identical(pkgs, file.path(dir, c('AA', 'BB')))
+  #### A and B in same level 1
+  pkg_create(dir, 'BB')
+  pkgs <- find_srcpkgs_paths(dir)
+  expect_identical(pkgs, find_srcpkgs_paths(dir))
+  expect_identical(pkgs, file.path(dir, c('AA', 'BB')))
 
 
-#   ### C is a level 2 pkg compared to A and B
-#   create_package(file.path(dir, 'C_proj'), 'CC')
-#   pkgs <- find_srcpkgs_paths(dir)
-#   expect_identical(pkgs, find_src_pkgs_paths(dir))
-#   expect_identical(pkgs, file.path(dir, c('AA', 'BB', "C_proj/CC")))
+  ### C is a level 2 pkg compared to A and B
+  pkg_create(file.path(dir, 'C_proj'), 'CC')
+  pkgs <- find_srcpkgs_paths(dir)
+  expect_identical(pkgs, find_srcpkgs_paths(dir))
+  expect_identical(pkgs, file.path(dir, c('AA', 'BB', "C_proj/CC")))
 
-#   ### A1 inside A: should be ignored if prune == TRUE
-#   create_package(file.path(dir, 'AA'), 'AA1')
-#   pkgs <- find_srcpkgs_paths(dir)
-#   expect_identical(pkgs, find_src_pkgs_paths(dir))
+  ### A1 inside A: should be ignored if prune == TRUE
+  pkg_create(file.path(dir, 'AA'), 'AA1')
+  pkgs <- find_srcpkgs_paths(dir)
+  expect_identical(pkgs, find_srcpkgs_paths(dir))
 
-#   expect_identical(pkgs, file.path(dir, c('AA', 'BB', "C_proj/CC")))
+  expect_identical(pkgs, file.path(dir, c('AA', 'BB', "C_proj/CC")))
 
-#   pkgs <- find_srcpkgs_paths(dir, prune = FALSE)
-#   expect_identical(pkgs, sort(file.path(dir, c('AA', 'AA/AA1', 'BB', "C_proj/CC"))))
-
-
-#   ### D inside a hidden directory: should be ignored
-#   create_package(file.path(dir, '.hidden'), 'DD')
-#   pkgs <- find_srcpkgs_paths(dir)
-#   expect_identical(pkgs, find_src_pkgs_paths(dir))
-#   expect_identical(pkgs, file.path(dir, c('AA', 'BB', "C_proj/CC")))
-
-#   pkgs <- find_srcpkgs_paths(dir, all.files = TRUE)
-#   expect_true('DD' %in% basename(pkgs))
+  pkgs <- find_srcpkgs_paths(dir, prune = FALSE)
+  expect_identical(pkgs, sort(file.path(dir, c('AA', 'AA/AA1', 'BB', "C_proj/CC"))))
 
 
-#   ### package name is prefix of other package in same level
-#   create_package(dir, 'AAA')
-#   pkgs <- find_srcpkgs_paths(dir)
-#   expect_identical(pkgs, file.path(dir, c('AA', 'AAA', 'BB', "C_proj/CC")))
+  ### D inside a hidden directory: should be ignored
+  pkg_create(file.path(dir, '.hidden'), 'DD')
+  pkgs <- find_srcpkgs_paths(dir)
+  expect_identical(pkgs, find_srcpkgs_paths(dir))
+  expect_identical(pkgs, file.path(dir, c('AA', 'BB', "C_proj/CC")))
 
-#   ### should not "find" non-source package
-#   lib <- file.path(dir, 'lib')
-#   dir.create(lib)
+  pkgs <- find_srcpkgs_paths(dir, all.files = TRUE)
+  expect_true('DD' %in% basename(pkgs))
 
-#   pkg <- 'testPkg1'
-#   .copy_pkg(file.path('test_pkgs', pkg), dir)
-#   pkg_path <- file.path(dir, pkg)
-#   roxygenise_pkg(pkg_path, quiet = TRUE)
-# #  unload_pkg('testPkg1', quiet = TRUE)
 
-#   srcpkgs:::r_cmd_install(pkg_path, lib, quiet = TRUE)
+  ### package name is prefix of other package in same level
+  pkg_create(dir, 'AAA')
+  pkgs <- find_srcpkgs_paths(dir)
+  expect_identical(pkgs, file.path(dir, c('AA', 'AAA', 'BB', "C_proj/CC")))
 
-#   pkgs <- find_srcpkgs_paths(lib)
-#   expect_equal(length(pkgs), 1)
+  ### should not "find" non-source package ==========================
+  lib <- file.path(dir, 'lib')
+  dir.create(lib)
+  
+  # create a source package in lib
+  pkg_create(lib, 'installed1')
 
-#   pkgs <- find_src_pkgs_paths(lib)
-#   expect_equal(length(pkgs), 0)
+  # it is found by find_srcpkgs_paths()
+  pkgs <- find_srcpkgs_paths(dir)
+  expect_true('installed1' %in% basename(pkgs))
 
-# }
-# test_that("find_srcpkgs_paths", {.find_srcpkgs_paths()})
+  # now turn it to a pseudo installed pakage by creating a Meta/ folder
+  dir.create(file.path(lib, 'installed1', 'Meta'))
+  expect_length(find_srcpkgs_paths(lib), 0)
 
+  pkgs <- find_srcpkgs_paths(dir)
+  expect_false('installed1' %in% basename(pkgs))
+})
 
 
 # .find_pkgs_path_regression <- function() {
 #   find_pkgs_paths <- srcpkgs:::find_pkgs_paths
 
-#   dir <- setup_temp_dir(chdir = FALSE)
+#   dir <- setup_temp_dir(setwd = FALSE)
 
 #   # make a dummy package with a file containing pattern DESCRIPTION
 #   path <- file.path(dir, 'AA')

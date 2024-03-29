@@ -71,3 +71,23 @@ mute <- function(..., messages = TRUE, warnings = TRUE, output = TRUE) {
 
   invisible(out(warn(msg(...))))
 }
+
+# sorting strings depend on locales, and as such may not be reproducible across platforms and settings
+reproducible_sort <- function(...) {
+  old_ctype <- Sys.getlocale('LC_CTYPE')
+  old_collate <- Sys.getlocale('LC_COLLATE')
+  on.exit({
+    Sys.setlocale('LC_CTYPE', old_ctype)
+    Sys.setlocale('LC_COLLATE', old_collate)
+  }, add = TRUE)
+
+  Sys.setlocale('LC_CTYPE', 'POSIX')
+  Sys.setlocale('LC_COLLATE', 'POSIX')
+
+  sort(...)
+}
+
+get_elements <- function(lst, idx) {
+  lapply(lst, getElement, idx)
+}
+

@@ -30,13 +30,13 @@
 #   roxygenise_pkg(pkg2, quiet = TRUE)
 #   pkg2bis <- as_srcpkg(pkg2$path)
 
-#   deps <- qbdev:::compute_srcpkgs_dependencies
+#   deps <- srcpkgs:::compute_srcpkgs_dependencies
 
 #   srcpkgs <- find_srcpkgs('.')
 #   expect_identical(deps(pkg2bis, src_pkgs = srcpkgs), deps(pkg2, src_pkgs = srcpkgs))
 
 #   devtools::load_all(pkg2)
-#   deps <- qbdev:::make_deps_list_of_loaded_pkgs()
+#   deps <- srcpkgs:::make_deps_list_of_loaded_pkgs()
 #   expect_identical(deps[['pkg2']], 'pkg1')
 
 #   ### package with 2 imports

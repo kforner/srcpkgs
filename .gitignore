@@ -1,5 +1,5 @@
 .Rproj.user
 .*
-
+*.html
 inst/doc
 docs

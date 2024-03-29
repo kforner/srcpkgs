@@ -30,6 +30,7 @@ build_pkgs_dependency_graph <- function(deps_lst) {
 
 # builds package information in the format of utils::available.packages
 # N.B: not all the fields are set
+# @param pkgs a list of "package" objects
 build_pkgs_matrix <- function(pkgs) {
   .parse_dep <- function(pkg, field_name) {
     field <- pkg[[field_name]]
@@ -61,4 +62,24 @@ build_pkgs_matrix <- function(pkgs) {
   rownames(mat) <- mat[, 1]
 
   mat
+}
+
+# just a wrapper over tools::package_dependencies()
+# @param pkgs_mat  the available.packages()-like package dependency matrix
+build_pkgs_dependencies <- function(mat,
+  recursive = TRUE,
+  which = "most",
+  ...
+) {
+  pkg_names <- unname(mat[, 'Package'])
+  tools::package_dependencies(pkg_names, db = mat, which = which, recursive = recursive, ...)
+}
+
+# wrap it up: compute the dependencies graph from a list of package objects
+compute_pkgs_dependencies_graph <- function(pkgs, ...) {
+  stop_unless(length(pkgs), 'bad arg "pkgs": empty')
+  mat <- build_pkgs_matrix(pkgs)
+  deps_lst <- build_pkgs_dependencies(mat, ...)
+  g <- build_pkgs_dependency_graph(deps_lst)
+
 }

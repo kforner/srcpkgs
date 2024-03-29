@@ -7,12 +7,20 @@ test_that("srcpkg", {
   srcpkg <- srcpkg(MINIMAL)
   expect_s3_class(srcpkg, 'srcpkg')
   expect_true(devtools::is.package(srcpkg))
+  expect_true(is.na(srcpkg$MD5))
+
+  # using md5 param
+  srcpkg <- srcpkg(MINIMAL, md5 = 'toto')
+  expect_s3_class(srcpkg, 'srcpkg')
+  expect_identical(srcpkg$MD5, 'toto')
 
   # works also directly on a srcpkg
+  srcpkg <- srcpkg(MINIMAL, md5 = 'toto')
   srcpkg2 <- srcpkg(srcpkg)
   expect_identical(srcpkg2, srcpkg)
 
   # with a path
+  srcpkg <- srcpkg(MINIMAL)
   srcpkg2 <- srcpkg(path = MINIMAL_PATH)
   expect_identical(srcpkg2, srcpkg)
 })

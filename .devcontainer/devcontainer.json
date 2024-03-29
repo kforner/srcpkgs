@@ -21,7 +21,7 @@
     // search for APT R packages with: `apt-cache search "^r-.*" | sort`
 
     "ghcr.io/rocker-org/devcontainer-features/apt-packages:1": {
-      "packages": "bash-completion,pandoc,qpdf,r-cran-debugme,r-cran-cli,r-cran-covr, r-cran-igraph"
+      "packages": "bash-completion,pandoc,qpdf,r-cran-debugme,r-cran-cli,r-cran-covr, r-cran-dt, r-cran-htmltools, r-cran-igraph"
     }
 	},
   "overrideFeatureInstallOrder": [
@@ -39,7 +39,8 @@
 		"vscode": {
 			"extensions": [
 				"RDebugger.r-debugger",
-				"meakbiyik.vscode-r-test-adapter"
+				"meakbiyik.vscode-r-test-adapter",
+				"ritwickdey.LiveServer"
 			],
 			"settings": {
 				"r.rterm.linux": "/usr/local/bin/radian",

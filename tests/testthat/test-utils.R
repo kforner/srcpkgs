@@ -42,6 +42,21 @@ test_that("enhanced_sprintf",
   expect_identical(enhanced_sprintf("i = %i s = %s",3,'toto'), 'i = 3 s = toto')
 })
 
+
+test_that("safe_enhanced_sprintf", 
+{
+  safe_enhanced_sprintf <- srcpkgs:::safe_enhanced_sprintf
+
+
+  # normal behaviour
+  expect_identical(safe_enhanced_sprintf('toto%i %s %i', 1, 'titi', 5), 'toto1 titi 5')
+  expect_identical(safe_enhanced_sprintf('toto %s', 1:3), 'toto 1,2,3')
+
+  # safe behaviour
+  expect_match(mute(safe_enhanced_sprintf("", stop('error'))), "could not build error message")
+
+})
+
 test_that("stop_unless", 
 {
   stop_unless <- srcpkgs:::stop_unless
@@ -94,4 +109,8 @@ test_that("stop_if",
   expect_error(stop_if(1:2, 'argh'), 'scalar')
   expect_error(stop_if(NA, 'argh'), 'missing')
   expect_error(stop_if(NULL == 1, 'Argh'), 'scalar')
+})
+
+test_that("reproducible_sort", {
+  expect_identical(reproducible_sort(rev(LETTERS)), LETTERS)
 })

@@ -6,7 +6,7 @@ test_that("build_pkgs_matrix", {
   pkg_create('.', 'BB', imports = 'CC', depends = 'CC')
   pkg_create('.', 'CC', suggests = 'DD')
   pkg_create('.', 'DD')
-  pkgs <- lapply(dir('.'), devtools::as.package, create = FALSE)
+  pkgs <- lapply(dir('.'), devtools::as.package)
 
   ###
   mat <- build_pkgs_matrix(pkgs)
@@ -22,77 +22,77 @@ test_that("build_pkgs_matrix", {
 })
 
 
-# test_that("build_pkgs_dependency_graph works", {
-#   build_pkgs_dependency_graph <- srcpkgs:::build_pkgs_dependency_graph
-#   dir <- setup_temp_dir(chdir = FALSE)
+test_that("compute_pkgs_dependencies_graph", {
+  dir <- setup_temp_dir(setwd = FALSE)
 
-#   .sort_graph <- function(g) {
-#     top <- igraph::topological.sort(g)
-#     nodes <- igraph::V(g)$name
-#     nodes[top]
-#   }
-#   are.connected <- igraph::are.connected
+  .sort_graph <- function(g) {
+    top <- igraph::topo_sort(g)
+    nodes <- igraph::V(g)$name
+    nodes[top]
+  }
+  .create_pkg <- function(name, imports) {  pkg_create(dir, name, imports = imports)  }
+  are_adjacent <- igraph::are_adjacent
 
-#   .create_pkg <- function(name, imports) {
-#     create_package(dir, name, imports = imports)
-#   }
-#   .src_pkgs <- function() {
-#     ##as_pkgs(find_src_pkgs(dir))
-#     find_srcpkgs(dir) # do not need to find qbr
-#   }
+  pkga <- .create_pkg('AA', imports = 'stats')
 
-#   deps_list <- function(x) {
-#     scrpkgs:::compute_srcpkgs_dependencies(x, src_pkgs = .src_pkgs())
-#   }
+  ### edge cases
+  expect_error(compute_pkgs_dependencies_graph(list()), 'bad arg')
 
-#   pkga <- .create_pkg('AA', imports = 'stats')
+  ### A: no deps inside lib
+  g <- compute_pkgs_dependencies_graph(list(pkga))
 
-#   ### edge cases
-#   expect_error(build_pkgs_deps_graph(NULL), 'give a list')
+  expect_s3_class(g, 'igraph')
+  expect_true(igraph::is_directed(g))
+  expect_identical(.sort_graph(g), 'AA')
+  
+  ### B: B->A
+  pkgb <- .create_pkg('BB', imports = c('plyr', 'AA'))
 
-#   g <- build_pkgs_deps_graph(list())
-#   expect_is(g, 'igraph')
+  g <- compute_pkgs_dependencies_graph(list(pkga, pkgb))
 
-#   ### A: no deps inside lib
-#   deps <- deps_list(scrpkgs:::as_srcpkgs(pkga))
+  expect_equal(.sort_graph(g), c('BB', 'AA'))
+  expect_true(are_adjacent(g, 'BB', 'AA'))
+
+  ### C: C->B->A
+  pkgc <- .create_pkg('CC', imports = c('BB'))
+
+  g <- compute_pkgs_dependencies_graph(list(pkga, pkgb, pkgc))
+  
+  expect_equal(.sort_graph(g), c('CC', 'BB', 'AA'))
+  expect_true(are_adjacent(g, 'CC', 'BB'))
+
+  ### D: D->C->B->A and D->B
+  pkgd <- .create_pkg('DD', imports = c('CC', 'BB'))
+  
+  g <- compute_pkgs_dependencies_graph(list(pkga, pkgb, pkgc, pkgd))
+
+  expect_equal(.sort_graph(g), c('DD', 'CC', 'BB', 'AA'))
+  expect_true(are_adjacent(g, 'DD', 'CC'))
+  expect_true(are_adjacent(g, 'DD', 'BB'))
+
+  ### E: E->A
+  pkge <- .create_pkg('EE', imports ='AA')
+
+  g <- compute_pkgs_dependencies_graph(list(pkga, pkgb, pkgc, pkgd, pkge))
+  
+  expect_true(are_adjacent(g, 'EE', 'AA'))
+  sg <- .sort_graph(g)
+  expect_true(sg[1] == 'DD' && sg[length(sg)] == 'AA')
 
 
-#   g <- build_pkgs_deps_graph(deps)
-#   expect_is(g, 'igraph')
-#   expect_true(igraph::is.directed(g))
-#   ### B: B->A
-#   pkgb <- .create_pkg('BB', imports = c('plyr', 'AA'))
+  ### create a cycle of size 2 ##################################
+  cycle1 <- .create_pkg('C1', imports = 'C2')
+  cycle2 <- .create_pkg('C2', imports = 'C1')
 
-#   g <- build_pkgs_deps_graph(deps_list(.src_pkgs()))
+  g <- compute_pkgs_dependencies_graph(list(cycle1, cycle2))
+  
+  expect_true(are_adjacent(g, 'C1', 'C2') &&  are_adjacent(g, 'C2', 'C1'))
+  expect_false(igraph::is_dag(g))
+})
 
-#   expect_equal(.sort_graph(g), c('BB', 'AA'))
-#   expect_true(are.connected(g, 'BB', 'AA'))
-
-#   ### C: C->B->A
-#   .create_pkg('CC', imports = c('BB'))
-#   g <- build_pkgs_deps_graph(deps_list(.src_pkgs()))
-#   expect_equal(.sort_graph(g), c('CC', 'BB', 'AA'))
-#   expect_true(are.connected(g, 'CC', 'BB'))
-
-#   ### D: D->C->B->A and D->B
-#   .create_pkg('DD', imports = c('CC', 'BB'))
-#   g <- build_pkgs_deps_graph(deps_list(.src_pkgs()))
-#   expect_equal(.sort_graph(g), c('DD', 'CC', 'BB', 'AA'))
-#   expect_true(are.connected(g, 'DD', 'CC'))
-#   expect_true(are.connected(g, 'DD', 'BB'))
-
-#   ### E: E->A
-#   .create_pkg('EE', imports ='AA')
-#   g <- build_pkgs_deps_graph(deps_list(.src_pkgs()))
-#   expect_true(are.connected(g, 'EE', 'AA'))
-#   sg <- .sort_graph(g)
-#   expect_true(sg[1] == 'DD' && sg[length(sg)] == 'AA')
-
-#   ### create a cycle of size 2
-#   .create_pkg('C1', imports = 'C2')
-#   .create_pkg('C2', imports = 'C1')
-#   g <- build_pkgs_deps_graph(deps_list(.src_pkgs()))
-#   expect_true(are.connected(g, 'C1', 'C2') &&  are.connected(g, 'C2', 'C1'))
-#   expect_false(igraph::is.dag(g))
-# })
-
+# N.B: already tested via compute_pkgs_dependencies_graph
+test_that("build_pkgs_dependency_graph", {
+  # edge case
+  g <- build_pkgs_dependency_graph(list())
+  expect_equal(igraph::vcount(g), 0)
+})
