@@ -3,6 +3,7 @@ pkg <- as.package('.')
 
 check_man(pkg)
 
+test(pkg, 'config')
 test(pkg, 'dep')
 test(pkg, 'find')
 test(pkg, 'md5')
