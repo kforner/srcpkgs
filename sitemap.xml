@@ -19,13 +19,25 @@
     <loc>/index.html</loc>
   </url>
   <url>
+    <loc>/reference/find_srcpkgs.html</loc>
+  </url>
+  <url>
     <loc>/reference/find_srcpkgs_paths.html</loc>
+  </url>
+  <url>
+    <loc>/reference/get_project_root.html</loc>
   </url>
   <url>
     <loc>/reference/index.html</loc>
   </url>
   <url>
+    <loc>/reference/init_project_root.html</loc>
+  </url>
+  <url>
     <loc>/reference/pkg_create.html</loc>
+  </url>
+  <url>
+    <loc>/reference/set_project_root.html</loc>
   </url>
   <url>
     <loc>/reference/srcpkgs-package.html</loc>
