@@ -3,10 +3,10 @@
 ########################################################################
 
 # creates a new "srcpkgs" object from an existing srcpkgs(nonop), or a list of 
-# source package-like objects
+# source package-like objects, or a list of source package paths
 srcpkgs <- function(
   pkgs = lapply(paths, devtools::as.package), 
-  paths = find_srcpkgs_paths(project_root())) 
+  paths = NULL) 
 {
   force(pkgs)
   if (inherits(pkgs, 'srcpkgs')) return(pkgs)
@@ -23,5 +23,30 @@ srcpkgs <- function(
 
   pkgs
 }
+
+################### S3 methods#############################################################
+
+#' @export
+as.data.frame.srcpkgs <- function(x, ...) {
+  # convert the package lists to data frame
+  rows <- lapply(x, as.data.frame.list, stringsAsFactors = FALSE)
+  # keep columns of interest
+  rows <- lapply(rows, '[', c('package', 'version', 'path', 'MD5'))
+
+  # bind rows to a df
+  df <- do.call(rbind, rows)
+  # for some reason, it is subclassed as "fs_path"
+  df$path <- as.character(df$path)
+
+  df
+}
+
+#' @export
+print.srcpkgs <- function(x, ...) {
+  df <- as.data.frame(x)
+  print(df, ...)
+  invisible(x)
+}
+
 
 

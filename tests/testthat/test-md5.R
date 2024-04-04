@@ -2,6 +2,9 @@ test_that("md5sum_dir", {
   expect_error(md5sum_dir('NON_EXISTENT_DIR'), 'directory does not exist')
   setup_temp_dir()
 
+  ### empty dir
+  expect_identical(md5sum_dir('.'), '')
+
   pkg_create('.', 'mypkg')
   rdir <- 'mypkg/R'
 

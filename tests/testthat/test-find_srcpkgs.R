@@ -95,30 +95,4 @@ test_that("find_srcpkgs_paths", {
 })
 
 
-# .find_pkgs_path_regression <- function() {
-#   find_pkgs_paths <- srcpkgs:::find_pkgs_paths
-
-#   dir <- setup_temp_dir(setwd = FALSE)
-
-#   # make a dummy package with a file containing pattern DESCRIPTION
-#   path <- file.path(dir, 'AA')
-#   dir.create(path)
-
-#   ### no package
-#   expect_length(find_pkgs_paths(dir), 0)
-
-#   ### only one file != DESCRIPTION
-#   fname <- file.path(path, 'totoDESCRIPTIONtiti')
-#   writeLines('coucou', fname)
-
-#   expect_length(find_pkgs_paths(dir), 0)
-
-#   ### 
-#   fname <- file.path(path, 'totodescriptiontiti')
-#   expect_length(find_pkgs_paths(dir), 0)
-# }
-# test_that("find_pkgs_path_regression", .find_pkgs_path_regression())
-
-
-
 

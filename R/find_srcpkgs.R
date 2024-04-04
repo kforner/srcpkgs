@@ -1,4 +1,11 @@
-
+#' find available source packages
+#'
+#' @param root		from where to search for source packages
+#' @return a "srcpkgs" object
+#' @export
+find_srcpkgs <- function(root = get_project_root()) {
+  srcpkgs(paths = find_srcpkgs_paths(root))
+}
 
 #' find all source packages inside a directory
 #'

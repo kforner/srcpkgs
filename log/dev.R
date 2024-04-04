@@ -7,7 +7,9 @@ test(pkg, 'config')
 test(pkg, 'dep')
 test(pkg, 'find')
 test(pkg, 'md5')
+test(pkg, 'root')
 test(pkg, 'srcpkg')
+
 
 load_all(pkg)
 
