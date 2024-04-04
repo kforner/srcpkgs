@@ -81,8 +81,8 @@ reproducible_sort <- function(...) {
     Sys.setlocale('LC_COLLATE', old_collate)
   }, add = TRUE)
 
-  Sys.setlocale('LC_CTYPE', 'POSIX')
-  Sys.setlocale('LC_COLLATE', 'POSIX')
+  Sys.setlocale('LC_CTYPE', 'C')
+  Sys.setlocale('LC_COLLATE', 'C')
 
   sort(...)
 }

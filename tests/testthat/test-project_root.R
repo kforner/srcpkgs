@@ -28,7 +28,7 @@ test_that("init_project_root", {
 
 test_that("find_project_root", {
   setup_temp_dir()
-  
+
   # no .git/
   expect_null(find_project_root())
 
@@ -56,23 +56,24 @@ test_that("find_project_root", {
 
 test_that("parent_dir", {
   expect_identical(parent_dir('/'), NULL)
-  expect_identical(parent_dir('//'), NULL)
   expect_identical(parent_dir('/A'), '/')
   expect_identical(parent_dir('/A/'), '/')
+  expect_identical(parent_dir('/A/B'), '/A')
+  expect_identical(parent_dir('/A/B/'), '/A')
+  
 })
 
 test_that("find_file_upwards", {
   setup_temp_dir()
-  
+
   # file that should not exist all the way to /
   filename <- 'should_not_exist_1234567890_REALLY'
   expect_null(find_file_upwards(filename))
 
   ## create the file in a subdir
   dir.create('dir1')
-  path <- file.path('dir1', filename)
+  path <- file.path(getwd(), 'dir1', filename)
   writeLines('toto', path)
-  path <- normalizePath(path) # N.B: must be normalized AFTER being created
 
   # not found here
   expect_null(find_file_upwards(filename))

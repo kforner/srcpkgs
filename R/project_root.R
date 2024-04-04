@@ -49,22 +49,24 @@ find_project_root <- function(here = getwd()) {
 
 
 # N.B: assumes dir is an absolute path to a dir, not a file!!
+# this implementation works on all OS (unix and windows)
 parent_dir <- function(dir) {
-  dir <- normalizePath(dir, '/', FALSE)
-  if (dir == '/') return(NULL)
-  dirname(dir)
+  parent <- dirname(dir)
+  if (parent == dir) return(NULL) # will happen on windows. e.g. with C:\
+  
+  parent
 }
 
 find_file_upwards <- function(filename, folder = getwd()) {
-  root <- normalizePath('/')
+  root <- '/'
   stop_unless(dir.exists(folder), 'directory does not exist: "%s"', folder)
-  folder <- normalizePath(folder)
+  folder <- normalizePath(folder, '/')
 
   while(1) {
     path <- file.path(folder, filename)
-    if (file.exists(path)) return(normalizePath(path))
-    if (folder == root) break # not found
+    if (file.exists(path)) return(path)
     folder <- parent_dir(folder)
+    if (is.null(folder)) break # not found
   }
 
   NULL # not found
