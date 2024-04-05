@@ -50,7 +50,12 @@ test_that("as.data.frame.srcpkgs", {
   expect_s3_class(df, 'data.frame')
   expect_equal(nrow(df), 2)
   expect_identical(df$package, c("pkg1", "pkg2"))
-  expect_identical(df$path, file.path(getwd(), c("pkg1", "pkg2")))
+  # N.B: on windows the path look something like 
+  # C:/Users/runneradmin/AppData/Local/Temp/Rtmpc7Jpvu/working_dir/RtmpoVzues/fileab4454c56a1/pkg1
+  # or the short version
+  # "C:/Users/RUNNER~1/AppData/Local/Temp/Rtmpc7Jpvu/working_dir/RtmpoVzues/fileab4454c56a1/pkg1
+  # --> better not to compare the path, just the basename
+  expect_setequal(basename(df$path), c("pkg1", "pkg2"))
 })
 
 
