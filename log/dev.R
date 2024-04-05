@@ -8,8 +8,8 @@ test(pkg, 'dep')
 test(pkg, 'find')
 test(pkg, 'md5')
 test(pkg, 'root')
-test(pkg, 'srcpkg')
-
+test(pkg, 'srcpkg$')
+test(pkg, 'srcpkgs')
 
 load_all(pkg)
 

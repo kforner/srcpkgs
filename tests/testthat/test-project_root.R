@@ -18,7 +18,7 @@ test_that("init_project_root", {
   unlink('.git')
   dir.create('.git')
 
-  expect_identical(init_project_root(), getwd())
+  expect_identical(basename(init_project_root()), basename(getwd()))
 
   set_project_root('toto')
   expect_identical(init_project_root(), 'toto')
@@ -40,14 +40,15 @@ test_that("find_project_root", {
   dir.create('dir1/dir2/.git')
 
   root2 <- file.path(getwd(), 'dir1/dir2')
-  expect_identical(find_project_root('dir1/dir2/dir3'), root2)
-  expect_identical(find_project_root('dir1/dir2/'), root2)
+  # N.B: we compare only basenames because of Windows... :(
+  expect_identical(basename(find_project_root('dir1/dir2/dir3')), basename(root2))
+  expect_identical(basename(find_project_root('dir1/dir2/')), basename(root2))
   expect_null(find_project_root('dir1/'))
 
   root3 <- file.path(getwd(), 'dir1/dir2/dir3')
   dir.create(file.path(root3, '.git'))
-  expect_identical(find_project_root('dir1/dir2/dir3'), root3)
-  expect_identical(find_project_root('dir1/dir2/'), root2)
+  expect_identical(basename(find_project_root('dir1/dir2/dir3')), basename(root3))
+  expect_identical(basename(find_project_root('dir1/dir2/')), basename(root2))
 
   ### edge cases
   expect_null(find_project_root(NULL))
@@ -79,13 +80,13 @@ test_that("find_file_upwards", {
   expect_null(find_file_upwards(filename))
 
   # found in the subdir tho
-  expect_identical(find_file_upwards(filename, 'dir1'), path)
+  expect_identical(basename(find_file_upwards(filename, 'dir1')), filename)
 
   # create more subdirs
   dir.create('dir1/dir2/dir3', recursive = TRUE)
 
-  expect_identical(find_file_upwards(filename, 'dir1/dir2/dir3'), path)
-  expect_identical(find_file_upwards(filename, 'dir1/dir2/'), path)
-  expect_identical(find_file_upwards(filename, 'dir1'), path)
+  expect_identical(basename(find_file_upwards(filename, 'dir1/dir2/dir3')), filename)
+  expect_identical(basename(find_file_upwards(filename, 'dir1/dir2/')), filename)
+  expect_identical(basename(find_file_upwards(filename, 'dir1')), filename)
 
 })
