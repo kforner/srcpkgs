@@ -1,10 +1,11 @@
 #' find available source packages
 #'
 #' @param root		from where to search for source packages
+#' @param prune   whether to report packages contained inside another package (e.g. in tests/)
 #' @return a "srcpkgs" object
 #' @export
-find_srcpkgs <- function(root = get_project_root()) {
-  srcpkgs(paths = find_srcpkgs_paths(root))
+find_srcpkgs <- function(root = get_project_root(), prune = TRUE) {
+  srcpkgs(paths = find_srcpkgs_paths(root, prune = prune))
 }
 
 #' find all source packages inside a directory
