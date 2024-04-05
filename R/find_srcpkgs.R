@@ -23,8 +23,9 @@ find_srcpkgs_paths <- function(dir, src = TRUE,  prune = TRUE, ...) {
   stop_unless(dir.exists(dir), 'bad directory "%s"', dir)
 
   # look for all folders with a DESCRIPTION file (required for a R package)
-  desc <- list.files(dir, pattern = '^DESCRIPTION$', recursive = TRUE, ...)
-  paths <- file.path(dir, dirname(desc))
+  desc_paths <- dir(dir, pattern = '^DESCRIPTION$', full.names = TRUE, recursive = TRUE, no.. = TRUE, 
+    include.dirs = FALSE, ...)
+  paths <- dirname(desc_paths)
 
   # remove packages inside other packages (for example in tests/ folder)
   if (prune && length(paths) > 1) {
