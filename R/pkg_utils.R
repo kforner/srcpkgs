@@ -46,10 +46,10 @@ pkg_create <- function(dir, name, functions = list(dummy = function() 'DUMMY'),
 }
 
 
-# # tests if a package is loaded (but maybe not attached)
-# pkg_is_loaded <- function(pkg_or_name) {
-#   isNamespaceLoaded(as_pkg_name(pkg_or_name))
-# }
+# tests if a package is loaded (but maybe not attached)
+pkg_is_loaded <- function(pkg_or_name) {
+  isNamespaceLoaded(as_pkg_name(pkg_or_name))
+}
 
 # # tests if a package is attached
 # pkg_is_attached <- function(pkg_or_name) {

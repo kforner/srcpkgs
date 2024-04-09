@@ -91,3 +91,6 @@ get_elements <- function(lst, idx) {
   lapply(lst, getElement, idx)
 }
 
+"%||%" <- function(a, b) {
+  if (length(a) == 0) b else a
+}

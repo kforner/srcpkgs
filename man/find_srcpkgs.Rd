@@ -4,10 +4,12 @@
 \alias{find_srcpkgs}
 \title{find available source packages}
 \usage{
-find_srcpkgs(root = get_project_root())
+find_srcpkgs(root = get_project_root(), prune = TRUE)
 }
 \arguments{
 \item{root}{from where to search for source packages}
+
+\item{prune}{whether to report packages contained inside another package (e.g. in tests/)}
 }
 \value{
 a "srcpkgs" object

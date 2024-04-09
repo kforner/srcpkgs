@@ -80,6 +80,6 @@ compute_pkgs_dependencies_graph <- function(pkgs, ...) {
   stop_unless(length(pkgs), 'bad arg "pkgs": empty')
   mat <- build_pkgs_matrix(pkgs)
   deps_lst <- build_pkgs_dependencies(mat, ...)
-  g <- build_pkgs_dependency_graph(deps_lst)
 
+  build_pkgs_dependency_graph(deps_lst)
 }

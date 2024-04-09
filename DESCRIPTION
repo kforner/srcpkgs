@@ -16,9 +16,9 @@ Imports:
   cli,
   devtools,
   digest,
-  igraph
+  igraph,
+  pkgload
 Suggests: 
-    debugme,
     knitr,
     rmarkdown,
     testthat (>= 3.0.0)
