@@ -1,3 +1,101 @@
+
+test_that("pkg_create - simple", {
+  setup_temp_dir()
+
+  ### simple (no deps)
+  pkg_create('.', 'AA')
+
+  expect_false(pkg_is_loaded('AA'))
+  expect_true(file.exists('AA'))
+
+  # can be loaded
+  on.exit(unloadNamespace('AA'), add = TRUE)
+  devtools::load_all('AA', export_all = FALSE, attach = FALSE, quiet = TRUE)
+  expect_true(pkg_is_loaded('AA'))
+  expect_false(pkg_is_attached('AA'))
+
+  # inspect some properties
+  expect_length(pkg_list_ns_imports('AA'), 0)
+
+  # can be unloaded
+  unloadNamespace('AA')
+  expect_false(pkg_is_loaded('AA'))
+
+  # attach it
+  devtools::load_all('AA', export_all = FALSE, attach = TRUE, quiet = TRUE)
+  expect_true(pkg_is_loaded('AA'))
+  expect_true(pkg_is_attached('AA'))
+})
+
+
+test_that("pkg_create - imports", {
+  setup_temp_dir()
+
+  ### declared imports (i.e. DESCRIPTION-only imports)
+  pkg_create('.', 'descimports', imports = c('utils', 'tools'))
+
+  on.exit(unloadNamespace('descimports'), add = TRUE)
+  devtools::load_all('descimports', export_all = FALSE, attach = FALSE, quiet = TRUE)
+
+  # N.B: no namespace-imports!!!
+  expect_length(pkg_list_ns_imports('descimports'), 0)
+
+  unloadNamespace('descimports')
+  expect_error(pkg_list_ns_imports('descimports'), 'no package')
+
+  ### namespace-imports
+  pkg_create('.', 'nsimports', imports = c('utils', 'tools'), namespace = TRUE)
+
+  on.exit(unloadNamespace('nsimports'), add = TRUE)
+  devtools::load_all('nsimports', export_all = FALSE, attach = FALSE, quiet = TRUE)
+
+  # !! now, the ns-imports are listed
+  expect_setequal(pkg_list_ns_imports('nsimports'), c('utils', 'tools'))
+
+  unloadNamespace('nsimports')
+  expect_error(pkg_list_ns_imports('nsimports'), 'no package')
+
+  ### namespace-imports via roxygen
+  pkg_create('.', 'roxyimports', imports = c('utils', 'tools'), roxygen_imports = TRUE)
+
+  mute(devtools::document('roxyimports', quiet = TRUE))
+
+  on.exit(unloadNamespace('roxyimports'), add = TRUE)
+  devtools::load_all('roxyimports', export_all = FALSE, attach = FALSE, quiet = TRUE)
+
+  expect_setequal(pkg_list_ns_imports('roxyimports'), c('utils', 'tools'))
+
+  unloadNamespace('roxyimports')
+  expect_error(pkg_list_ns_imports('roxyimports'), 'no package')
+})
+
+
+test_that("pkg_create - depends", {
+  setup_temp_dir()
+
+  pkg_create('.', 'AA')
+  pkg_create('.', 'BB', depends = 'AA')
+
+  on.exit({
+    unloadNamespace('BB')
+    unloadNamespace('AA')
+  }, add = TRUE)
+
+  # load_all() is not able to load BB
+  expect_error(devtools::load_all('BB', export_all = FALSE,  quiet = TRUE), 'required')
+
+  # load AA explicitly and ATTACH it!! Otherwise load_all() will fail
+  devtools::load_all('AA', export_all = FALSE, attach = TRUE, quiet = TRUE)
+
+  # then we can load Bb
+  devtools::load_all('BB', export_all = FALSE, attach = FALSE, quiet = TRUE)
+  expect_true(pkg_is_loaded('BB'))
+
+  # "depends" are not listed as imports!
+  expect_length(pkg_list_ns_imports('BB'), 0)
+})
+
+
 # test_that("multiplication works", {
 # .create_package <- function() {
 #   setup_temp_dir()

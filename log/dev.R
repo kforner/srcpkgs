@@ -8,9 +8,11 @@ test(pkg, 'dep')
 test(pkg, 'find')
 test(pkg, 'md5')
 test(pkg, 'meta')
+test(pkg, 'pkg_utils')
 test(pkg, 'root')
 test(pkg, 'srcpkg$')
 test(pkg, 'srcpkgs')
+test(pkg, 'unload')
 
 load_all(pkg)
 
@@ -23,3 +25,5 @@ print(srcpkg)
 covr::report(covr::package_coverage())
 
 covr::codecov()
+
+library(usethis)

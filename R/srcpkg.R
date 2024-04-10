@@ -16,7 +16,7 @@ srcpkg <- function(pkg = devtools::as.package(path), path = NULL, md5 = NA_chara
 
 #' @export
 print.srcpkg <- function(x, ...) {
-  cli_text("{.pkg {x$package}}@{.url {x$version}} source package [{.file {x$path}}]")
+  cli::cli_text("{.pkg {x$package}}@{.url {x$version}} source package [{.file {x$path}}]")
 }
 
 # coerces a pkg object or a package name to a package name

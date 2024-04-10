@@ -9,7 +9,4 @@
 #'
 "_PACKAGE"
 
-## usethis namespace: start
-#' @importFrom cli cli_text
-## usethis namespace: end
 NULL

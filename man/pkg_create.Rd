@@ -10,7 +10,9 @@ pkg_create(
   functions = list(dummy = function() "DUMMY"),
   imports = NULL,
   depends = NULL,
-  suggests = NULL
+  suggests = NULL,
+  namespace = FALSE,
+  roxygen_imports = FALSE
 )
 }
 \arguments{
@@ -25,6 +27,11 @@ pkg_create(
 \item{depends}{the "depends" dependencies}
 
 \item{suggests}{the "suggests" dependencies}
+
+\item{namespace}{whether to write the namespace file (currently only applicable to the imports.
+N.B: if the namespace file is generated, roxygen will refuse to update it}
+
+\item{roxygen_imports}{whether to write the roxygen statements to defined the imports}
 }
 \value{
 the srcpkg instance, invisibly
