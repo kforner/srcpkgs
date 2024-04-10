@@ -32,48 +32,56 @@ test_that("find_srcpkgs_paths", {
 
   ### A package as level 1
   pkg_create(dir, 'AA')
+
   pkgs <- find_srcpkgs_paths(dir)
-  expect_identical(pkgs, file.path(dir, 'AA'))
-  expect_identical(pkgs, find_srcpkgs_paths(dir))
+
+  # N.B: we compare only basenames because of Windows... :(
+  expect_identical(basename(pkgs), 'AA')
+  expect_identical(pkgs, find_srcpkgs_paths(dir)) # reproducible
 
   #### A and B in same level 1
   pkg_create(dir, 'BB')
-  pkgs <- find_srcpkgs_paths(dir)
-  expect_identical(pkgs, find_srcpkgs_paths(dir))
-  expect_identical(pkgs, file.path(dir, c('AA', 'BB')))
 
+  pkgs <- find_srcpkgs_paths(dir)
+  
+  expect_identical(pkgs, find_srcpkgs_paths(dir))
+  expect_identical(basename(pkgs), c('AA', 'BB'))
 
   ### C is a level 2 pkg compared to A and B
   pkg_create(file.path(dir, 'C_proj'), 'CC')
+
   pkgs <- find_srcpkgs_paths(dir)
+  
   expect_identical(pkgs, find_srcpkgs_paths(dir))
-  expect_identical(pkgs, file.path(dir, c('AA', 'BB', "C_proj/CC")))
+  expect_setequal(basename(pkgs), c('AA', 'BB', 'CC'))
 
   ### A1 inside A: should be ignored if prune == TRUE
   pkg_create(file.path(dir, 'AA'), 'AA1')
-  pkgs <- find_srcpkgs_paths(dir)
-  expect_identical(pkgs, find_srcpkgs_paths(dir))
 
-  expect_identical(pkgs, file.path(dir, c('AA', 'BB', "C_proj/CC")))
+  pkgs <- find_srcpkgs_paths(dir)
+
+  expect_identical(pkgs, find_srcpkgs_paths(dir))
+  expect_setequal(basename(pkgs), c('AA', 'BB', 'CC'))
 
   pkgs <- find_srcpkgs_paths(dir, prune = FALSE)
-  expect_identical(pkgs, sort(file.path(dir, c('AA', 'AA/AA1', 'BB', "C_proj/CC"))))
-
+  expect_setequal(basename(pkgs), c('AA', 'AA1', 'BB', "CC"))
 
   ### D inside a hidden directory: should be ignored
   pkg_create(file.path(dir, '.hidden'), 'DD')
+
   pkgs <- find_srcpkgs_paths(dir)
+
   expect_identical(pkgs, find_srcpkgs_paths(dir))
-  expect_identical(pkgs, file.path(dir, c('AA', 'BB', "C_proj/CC")))
+  expect_setequal(basename(pkgs), c('AA', 'BB', 'CC'))
 
   pkgs <- find_srcpkgs_paths(dir, all.files = TRUE)
   expect_true('DD' %in% basename(pkgs))
 
-
   ### package name is prefix of other package in same level
   pkg_create(dir, 'AAA')
+
   pkgs <- find_srcpkgs_paths(dir)
-  expect_identical(pkgs, file.path(dir, c('AA', 'AAA', 'BB', "C_proj/CC")))
+  expect_setequal(basename(pkgs), c('AA', 'AAA', 'BB', "CC"))
 
   ### should not "find" non-source package ==========================
   lib <- file.path(dir, 'lib')
