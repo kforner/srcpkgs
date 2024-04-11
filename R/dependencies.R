@@ -12,8 +12,9 @@ build_pkgs_dependency_graph <- function(deps_lst) {
   stop_unless(is.list(deps_lst), 'bad arg "deps_lst", must be a list')
   if (!length(deps_lst)) return(igraph::graph.empty())
 
-  nodes <- names(deps_lst)
+
   # create the nodes: one for each package
+  nodes <- names(deps_lst)
   g <- igraph::graph.empty() + igraph::vertices(nodes)
 
   edge <- igraph::edge
@@ -83,3 +84,26 @@ compute_pkgs_dependencies_graph <- function(pkgs, ...) {
 
   build_pkgs_dependency_graph(deps_lst)
 }
+
+# output the graph node names in topological order
+igraph_topo_sort_nodes <- function(dag) {
+  # stop_unless(igraph::is.dag(dag), 'graph is not a DAG')
+  ids <- igraph::topo_sort(dag, mode = 'in')
+  nodes <- igraph::V(dag)$name
+  nodes[ids]
+}
+
+# fetch the reverse dependencies, a.k.a the dependents, in topological order
+igraph_list_node_dependents <- function(node, graph) {
+  # if the node is not in the graph
+  if (!node %in% igraph::V(graph)$name) return(character())
+
+  # find the sub-graph induced by the node, i.e. all the nodes that are connected to it
+  nodes <- igraph::subcomponent(graph, v = node, mode = 'in')
+  sub_graph <- igraph::induced_subgraph(graph, nodes)
+
+  nodes <- igraph_topo_sort_nodes(sub_graph)
+
+  setdiff(nodes, node)
+}
+

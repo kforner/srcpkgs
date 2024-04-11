@@ -81,9 +81,9 @@ pkg_detach <- function(pkg_or_name) {
   }
 }
 
-# for a loaded package/namespace pkg, find the packages that this package uses
+# for a loaded package/namespace pkg, find the packages that are namespace-imported by this package
 #  this is fast and do not require any I/O, everything happens in memory
-# @return the names
+# @return the package names
 pkg_list_ns_imports <- function(pkg_name) {
   ns <- getNamespace(pkg_name)
   lst <- getNamespaceImports(ns)

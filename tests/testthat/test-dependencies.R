@@ -25,11 +25,6 @@ test_that("build_pkgs_matrix", {
 test_that("compute_pkgs_dependencies_graph", {
   dir <- setup_temp_dir(setwd = FALSE)
 
-  .sort_graph <- function(g) {
-    top <- igraph::topo_sort(g)
-    nodes <- igraph::V(g)$name
-    nodes[top]
-  }
   .create_pkg <- function(name, imports) {  pkg_create(dir, name, imports = imports)  }
   are_adjacent <- igraph::are_adjacent
 
@@ -43,14 +38,14 @@ test_that("compute_pkgs_dependencies_graph", {
 
   expect_s3_class(g, 'igraph')
   expect_true(igraph::is_directed(g))
-  expect_identical(.sort_graph(g), 'AA')
+  expect_identical(igraph_topo_sort_nodes(g), 'AA')
   
   ### B: B->A
   pkgb <- .create_pkg('BB', imports = c('plyr', 'AA'))
 
   g <- compute_pkgs_dependencies_graph(list(pkga, pkgb))
 
-  expect_equal(.sort_graph(g), c('BB', 'AA'))
+  expect_equal(igraph_topo_sort_nodes(g), c('AA', 'BB'))
   expect_true(are_adjacent(g, 'BB', 'AA'))
 
   ### C: C->B->A
@@ -58,7 +53,7 @@ test_that("compute_pkgs_dependencies_graph", {
 
   g <- compute_pkgs_dependencies_graph(list(pkga, pkgb, pkgc))
   
-  expect_equal(.sort_graph(g), c('CC', 'BB', 'AA'))
+  expect_equal(igraph_topo_sort_nodes(g), c('AA', 'BB', 'CC'))
   expect_true(are_adjacent(g, 'CC', 'BB'))
 
   ### D: D->C->B->A and D->B
@@ -66,7 +61,7 @@ test_that("compute_pkgs_dependencies_graph", {
   
   g <- compute_pkgs_dependencies_graph(list(pkga, pkgb, pkgc, pkgd))
 
-  expect_equal(.sort_graph(g), c('DD', 'CC', 'BB', 'AA'))
+  expect_equal(igraph_topo_sort_nodes(g), c('AA', 'BB', 'CC', 'DD'))
   expect_true(are_adjacent(g, 'DD', 'CC'))
   expect_true(are_adjacent(g, 'DD', 'BB'))
 
@@ -76,8 +71,8 @@ test_that("compute_pkgs_dependencies_graph", {
   g <- compute_pkgs_dependencies_graph(list(pkga, pkgb, pkgc, pkgd, pkge))
   
   expect_true(are_adjacent(g, 'EE', 'AA'))
-  sg <- .sort_graph(g)
-  expect_true(sg[1] == 'DD' && sg[length(sg)] == 'AA')
+  sg <- igraph_topo_sort_nodes(g)
+  expect_true(sg[1] == 'AA' && tail(sg, 1) == 'DD')
 
 
   ### create a cycle of size 2 ##################################
@@ -95,4 +90,47 @@ test_that("build_pkgs_dependency_graph", {
   # edge case
   g <- build_pkgs_dependency_graph(list())
   expect_equal(igraph::vcount(g), 0)
+})
+
+
+test_that("igraph_topo_sort_nodes", {
+  ### simplest
+  dag <- igraph::graph.formula(A-+B)
+  expect_identical(igraph_topo_sort_nodes(dag), c('B', 'A'))
+
+  ### simple DAG with unique topological sort
+  dag <- igraph::graph.formula(A-+B-+C, A-+D-+C, D-+B)
+  expect_identical(igraph_topo_sort_nodes(dag), c("C", "B", "D", "A"))
+  
+  ### cycle
+  not_dag <- igraph::graph.formula(A-+B-+A)
+  expect_error(igraph_topo_sort_nodes(not_dag), 'acyclic')
+})
+
+
+test_that("igraph_list_node_dependents", {
+  ### A->B
+  g <- igraph::graph.formula(A-+B)
+  expect_identical(igraph_list_node_dependents('A', g), character())
+  expect_identical(igraph_list_node_dependents('B', g), 'A')
+
+  # not in the graph
+  expect_identical(igraph_list_node_dependents('D', g), character())
+
+  ### A->B->C
+  g <- igraph::graph.formula(A-+B-+C)
+
+  expect_identical(igraph_list_node_dependents('B', g), 'A')
+  expect_identical(igraph_list_node_dependents('C', g), c('B', 'A'))
+
+  ### more complex example
+  g <- igraph::graph.formula(A-+B-+C, A-+D-+C, D-+B)
+
+  expect_identical(igraph_list_node_dependents('C', g), c('B', 'D', 'A'))
+  expect_identical(igraph_list_node_dependents('B', g), c('D', 'A'))
+  expect_identical(igraph_list_node_dependents('D', g), c('A'))
+
+  ### not a DAG
+   g <- igraph::graph.formula(A-+B-+A)
+  expect_error(igraph_list_node_dependents('A', g), 'acyclic')
 })
