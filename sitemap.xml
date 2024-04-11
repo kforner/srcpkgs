@@ -34,7 +34,13 @@
     <loc>/reference/init_project_root.html</loc>
   </url>
   <url>
+    <loc>/reference/params.html</loc>
+  </url>
+  <url>
     <loc>/reference/pkg_create.html</loc>
+  </url>
+  <url>
+    <loc>/reference/pkg_unload.html</loc>
   </url>
   <url>
     <loc>/reference/set_project_root.html</loc>
