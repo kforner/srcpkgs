@@ -40,6 +40,12 @@
     <loc>/reference/pkg_create.html</loc>
   </url>
   <url>
+    <loc>/reference/pkg_load.html</loc>
+  </url>
+  <url>
+    <loc>/reference/pkg_roxygenise.html</loc>
+  </url>
+  <url>
     <loc>/reference/pkg_unload.html</loc>
   </url>
   <url>
