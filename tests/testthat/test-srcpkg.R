@@ -26,6 +26,27 @@ test_that("srcpkg", {
 })
 
 
+test_that("as_srcpkg", {
+  ### empty
+  expect_error(as_srcpkg(NULL), 'empty')
+  expect_error(as_srcpkg(character()), 'empty')
+
+  expect_error(as_srcpkg(1), 'bad arg')
+
+  ### srcpkg
+  srcpkg <- srcpkg(MINIMAL)
+  expect_identical(as_srcpkg(srcpkg), srcpkg)
+
+  ### "package" object
+  expect_identical(as_srcpkg(MINIMAL), srcpkg)
+
+  ### path
+  expect_identical(as_srcpkg(MINIMAL_PATH), srcpkg)
+
+  ### name is not currently supported
+  expect_error(as_srcpkg(MINIMAL$package), 'does not exist')
+})
+
 test_that("print.srcpkg", {
   srcpkg <- srcpkg(MINIMAL)
   out <- capture.output(print(srcpkg), type = 'message')

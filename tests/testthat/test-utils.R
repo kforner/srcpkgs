@@ -114,3 +114,17 @@ test_that("stop_if",
 test_that("reproducible_sort", {
   expect_identical(reproducible_sort(rev(LETTERS)), LETTERS)
 })
+
+
+test_that("file_size", {
+  setup_temp_dir()
+  path <- 'toto'
+
+  # empty file
+  writeLines(character(0), path)
+  expect_equal(file_size(path), 0)
+  
+  # at least one char
+  writeLines('', path)
+  expect_gt(file_size(path), 0)
+})

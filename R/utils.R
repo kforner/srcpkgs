@@ -94,3 +94,7 @@ get_elements <- function(lst, idx) {
 "%||%" <- function(a, b) {
   if (length(a) == 0) b else a
 }
+
+file_size <- function(path) {
+  file.info(path, extra_cols = FALSE)$size
+}

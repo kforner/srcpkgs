@@ -17,7 +17,7 @@ test_that("pkg_unload", {
   }, add = TRUE)
 
 
-  pkg_unload('AA') # just in case...
+  pkg_unload('AA', quiet = TRUE) # just in case...
   #### not loaded
   expect_null(pkg_unload('AA')) 
 

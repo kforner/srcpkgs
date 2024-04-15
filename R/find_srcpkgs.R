@@ -12,7 +12,6 @@ find_srcpkgs <- function(root = get_project_root(), prune = TRUE) {
 #'
 #' by default not in hidden (.) dirs, cf list.files() all.files= param
 #'
-#'
 #' @param dir   			the directory in which to find the pkgs
 #' @param src					only report source packages, not installed ones
 #' @param	prune				whether to discard pkgs inside other pkgs

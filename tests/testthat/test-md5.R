@@ -1,40 +1,54 @@
-test_that("md5sum_dir", {
-  expect_error(md5sum_dir('NON_EXISTENT_DIR'), 'directory does not exist')
+
+
+test_that("pkg_write_md5sum", {
   setup_temp_dir()
-
-  ### empty dir
-  expect_identical(md5sum_dir('.'), '')
-
   pkg_create('.', 'mypkg')
-  rdir <- 'mypkg/R'
 
-  ### basic
-  hash1 <- md5sum_dir(rdir)
-  expect_true(is.character(hash1) && length(hash1) == 1)
-  expect_true(nzchar(hash1))
+  md5sum <- pkg_md5sum('mypkg')
 
-  # reproducible
-  expect_identical(md5sum_dir(rdir), hash1)
+  files <- pkg_list_files('mypkg')
+  expect_identical(names(md5sum), files)
+  expect_true(all(nzchar(md5sum)))
 
-  # add a file
-  new_file_path <- file.path(rdir, 'new_file.new')
-  cat('hello', file = new_file_path)
-  hash2 <- md5sum_dir(rdir)
-  expect_false(hash2 == hash1)
-  
-  # modify that file
-  cat('world', file = new_file_path, append = TRUE)
-  hash3 <- md5sum_dir(rdir)
-  expect_false(hash3 %in% c(hash1, hash2))
+  ### pkg_read_md5sum
+  expect_null(pkg_read_md5sum('./mypkg/'))
 
-  # rewrite the new file
-  cat('hello', file = new_file_path)
-  expect_identical(md5sum_dir(rdir), hash2)
+  ### pkg_write_m5sum
+  md5_path <- pkg_write_md5sum(file.path(getwd(), 'mypkg'))
 
-  # ignore new file --> also test the extra args
-  expect_identical(md5sum_dir(rdir, pattern = '\\.R$'), hash1)
-
-  # delete the new file
-  file.remove(new_file_path)
-  expect_identical(md5sum_dir(rdir), hash1)
+  expect_identical(read_md5sum_file(md5_path), md5sum)
+  expect_identical(pkg_read_md5sum('mypkg'), md5sum)
 })
+
+
+test_that("md5sum_file ", {
+  setup_temp_dir()
+  pkg_create('.', 'pkg', namespace = TRUE)
+
+  paths <- file.path('pkg', pkg_list_files('pkg'))
+  md5sum <- tools::md5sum(paths)
+  
+  ### write_md5sum_file
+  write_md5sum_file(md5sum, 'MD5')
+
+  # read back
+  md5sum2 <- read_md5sum_file('MD5')
+  expect_identical(md5sum2, md5sum)
+
+  expect_null(find_first_modified_file(paths, md5sum2))
+  
+  # modify a md5
+  x <- md5sum
+  x[3] <- x[1]
+  expect_identical(find_first_modified_file(paths, x), structure('modified', name = paths[3]))
+
+  # delete a file from md5sums
+  x <- md5sum[-2]
+  expect_identical(find_first_modified_file(paths, x), structure('added', name = paths[2]))
+
+  # add a file in md5sums
+  x <- md5sum
+  x['toto'] <- x[1]
+  expect_identical(find_first_modified_file(paths, x), structure('deleted', name = 'toto'))
+})
+

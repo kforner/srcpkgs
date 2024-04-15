@@ -14,6 +14,23 @@ srcpkg <- function(pkg = devtools::as.package(path), path = NULL, md5 = NA_chara
   pkg
 }
 
+
+# makes sure we get a srcpkg instance
+as_srcpkg <- function(x) {
+  stop_unless(length(x), 'bad arg: empty')
+  if (inherits(x, 'srcpkg')) return(x)
+  if (devtools::is.package(x)) return(srcpkg(x))
+
+  stop_unless(is.character(x), 'bad arg: not an instance nor character')
+
+  # assume it is a path
+  stop_unless(dir.exists(x), 'bad arg: should be a path, but it does not exist')
+
+  srcpkg(path = x)
+}
+
+
+
 #' @export
 print.srcpkg <- function(x, ...) {
   cli::cli_text("{.pkg {x$package}}@{.url {x$version}} source package [{.file {x$path}}]")
