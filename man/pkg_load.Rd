@@ -8,25 +8,6 @@ pkg_load()
 }
 \arguments{
 \item{attach}{whether the package should be attached to the search path}
-
-\item{...}{
-  Arguments passed on to \code{\link[devtools:load_all]{devtools::load_all}}
-  \describe{
-    \item{\code{path}}{Path to a package, or within a package.}
-    \item{\code{reset}}{clear package environment and reset file cache before loading
-any pieces of the package. This largely equivalent to running
-\code{\link[pkgload:unload]{unload()}}, however the old namespaces are not completely removed and no
-\code{.onUnload()} hooks are called. Use \code{reset = FALSE} may be faster for
-large code bases, but is a significantly less accurate approximation.}
-    \item{\code{recompile}}{DEPRECATED. force a recompile of DLL from source code, if
-present. This is equivalent to running \code{\link[pkgbuild:clean_dll]{pkgbuild::clean_dll()}} before
-\code{load_all}}
-    \item{\code{export_all}}{If \code{TRUE} (the default), export all objects.
-If \code{FALSE}, export only the objects that are listed as exports
-in the NAMESPACE file.}
-    \item{\code{helpers}}{if \code{TRUE} loads \pkg{testthat} test helpers.}
-    \item{\code{quiet}}{if \code{TRUE} suppresses output from this function.}
-  }}
 }
 \value{
 TRUE iff pkg was reloaded

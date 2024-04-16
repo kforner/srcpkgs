@@ -9,8 +9,6 @@
 #' i.e. if A-->B-->C, the load order must be C, B, A
 #'
 #' @inheritParams params
-#' @inheritParams devtools::load_all
-#' @inheritDotParams devtools::load_all
 #' @param attach          whether the package should be attached to the search path
 #'
 #' @return TRUE iff pkg was reloaded

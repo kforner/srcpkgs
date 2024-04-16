@@ -7,7 +7,6 @@
 # * https://testthat.r-lib.org/articles/special-files.html
 
 library(testthat)
-local_edition(3)
 library(srcpkgs)
 
 test_check("srcpkgs")
