@@ -1,3 +1,4 @@
+# @param attach          whether the package should be attached to the search path
 
 #' loads or reloads if needed a source package
 #'
@@ -9,7 +10,7 @@
 #' i.e. if A-->B-->C, the load order must be C, B, A
 #'
 #' @inheritParams params
-#' @param attach          whether the package should be attached to the search path
+
 #'
 #' @return TRUE iff pkg was reloaded
 #' @export
@@ -21,7 +22,6 @@ pkg_load <- function() {}
 #   export_all = FALSE,
 #   ...)
 # {
-
 # }
 
 

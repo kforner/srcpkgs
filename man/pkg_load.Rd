@@ -6,9 +6,6 @@
 \usage{
 pkg_load()
 }
-\arguments{
-\item{attach}{whether the package should be attached to the search path}
-}
 \value{
 TRUE iff pkg was reloaded
 }
