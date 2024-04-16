@@ -65,37 +65,6 @@ document and reload them as needed.</p>
     <dl><dt>attach</dt>
 <dd><p>whether the package should be attached to the search path</p></dd>
 
-
-<dt>...</dt>
-<dd><p>Arguments passed on to <code><a href="https://devtools.r-lib.org/reference/load_all.html" class="external-link">devtools::load_all</a></code></p><dl><dt><code>path</code></dt>
-<dd><p>Path to a package, or within a package.</p></dd>
-
-    <dt><code>reset</code></dt>
-<dd><p>clear package environment and reset file cache before loading
-any pieces of the package. This largely equivalent to running
-<code><a href="https://pkgload.r-lib.org/reference/unload.html" class="external-link">unload()</a></code>, however the old namespaces are not completely removed and no
-<code>.onUnload()</code> hooks are called. Use <code>reset = FALSE</code> may be faster for
-large code bases, but is a significantly less accurate approximation.</p></dd>
-
-    <dt><code>recompile</code></dt>
-<dd><p>DEPRECATED. force a recompile of DLL from source code, if
-present. This is equivalent to running <code><a href="https://pkgbuild.r-lib.org/reference/clean_dll.html" class="external-link">pkgbuild::clean_dll()</a></code> before
-<code>load_all</code></p></dd>
-
-    <dt><code>export_all</code></dt>
-<dd><p>If <code>TRUE</code> (the default), export all objects.
-If <code>FALSE</code>, export only the objects that are listed as exports
-in the NAMESPACE file.</p></dd>
-
-    <dt><code>helpers</code></dt>
-<dd><p>if <code>TRUE</code> loads <span class="pkg">testthat</span> test helpers.</p></dd>
-
-    <dt><code>quiet</code></dt>
-<dd><p>if <code>TRUE</code> suppresses output from this function.</p></dd>
-
-  
-</dl></dd>
-
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
