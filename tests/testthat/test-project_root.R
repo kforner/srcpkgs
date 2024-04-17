@@ -1,27 +1,36 @@
 test_that("init_project_root", {
   setup_temp_dir()
-  old <- get_project_root()
-  on.exit(set_project_root(old), add = TRUE)
+  old <- get_project_root(init = FALSE)
+  on.exit(set_project_root(old, force = TRUE), add = TRUE)
 
   # no .git/
-  expect_error(init_project_root(), 'not found')
-  set_project_root('toto')
-  expect_identical(init_project_root(), 'toto')
-
-  set_project_root(NULL)
-  expect_error(init_project_root(), 'not found')
-
-  # a .git file, but not a dir!
-  writeLines('', '.git')
-  expect_error(init_project_root(), 'not found')
-
-  unlink('.git')
-  dir.create('.git')
+  # when not found, use current dir
 
   expect_identical(basename(init_project_root()), basename(getwd()))
 
-  set_project_root('toto')
-  expect_identical(init_project_root(), 'toto')
+  expect_error(set_project_root('toto'), 'not a directory')
+  dir.create('toto')
+  expect_error(set_project_root('toto'), NA)
+  expect_identical(get_project_root(), 'toto')
+
+  expect_error(set_project_root(NULL), 'not a string')
+
+  ###
+  dir.create('subdir')
+  setwd('subdir')
+
+  # a .git file, but not a dir!
+  writeLines('', '.git')
+  # not found, use current dir
+  expect_identical(basename(init_project_root()), basename(getwd()))
+
+  # create an actual dir .git
+  unlink('.git')
+  dir.create('.git')
+  expect_identical(basename(init_project_root()), 'subdir')
+
+  expect_identical(basename(init_project_root()), basename(getwd()))
+
 })
 
 

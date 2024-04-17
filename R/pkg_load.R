@@ -1,28 +1,28 @@
-# @param attach          whether the package should be attached to the search path
+# # @param attach          whether the package should be attached to the search path
 
-#' loads or reloads if needed a source package
-#'
-#' This function will check that all dependent packages are up-to-date, and
-#' document and reload them as needed.
-#'
-#' To be able to properly load a package, its dependent source packages
-#' must be loaded in proper order.
-#' i.e. if A-->B-->C, the load order must be C, B, A
-#'
-#' @inheritParams params
+# #' loads or reloads if needed a source package
+# #'
+# #' This function will check that all dependent packages are up-to-date, and
+# #' document and reload them as needed.
+# #'
+# #' To be able to properly load a package, its dependent source packages
+# #' must be loaded in proper order.
+# #' i.e. if A-->B-->C, the load order must be C, B, A
+# #'
+# #' @inheritParams params
 
-#'
-#' @return TRUE iff pkg was reloaded
-#' @export
-pkg_load <- function() {}
-#   pkgid,
-#   deps_graph = compute_pkgs_deps_graph(src_pkgs),
-#   attach = TRUE,
-#   quiet = FALSE,
-#   export_all = FALSE,
-#   ...)
-# {
-# }
+# #'
+# #' @return TRUE iff pkg was reloaded
+# #' @export
+# pkg_load <- function() {}
+# #   pkgid,
+# #   deps_graph = compute_pkgs_deps_graph(src_pkgs),
+# #   attach = TRUE,
+# #   quiet = FALSE,
+# #   export_all = FALSE,
+# #   ...)
+# # {
+# # }
 
 
 

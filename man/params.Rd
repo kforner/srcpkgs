@@ -25,8 +25,7 @@ srcpkgs object. Also accept a singleton package object}
 
 \item{progress}{whether to display a progress bar}
 
-\item{src_pkgs}{the current collection of source packages,
-as a srckgs object.}
+\item{src_pkgs}{a collection of source packages as a \code{srckgs} object.}
 
 \item{quiet}{whether to be quiet/silent}
 

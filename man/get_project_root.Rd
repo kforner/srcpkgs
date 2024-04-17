@@ -4,7 +4,10 @@
 \alias{get_project_root}
 \title{get the current project root}
 \usage{
-get_project_root()
+get_project_root(init = TRUE)
+}
+\arguments{
+\item{init}{whether to automatically define the project root if not defined}
 }
 \value{
 the project root dir path as a string, or NULL if none

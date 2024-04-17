@@ -12,8 +12,7 @@
 #' 											srcpkgs object. Also accept a singleton package object
 #' @param md5         	the MD5 hash of the source package
 #' @param progress 			whether to display a progress bar
-#' @param src_pkgs      the current collection of source packages,
-#'                      as a srckgs object.
+#' @param src_pkgs      a collection of source packages as a `srckgs` object.
 #' @param quiet         whether to be quiet/silent
 #' @param test_filter		a pattern to select the testthat tests to run.
 #'                      Test files are names test-xxxxx.R where xxxxx is the

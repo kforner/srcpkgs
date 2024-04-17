@@ -4,10 +4,12 @@
 \alias{set_project_root}
 \title{set the current project root}
 \usage{
-set_project_root(path)
+set_project_root(path, force = FALSE)
 }
 \arguments{
 \item{path}{the project root dir path}
+
+\item{force}{whether to bypass sanity checks and set the value}
 }
 \value{
 the previous root as a string, or NULL
