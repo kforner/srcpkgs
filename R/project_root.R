@@ -9,7 +9,6 @@ get_project_root <- function(init = TRUE) {
   root <- get_config(ROOT_KEY)
   if (init && !length(root))
     root <- init_project_root()
-  # N.B: to get rid of the invisible()
   root
 }
 

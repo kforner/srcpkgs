@@ -14,14 +14,28 @@ srcpkg <- function(pkg = devtools::as.package(path), path = NULL, md5 = NA_chara
   pkg
 }
 
+get_srcpkg_dependencies <- function(src_pkg) {
+  .parse_deps_field <- function(type) {
+    str <- gsub('\n', '', src_pkg[[type]])
+    if (length(str) == 0 || !nzchar(str)) return(NULL)
+    strsplit(str, ',')[[1]]
+  }
+
+  sapply(c('imports', 'depends', 'suggests'), .parse_deps_field, simplify = FALSE)
+}
+
 
 # makes sure we get a srcpkg instance
-as_srcpkg <- function(x) {
+as_srcpkg <- function(x, src_pkgs = get_srcpkgs()) {
   stop_unless(length(x), 'bad arg: empty')
   if (inherits(x, 'srcpkg')) return(x)
   if (devtools::is.package(x)) return(srcpkg(x))
 
   stop_unless(is.character(x), 'bad arg: not an instance nor character')
+
+  # check if it is a srcpkg name from src_pkgs
+  pkg <- src_pkgs[[x]]
+  if (length(pkg)) return(pkg)
 
   # assume it is a path
   stop_unless(dir.exists(x), 'bad arg: should be a path, but it does not exist')

@@ -1,3 +1,28 @@
+test_that("get_srcpkgs", { 
+  setup_temp_dir()
+  old_paths <- set_srcpkgs_paths(NULL)
+  old_root <- set_project_root('.')
+  on.exit({set_project_root(old_root, force = TRUE);set_srcpkgs_paths(old_paths)}, add = TRUE)
+
+  pkg_create('.', 'AA', imports = 'stats')
+
+  ###
+  # not set
+  expect_null(get_srcpkgs(FALSE))
+
+  # automatic
+  src_pkgs <- find_srcpkgs()
+  expect_identical(get_srcpkgs(), src_pkgs)
+
+  ### modify pkg AA
+  expect_identical(get_srcpkgs()$AA$imports, 'stats')
+  unlink('AA', recursive = TRUE)
+  pkg_create('.', 'AA', imports = 'roxygen2')
+
+  expect_identical(get_srcpkgs()$AA$imports, 'roxygen2')
+})
+
+
 
 .prune_paths <- function() {
   prune_paths <- srcpkgs:::prune_paths

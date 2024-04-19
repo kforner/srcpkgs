@@ -1,4 +1,4 @@
-SRCPKGS_KEY <- 'SRCPKGS'
+SRCPKGS_PATHS_KEY <- 'SRCPKGS_PATHS'
 
 #' find available source packages
 #'
@@ -11,24 +11,31 @@ find_srcpkgs <- function(root = get_project_root(), prune = TRUE) {
 }
 
 #' get the current source packages list, if any, or discover them using [find_srcpkgs()]
+#' @param init  whether to automatically discover the srcp pkgs if not set
 #' @return the source packages as a "scrpkgs" object
 #' @export
-get_srcpkgs <- function() { 
-  src_pkgs <- get_config(SRCPKGS_KEY) %||%  init_srcpkgs()
-  # N.B: to get rid of the invisible()
-  src_pkgs
+get_srcpkgs <- function(init = TRUE) {
+  paths <- get_config(SRCPKGS_PATHS_KEY)
+  if (!length(paths)) {
+    if (!init) return(NULL)
+    paths <- init_srcpkgs_paths()
+  }
+
+  srcpkgs(paths = paths)
+}
+  
+init_srcpkgs_paths <- function() {
+  paths <- find_srcpkgs_paths(get_project_root())
+  set_srcpkgs_paths(paths)
+  paths
 }
 
-init_srcpkgs <- function() {
-  set_srcpkgs(find_srcpkgs())
-}
-
-#' set the current list of source packages
+#' set the current paths of source packages
 #' 
 #' @inheritParams params
 #' @return the previous registered value (may be NULL) invisibly
 #' @export
-set_srcpkgs <- function(src_pkgs) { set_config(SRCPKGS_KEY, src_pkgs) }
+set_srcpkgs_paths <- function(paths) { set_config(SRCPKGS_PATHS_KEY, paths) }
 
 
 #' find all source packages inside a directory

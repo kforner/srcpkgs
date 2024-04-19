@@ -81,6 +81,11 @@ pkg_detach <- function(pkg_or_name) {
   }
 }
 
+pkg_attach <- function(pkg_name) {
+  # we must trick R CMD check, that does not like us messing with package from inside a package
+  get('attach', envir = baseenv())(NULL, name = paste0('package:', pkg_name))
+}
+
 # for a loaded package/namespace pkg, find the packages that are namespace-imported by this package
 #  this is fast and do not require any I/O, everything happens in memory
 # @return the package names

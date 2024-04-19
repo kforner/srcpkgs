@@ -23,7 +23,6 @@ pkg_unload <- function(pkg_or_name, quiet = FALSE)
     # process them in the reverse order of the load order
   pkgs_to_unload <- c(rev(dependents), pkgs_to_unload)
   
-
   df <- data.frame(
     pkg = pkgs_to_unload,
     attached = sapply(pkgs_to_unload, pkg_is_attached), 
@@ -31,7 +30,9 @@ pkg_unload <- function(pkg_or_name, quiet = FALSE)
   
   for (pkg in pkgs_to_unload) {
     info('Unloading package {.pkg {pkg}}...')
-    devtools::unload(pkg)
+    # N.B: we prefer to use unregistersince it is faster than unload
+    pkgload::unregister(pkg)
+    #devtools::unload(pkg)
   }
 
   invisible(df)

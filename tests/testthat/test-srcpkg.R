@@ -40,11 +40,12 @@ test_that("as_srcpkg", {
   ### "package" object
   expect_identical(as_srcpkg(MINIMAL), srcpkg)
 
+  ### srcpkg name
+  src_pkgs <- srcpkgs(list(srcpkg))
+  expect_identical(as_srcpkg('minimal', src_pkgs = src_pkgs), srcpkg)
+
   ### path
   expect_identical(as_srcpkg(MINIMAL_PATH), srcpkg)
-
-  ### name is not currently supported
-  expect_error(as_srcpkg(MINIMAL$package), 'does not exist')
 })
 
 test_that("print.srcpkg", {
@@ -69,3 +70,22 @@ test_that("as_pkg_name", {
   # from something else
   expect_error(as_pkg_name(1),'bad arg')
 })
+
+
+test_that("get_srcpkg_dependencies", {
+  setup_temp_dir()
+  
+  ### pkg with all types of deps
+  pkg <- pkg_create('.', 'AA', imports = c('i1', 'i2'), depends = 'd1', suggests = c('s1', 's2'))
+  deps <- get_srcpkg_dependencies(pkg)
+  expect_identical(deps, list(imports = c("i1", "i2"), depends = "d1", suggests = c("s1", "s2")))
+
+  ### package with no deps
+  pkg <- pkg_create('.', 'nodeps')
+  deps <- get_srcpkg_dependencies(pkg)
+  expect_identical(deps, list(imports = NULL, depends = NULL, suggests = NULL))
+})
+
+
+
+
