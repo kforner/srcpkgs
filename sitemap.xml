@@ -43,6 +43,9 @@
     <loc>/reference/pkg_create.html</loc>
   </url>
   <url>
+    <loc>/reference/pkg_load.html</loc>
+  </url>
+  <url>
     <loc>/reference/pkg_roxygenise.html</loc>
   </url>
   <url>
@@ -52,7 +55,7 @@
     <loc>/reference/set_project_root.html</loc>
   </url>
   <url>
-    <loc>/reference/set_srcpkgs.html</loc>
+    <loc>/reference/set_srcpkgs_paths.html</loc>
   </url>
   <url>
     <loc>/reference/srcpkgs-package.html</loc>
