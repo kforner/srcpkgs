@@ -72,3 +72,33 @@ test_that("print.srcpkgs", {
   expect_match(out[2], "pkg1")
 })
 
+
+test_that("srcpkgs_incidence_matrix", {
+  setup_temp_dir()
+
+  src_pkgs <- examples_srcpkgs_complex_deps()
+  nb <- length(src_pkgs)
+  on.exit(cleanup_dangling_srcpkgs(), add = TRUE)
+
+  ### default: imports + depends
+  mat <- srcpkgs_incidence_matrix(src_pkgs)
+
+  expect_equal(dim(mat), c(nb, nb))
+  .deps <- function(node) names(which(mat[node, ] == 1))
+  expect_setequal(.deps('AA'), c('BB', 'CC'))
+  expect_setequal(.deps('BB'), c('DD', 'CC'))
+  expect_setequal(.deps('CC'), 'EE')
+  expect_length(.deps('EE'), 0)
+  expect_length(.deps('ZZ'), 0)
+
+  ### only depends
+  mat2 <- srcpkgs_incidence_matrix(src_pkgs, imports = FALSE, suggests = FALSE)
+  expect_equal(sum(mat2), 2)
+
+  ### only suggests
+  mat3 <- srcpkgs_incidence_matrix(src_pkgs, imports = FALSE, depends = FALSE, suggests = TRUE)
+  expect_equal(sum(mat3), 1)
+
+  ### edge case
+  expect_null(srcpkgs_incidence_matrix(list()))
+})

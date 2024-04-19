@@ -15,3 +15,17 @@ setup_temp_dir <- function(setwd = TRUE, ...) {
 
   invisible(normalizePath(dir))
 }
+
+# add_on_exit <- function(expr, where = parent.frame()) {
+#   do.call("on.exit", list(substitute(expr), add = TRUE), envir = where)
+# }
+
+find_dangling_srcpkgs <- function() {
+  df <- fetch_srcpkgs_meta() %||% return(character())
+  df <- df[!file.exists(df$path), ]
+  intersect(df$package, loadedNamespaces()) 
+}
+
+cleanup_dangling_srcpkgs <- function(quiet = TRUE) {
+  for (pkg_name in find_dangling_srcpkgs()) pkg_unload(pkg_name, quiet = quiet)
+}

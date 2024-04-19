@@ -1,22 +1,10 @@
 test_that("pkg_load - complex example ", {
   setup_temp_dir()
-  # C-->B-->A, F-->D-->B, E-->A, Z
-  # N.B: we use namespace = TRUE because for unloading, only the ns-imports are considered
-  pkg_create('.', 'AA', imports = 'stats', namespace = TRUE)
-  pkg_create('.', 'BB', imports = 'AA', namespace = TRUE)
-  pkg_create('.', 'CC', imports = 'BB', namespace = TRUE)
-  pkg_create('.', 'DD', imports = 'BB', namespace = TRUE)
-  pkg_create('.', 'FF', imports = 'DD', namespace = TRUE)
-  pkg_create('.', 'EE', imports = 'AA', namespace = TRUE)
-  pkg_create('.', 'ZZ')
 
-  .cleanup <- function() {
-    for (pkg in c('AA', 'BB', 'CC', 'DD', 'EE', 'FF', 'ZZ')) pkg_unload(pkg, quiet = TRUE)
-  }
-  on.exit(.cleanup(), add = TRUE)
-  .cleanup()
+  src_pkgs <- examples_srcpkgs_complex_imports()
+  on.exit(cleanup_dangling_srcpkgs(), add = TRUE)
 
-  src_pkgs <- find_srcpkgs('.')
+
   deps_graph <- compute_pkgs_dependencies_graph(src_pkgs)
   .load <- function(pkg) pkg_load(pkg, src_pkgs, deps_graph, roxygen = FALSE, quiet = TRUE)
   .unload <- function(pkg) pkg_unload(pkg, quiet = TRUE)

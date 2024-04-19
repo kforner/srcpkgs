@@ -24,6 +24,26 @@ srcpkgs <- function(
   pkgs
 }
 
+srcpkgs_incidence_matrix <- function(src_pkgs, imports = TRUE, depends = TRUE, suggests = FALSE) {
+  nb <- length(src_pkgs)
+  if (nb == 0) return(NULL)
+  nodes <- names(src_pkgs)
+  mat <- matrix(0L, nrow = nb, ncol = nb, dimnames = list(nodes, nodes))
+
+  types <- character()
+  if (imports) types <- append(types, 'imports')
+  if (depends) types <- append(types, 'depends')
+  if (suggests) types <- append(types, 'suggests')
+  
+  for (node in nodes) {
+    deps <- get_srcpkg_dependencies(src_pkgs[[node]])
+    dep_pkg_names <- intersect(unlist(deps[types], recursive = FALSE, use.names = FALSE), nodes)
+    mat[node, dep_pkg_names] <- 1L
+  }
+
+  mat
+}
+
 ################### S3 methods#############################################################
 
 #' @export

@@ -30,12 +30,18 @@ pkg_unload <- function(pkg_or_name, quiet = FALSE)
   
   for (pkg in pkgs_to_unload) {
     info('Unloading package {.pkg {pkg}}...')
-    # N.B: we prefer to use unregistersince it is faster than unload
+    # N.B: we prefer to use unregister since it is faster than unload
     pkgload::unregister(pkg)
     #devtools::unload(pkg)
   }
 
   invisible(df)
+}
+
+srcpkg_unload <- function(pkg_name, src_pkgs = get_srcpkgs(), quiet = FALSE, dry_run = FALSE) {
+  # consider only loaded srcpkgs
+  # keep only pkg_name and its dependents
+  # list them in topological order
 }
 
 

@@ -2,6 +2,7 @@ test_that("pkg_roxygenise", {
   setup_temp_dir()
   pkg_create('.', 'AA')
   on.exit({pkg_unload('AA', quiet = TRUE)}, add = TRUE)
+  pkg_unload('AA', quiet = TRUE)
 
   roxy <- "
 #' dummy roxy item
@@ -19,10 +20,14 @@ dummy_function <- function(param1, param2) {}
   expect_false('NAMESPACE' %in% files)
 
   ### pkg_roxygenise
+  expect_false(pkg_is_loaded('AA'))
+
   expect_true(pkg_roxygenise('AA', quiet = TRUE))
 
   expect_true('NAMESPACE' %in% pkg_list_files('AA'))
   expect_true('man/dummy_function.Rd' %in% pkg_list_files('AA'))
+  # N.B: as a side-effect, the package is now loaded
+  expect_true(pkg_is_loaded('AA'))
 
   ### again
   expect_false(pkg_roxygenise('AA', quiet = TRUE))
