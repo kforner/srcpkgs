@@ -32,7 +32,7 @@ init_srcpkgs_paths <- function() {
 
 #' set the current paths of source packages
 #' 
-#' @inheritParams params
+#' @param paths   the paths of source packages to register
 #' @return the previous registered value (may be NULL) invisibly
 #' @export
 set_srcpkgs_paths <- function(paths) { set_config(SRCPKGS_PATHS_KEY, paths) }

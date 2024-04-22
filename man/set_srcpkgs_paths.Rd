@@ -6,6 +6,9 @@
 \usage{
 set_srcpkgs_paths(paths)
 }
+\arguments{
+\item{paths}{the paths of source packages to register}
+}
 \value{
 the previous registered value (may be NULL) invisibly
 }
