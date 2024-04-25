@@ -4,6 +4,7 @@
 #' even indirectly on it should be unloaded first.
 #
 #' @inheritParams params
+#' @param loaded  the loaded packages, useful for testing.
 #' @return a data frame of the unloaded package names, and whether they were
 #'  attached, invisibly or NULL if the package is not loaded
 #' @export

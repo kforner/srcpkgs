@@ -17,6 +17,10 @@ pkg_unload(
 
 \item{src_pkgs}{a collection of source packages as a \code{srckgs} object.}
 
+\item{dry_run}{whether not to actually execute any action having side-effects}
+
+\item{loaded}{the loaded packages, useful for testing.}
+
 \item{quiet}{whether to be quiet/silent}
 }
 \value{
