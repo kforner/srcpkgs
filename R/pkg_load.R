@@ -56,6 +56,47 @@ pkg_load <- function(pkgid,
   invisible(anything_loaded)
 }
 
+
+pkg_load_full_plan <- function(pkg_name, src_pkgs, loaded = loadedNamespaces(), 
+  outdated = NULL, roxygen = TRUE, quiet = FALSE) 
+{
+  mat <- graph_from_srcpkgs(src_pkgs)
+  deps <- graph_get_all_dependencies(mat, pkg_name)
+  ordering <- rev(c(pkg_name, deps))
+
+  # find out which packages are outdated
+  if (is.null(outdated)) {
+    .is_outdated <- function(x) pkg_is_outdated(src_pkgs[[x]]$path, roxygen = roxygen, quiet = quiet)
+    outdated <- ordering[sapply(ordering, .is_outdated)]
+  }
+
+  need_unload <- intersect(ordering, intersect(outdated, loaded))
+  plan <- NULL
+  if (length(need_unload)) plan <- unload_plan(need_unload, mat)
+
+  not_loaded <- setdiff(ordering, loaded)
+  pkgs_to_load <- intersect(ordering, union(plan$package, not_loaded))
+  if (length(pkgs_to_load)) {
+    planb <- load_plan(pkgs_to_load, mat)
+    planb[planb$package %in% outdated, 'action'] <- 'doc_and_load'
+    plan <- rbind.data.frame(plan, planb, make.row.names = FALSE)
+    rownames(plan) <- NULL
+  }
+
+  plan
+}
+
+load_plan <- function(pkg_names, mat, loaded = loadedNamespaces()) {
+  plan <- unload_plan(pkg_names, t(mat), loaded = NULL) %||% return(NULL)
+  if (!nrow(plan)) return(NULL)
+
+  plan <- plan[!plan$package %in% loaded, , drop = FALSE]
+  plan$action <- 'load'
+
+  plan
+}
+
+
 # (re)load a source package and its source packages dependencies recursively
 # return TRUE iff at least one package has been (re)loaded
 pkg_load_dependencies <- function(
@@ -119,29 +160,31 @@ pkg_load_dependencies <- function(
   any(dep_loaded, imp_loaded, loaded)
 }
 
+# return TRUE iff the package should be updated: roxigenised, (re)loaded
+pkg_is_outdated <- function(pkg_path, roxygen = TRUE, quiet = FALSE) {
+  (roxygen && pkg_has_no_doc(pkg_path)) || pkg_has_changed(pkg_path, quiet)
+}
+
 # does not manage dependencies
-# will only load if the package has changed (cf pkg_has_changed() and param force=)
-pkg_just_load_pkg <- function(pkgid, force = FALSE, roxygen = TRUE,
-  helpers = FALSE, export_all = FALSE, quiet = FALSE, ...) 
+pkg_just_load_pkg <- function(pkg, force = FALSE, quiet = FALSE, ...) 
 {
-  pkg <- as_srcpkg(pkgid)
   pkg_name <- pkg$package
 
   if (!force && !pkg_needs_reload(pkg_name, quiet = quiet)) return(invisible(FALSE))
 
-  if (roxygen) pkg_roxygenise(pkg$path, quiet = TRUE)
+  pkg_load_wrapper(pkg, quiet = quiet, ...)
 
-  # package has to be (re)loaded, so first unload it (and its ancestors)
-  if (pkg_is_loaded(pkg_name)) {
-    pkg_unload(pkg_name, quiet = quiet)
-  }
+}
+
+# N.B: should only be called if the package is not loaded or has changed
+pkg_load_wrapper <- function(pkg, roxygen = TRUE, helpers = FALSE, export_all = FALSE, quiet = FALSE, ...) {
+
+  if (roxygen) pkg_roxygenise_wrapper(pkg$path, quiet = TRUE)
 
   devtools::load_all(pkg$path, export_all = export_all, helpers = helpers, quiet = quiet, ...)
 
   pkg_write_md5sum(pkg$path)
   store_srcpkg_meta(pkg)
-
-  invisible(TRUE)
 }
 
 
@@ -168,3 +211,4 @@ pkg_needs_reload <- function(pkg_name, quiet = FALSE) {
 
   pkg_has_changed(srcpkg$path, quiet = quiet)
 }
+

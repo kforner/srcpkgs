@@ -27,18 +27,13 @@ pkg_unload <- function(pkg_or_name,
   invisible(plan)
 }
 
-srcpkg_unload_plan <- function(pkg_name, src_pkgs, loaded = loadedNamespaces()) 
+srcpkg_unload_plan <- function(pkg_name, src_pkgs, 
+  loaded = loadedNamespaces(), mat = graph_from_srcpkgs(src_pkgs)) 
 {
   if (!pkg_name %in% loaded) return(NULL)
-  mat <- graph_from_srcpkgs(src_pkgs)
+  force(mat)
   # mat <- sub_graph(mat, loaded)
-  plan <- unload_plan(pkg_name, mat)
-  # keep only the loaded ones
-  plan <- plan[plan$package %in% loaded, , drop = FALSE]
-
-  # if (!dry_run) execute_plan(plan, quiet = quiet)
-
-  plan
+  unload_plan(pkg_name, mat, loaded = loaded)
 }
 
 non_srcpkg_unload_plan <- function(pkg_name, loaded = loadedNamespaces()) 
@@ -49,20 +44,25 @@ non_srcpkg_unload_plan <- function(pkg_name, loaded = loadedNamespaces())
   deps <- lapply(deps, intersect, loaded)
   mat <- graph_from_deps(deps)
 
-  plan <- unload_plan(pkg_name, mat)
-  # keep only the loaded ones
-  plan <- plan[plan$package %in% loaded, , drop = FALSE]
-
-  plan
+  unload_plan(pkg_name, mat, loaded = loaded)
 }
 
 
-unload_plan <- function(pkg_name, mat) {
+unload_plan <- function(pkg_names, mat, loaded = loadedNamespaces()) {
   if (!nrow(mat)) return(NULL)
-  deps <- c(graph_get_all_dependents(mat, pkg_name), pkg_name)
-  if (!length(deps)) return(NULL)
-  plan <- data.frame(package = deps, action = 'unload')
   
+  .deps <- function(x) c(graph_get_all_dependents(mat, x), x)
+  deps_lst <- lapply(pkg_names, .deps)
+
+  deps <- unique(fast_unlist(deps_lst))
+  if (!length(deps)) return(NULL)
+
+  ordering <- graph_topo_sort_nodes(mat, deps)
+  plan <- data.frame(package = ordering, action = 'unload')
+  plan <- plan[plan$package %in% loaded, , drop = FALSE]
+
+  if (!nrow(plan)) return(NULL)
+
   plan
 }
 

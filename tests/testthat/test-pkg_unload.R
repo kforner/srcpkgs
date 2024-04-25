@@ -42,38 +42,56 @@ test_that("srcpkg_unload_plan", {
 
 
 test_that("unload_plan", {
+  ### A->B-C, A->C
+  mat <- graph_from_strings('A->B->C', 'B->D')
+  NONE <- character()
+  ALL <- c('A', 'B', 'C', 'D')
+  # N.B: A,B,D,C would have also worked
+
+  expect_identical(unload_plan(c('C', 'D'), mat, loaded = ALL)$package, c('A', 'B', 'C', 'D'))
+
+  expect_identical(unload_plan('C', mat, loaded = ALL)$package, c('A', 'B', 'C'))
+  expect_identical(unload_plan('D', mat, loaded = ALL)$package, c('A', 'B', 'D'))
+  expect_identical(unload_plan('B', mat, loaded = ALL)$package, c('A', 'B'))
+
+  # using loaded=
+  expect_null(unload_plan(c('C', 'D'), mat, loaded = NONE))
+  expect_null(unload_plan('D', mat, loaded = NONE))
+  expect_identical(unload_plan(c('C', 'D'), mat, loaded = c('C', 'D'))$package, c('C', 'D'))
+  expect_identical(unload_plan(c('C', 'D'), mat, loaded = c('C', 'D'))$package, c('C', 'D'))
+
   ### empty matrix
   mat <- matrix(0L, 0, 0)
-  expect_null(unload_plan('A', mat))
+  expect_null(unload_plan('A', mat, loaded = ALL))
 
   ### trivial: A
   mat <- graph_from_strings('A->A')
   mat[1,1] <- 0L
   
-  plan <- unload_plan('A', mat)
+  plan <- unload_plan('A', mat, loaded = ALL)
   expect_identical(plan, data.frame(package = 'A', action = 'unload'))
 
   ### simple : A-> B
   mat <- graph_from_strings('A->B')
 
-  expect_identical(unload_plan('A', mat), data.frame(package = 'A', action = 'unload'))
-  expect_identical(unload_plan('B', mat), data.frame(package = c('A','B'), action = 'unload'))
+  expect_identical(unload_plan('A', mat, loaded = ALL), data.frame(package = 'A', action = 'unload'))
+  expect_identical(unload_plan('B', mat, loaded = ALL), data.frame(package = c('A','B'), action = 'unload'))
 
   ###  A-> B -> C
   mat <- graph_from_strings('A->B->C')
 
-  expect_identical(unload_plan('A', mat), data.frame(package = 'A', action = 'unload'))
-  expect_identical(unload_plan('B', mat), data.frame(package = c('A','B'), action = 'unload'))
-  expect_identical(unload_plan('C', mat), 
+  expect_identical(unload_plan('A', mat, loaded = ALL), data.frame(package = 'A', action = 'unload'))
+  expect_identical(unload_plan('B', mat, loaded = ALL), data.frame(package = c('A','B'), action = 'unload'))
+  expect_identical(unload_plan('C', mat, loaded = ALL), 
     data.frame(package = c('A','B', 'C'), action = rep('unload', 3)))
   
   # 
   mat <- graph_from_strings('A->B->C', 'B->D->C')
   
-  expect_identical(unload_plan('A', mat), data.frame(package = 'A', action = 'unload'))
-  expect_identical(unload_plan('D', mat), 
+  expect_identical(unload_plan('A', mat, loaded = ALL), data.frame(package = 'A', action = 'unload'))
+  expect_identical(unload_plan('D', mat, loaded = ALL), 
     data.frame(package = c('A','B', 'D'), action = 'unload'))
-  expect_identical(unload_plan('C', mat), 
+  expect_identical(unload_plan('C', mat, loaded = ALL), 
     data.frame(package = c('A','B', 'D', 'C'), action = 'unload'))
 })
 

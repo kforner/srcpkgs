@@ -27,6 +27,10 @@ pkg_md5sum <- function(pkg_path) {
 }
 
 
+pkg_delete_md5sum <- function(pkg_path) {
+  md5sum_path <- file.path(pkg_path, PKG_MD5_FILE)
+  file.exists(md5sum_path) && unlink(md5sum_path)
+}
 
 # write a named character vector (as returned by tools::md5sum) to a MD5 checksum file
 write_md5sum_file <- function(md5sum, path) {
