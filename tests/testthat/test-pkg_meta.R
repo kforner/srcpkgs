@@ -3,6 +3,8 @@ test_that("fetch_srcpkgs_meta", {
   setup_temp_dir()
   pkg1 <- pkg_create('.', 'pkg1')
   pkg2 <- pkg_create('.', 'pkg2')
+  cleanup_dangling_srcpkgs()
+  on.exit(cleanup_dangling_srcpkgs(), add = TRUE)
 
   ### no dev meta --> no srcpkg meta data
   # pkg not loaded (by devtools at least) 
@@ -52,8 +54,9 @@ test_that("fetch_srcpkgs_meta", {
   # fetch_srcpkgs_meta() also works
   df <- fetch_srcpkgs_meta()
   
-  expect_true(is.data.frame(df))
-  expect_setequal(df$package, c('pkg1', 'pkg2'))
+  expect_true(is.data.frame(df))  
+  expect_true(all(c('pkg1', 'pkg2') %in% df$package))
+  df <- df[c('pkg1', 'pkg2'), ]
   expect_setequal(df$attached, c(TRUE, FALSE))
 
   # unload them

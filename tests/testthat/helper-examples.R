@@ -15,11 +15,11 @@ examples_srcpkgs_complex_imports <- function() {
 }
 
 examples_srcpkgs_complex_deps <- function() {
-  # A-->B
+  # A->B->C->D, B->D->E, Z
   # N.B: we use namespace = TRUE because for unloading, only the ns-imports are considered
   pkg_create('.', 'AA', imports = c('stats', 'BB'), depends = 'CC')
   pkg_create('.', 'BB', imports = c('CC', 'DD'))
-  pkg_create('.', 'CC', imports = 'EE', suggests = 'EE')
+  pkg_create('.', 'CC', imports = 'DD', suggests = 'EE')
   pkg_create('.', 'DD', depends = 'EE')
   pkg_create('.', 'EE')
   pkg_create('.', 'ZZ')

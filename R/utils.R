@@ -98,3 +98,7 @@ get_elements <- function(lst, idx) {
 file_size <- function(path) {
   file.info(path, extra_cols = FALSE)$size
 }
+
+fast_unlist <- function(x, recursive = FALSE, use.names = FALSE) {
+  .Internal(unlist(x, recursive, use.names))
+}

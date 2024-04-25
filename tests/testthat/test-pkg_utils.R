@@ -1,6 +1,8 @@
 
 test_that("pkg_create - simple", {
   setup_temp_dir()
+  cleanup_dangling_srcpkgs()
+  on.exit(cleanup_dangling_srcpkgs(), add = TRUE)
 
   ### simple (no deps)
   pkg_create('.', 'AA')

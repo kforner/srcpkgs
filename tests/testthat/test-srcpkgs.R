@@ -40,8 +40,8 @@ test_that("srcpkgs", {
 
 test_that("as.data.frame.srcpkgs", {
   setup_temp_dir()
-  pkg1 <- pkg_create('.', 'pkg1')
-  pkg2 <- pkg_create('.', 'pkg2')
+  pkg1 <- pkg_create('.', 'pkg1', imports = c('i1', 'i2'), depends = c('d1', 'd2'))
+  pkg2 <- pkg_create('.', 'pkg2', imports = 'i1', suggests = c('s1', 's2'))
 
   res <- find_srcpkgs('.')
   
@@ -56,6 +56,7 @@ test_that("as.data.frame.srcpkgs", {
   # "C:/Users/RUNNER~1/AppData/Local/Temp/Rtmpc7Jpvu/working_dir/RtmpoVzues/fileab4454c56a1/pkg1
   # --> better not to compare the path, just the basename
   expect_setequal(basename(df$path), c("pkg1", "pkg2"))
+  expect_true(all(c('imports', 'depends', 'suggests') %in% names(df)))
 })
 
 
@@ -73,7 +74,7 @@ test_that("print.srcpkgs", {
 })
 
 
-test_that("srcpkgs_incidence_matrix", {
+test_that("graph_from_srcpkgs", {
   setup_temp_dir()
 
   src_pkgs <- examples_srcpkgs_complex_deps()
@@ -81,24 +82,24 @@ test_that("srcpkgs_incidence_matrix", {
   on.exit(cleanup_dangling_srcpkgs(), add = TRUE)
 
   ### default: imports + depends
-  mat <- srcpkgs_incidence_matrix(src_pkgs)
+  mat <- graph_from_srcpkgs(src_pkgs)
 
   expect_equal(dim(mat), c(nb, nb))
   .deps <- function(node) names(which(mat[node, ] == 1))
   expect_setequal(.deps('AA'), c('BB', 'CC'))
   expect_setequal(.deps('BB'), c('DD', 'CC'))
-  expect_setequal(.deps('CC'), 'EE')
+  expect_setequal(.deps('CC'), 'DD')
   expect_length(.deps('EE'), 0)
   expect_length(.deps('ZZ'), 0)
 
   ### only depends
-  mat2 <- srcpkgs_incidence_matrix(src_pkgs, imports = FALSE, suggests = FALSE)
+  mat2 <- graph_from_srcpkgs(src_pkgs, imports = FALSE, suggests = FALSE)
   expect_equal(sum(mat2), 2)
 
   ### only suggests
-  mat3 <- srcpkgs_incidence_matrix(src_pkgs, imports = FALSE, depends = FALSE, suggests = TRUE)
+  mat3 <- graph_from_srcpkgs(src_pkgs, imports = FALSE, depends = FALSE, suggests = TRUE)
   expect_equal(sum(mat3), 1)
 
   ### edge case
-  expect_null(srcpkgs_incidence_matrix(list()))
+  expect_null(graph_from_srcpkgs(list()))
 })
