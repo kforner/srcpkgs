@@ -15,14 +15,16 @@
 pkg_roxygenise <- function(pkg_path, force = FALSE, quiet = FALSE,  ...) {
   if (!force && !pkg_needs_roxygen(pkg_path, quiet = quiet)) 
     return(invisible(FALSE))
-
-  wrapper <- if (quiet) mute else function(...) {}
-  wrapper(devtools::document(pkg_path, quiet = quiet, ...))
-
-  pkg_write_md5sum(pkg_path)
-
+  pkg_roxygenise_wrapper(pkg_path, quiet = quiet, ...)
   invisible(TRUE)
 }
+
+pkg_roxygenise_wrapper <- function(pkg_path, quiet = FALSE,  ...) {
+  wrapper <- if (quiet) mute else function(...) {}
+  wrapper(devtools::document(pkg_path, quiet = quiet, ...))
+  pkg_write_md5sum(pkg_path)
+}
+
 
 # delete the roxygen-generated documentation files
 pkg_delete_doc <- function(pkg_path) {
@@ -33,14 +35,18 @@ pkg_delete_doc <- function(pkg_path) {
   unlink('man', recursive = TRUE)
 }
 
-# tests if the roxygen-generated documentation is outdated
-pkg_needs_roxygen <- function(pkg_path, quiet = FALSE) {
+# even though a package has not changed, the documentation may never had been generated
+pkg_has_no_doc <- function(pkg_path) {
   ### if no NAMESPACE nor man/ dir --> never roxygenized --> TRUE
   # N.B: I do not remember why we test the emptiness. Probably at one point was created empty
   namespace <- file.path(pkg_path, 'NAMESPACE')
   if (!file.exists(namespace) || file_size(namespace) == 0) return(TRUE)
-
   if (!dir.exists(file.path(pkg_path, 'man'))) return(TRUE)
 
-  pkg_has_changed(pkg_path, quiet = quiet)
+  FALSE
+}
+
+# tests if the roxygen-generated documentation is outdated
+pkg_needs_roxygen <- function(pkg_path, quiet = FALSE) {
+  pkg_has_no_doc(pkg_path) || pkg_has_changed(pkg_path, quiet = quiet)
 }

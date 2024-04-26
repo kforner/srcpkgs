@@ -6,6 +6,8 @@
 \arguments{
 \item{deps_graph}{a source package dependencies graph, as an igraph object}
 
+\item{dry_run}{whether not to actually execute any action having side-effects}
+
 \item{lib}{directory where to install and find installed pkgs}
 
 \item{pkg}{a package as a "srcpkg" object}

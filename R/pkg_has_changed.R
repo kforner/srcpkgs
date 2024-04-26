@@ -1,3 +1,6 @@
+
+
+
 # checks if the package has changed since the last pkg_write_md5sum() call
 # if no md5sum file exists, return TRUE since we can not know, so we assume it has changed
 pkg_has_changed <- function(pkg_path, quiet = FALSE) {

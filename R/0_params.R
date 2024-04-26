@@ -2,6 +2,7 @@
 #' shared params
 #'
 #' @param deps_graph		a source package dependencies graph, as an igraph object
+#' @param dry_run       whether not to actually execute any action having side-effects
 #' @param lib         	directory where to install and find installed pkgs
 #' @param pkg						a package as a "srcpkg" object
 #' @param pkgs					packages as a "srcpkgs" object

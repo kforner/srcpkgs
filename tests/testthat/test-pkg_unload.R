@@ -1,52 +1,143 @@
+test_that("non_srcpkg_unload_plan", {
+  plan <- non_srcpkg_unload_plan('rlang', loaded = c('devtools', 'pkgload', 'rlang', 'stats'))
+  expect_identical(plan$package, c('devtools', 'pkgload', 'rlang'))
+  expect_identical(unique(plan$action), 'unload')
+})
+
+
+test_that("srcpkg_unload_plan", {
+  setup_temp_dir()
+  src_pkgs <- examples_srcpkgs_complex_deps()
+  on.exit(cleanup_dangling_srcpkgs(), add = TRUE)
+
+  ### nothing to unload
+  expect_null(srcpkg_unload_plan('EE', src_pkgs, loaded = NULL))
+  
+  ### simulate all loaded 
+  # unload E --> need to unload all but Z
+  plan <- srcpkg_unload_plan('EE', src_pkgs, loaded = names(src_pkgs))
+  expect_identical(plan$package, c('AA', 'BB', 'CC', 'DD', 'EE'))
+  expect_identical(unique(plan$action), 'unload')
+
+  # unload Z -> only Z
+  plan <- srcpkg_unload_plan('ZZ', src_pkgs, loaded = names(src_pkgs))
+  expect_identical(plan$package, 'ZZ')
+  # same for A
+  plan <- srcpkg_unload_plan('AA', src_pkgs, loaded = names(src_pkgs))
+  expect_identical(plan$package, 'AA')
+  # for D
+  plan <- srcpkg_unload_plan('DD', src_pkgs, loaded = names(src_pkgs))
+  expect_identical(plan$package, c('AA', 'BB', 'CC', 'DD'))
+
+  ### not all loaded
+  expect_null(srcpkg_unload_plan('EE', src_pkgs, loaded = 'DD'))
+  
+  plan <- srcpkg_unload_plan('EE', src_pkgs, loaded = c('DD', 'EE'))
+  expect_identical(plan$package, c('DD', 'EE'))
+
+  # this should not be possible, since A depends on B. nonetheless we should then unload also A
+  plan <- srcpkg_unload_plan('EE', src_pkgs, loaded = c('AA', 'DD', 'EE'))
+  expect_identical(plan$package, c('AA', 'DD', 'EE'))
+})
+
+
+test_that("unload_plan", {
+  ### A->B-C, A->C
+  mat <- graph_from_strings('A->B->C', 'B->D')
+  NONE <- character()
+  ALL <- c('A', 'B', 'C', 'D')
+  # N.B: A,B,D,C would have also worked
+
+  expect_identical(unload_plan(c('C', 'D'), mat, loaded = ALL)$package, c('A', 'B', 'C', 'D'))
+
+  expect_identical(unload_plan('C', mat, loaded = ALL)$package, c('A', 'B', 'C'))
+  expect_identical(unload_plan('D', mat, loaded = ALL)$package, c('A', 'B', 'D'))
+  expect_identical(unload_plan('B', mat, loaded = ALL)$package, c('A', 'B'))
+
+  # using loaded=
+  expect_null(unload_plan(c('C', 'D'), mat, loaded = NONE))
+  expect_null(unload_plan('D', mat, loaded = NONE))
+  expect_identical(unload_plan(c('C', 'D'), mat, loaded = c('C', 'D'))$package, c('C', 'D'))
+  expect_identical(unload_plan(c('C', 'D'), mat, loaded = c('C', 'D'))$package, c('C', 'D'))
+
+  ### empty matrix
+  mat <- matrix(0L, 0, 0)
+  expect_null(unload_plan('A', mat, loaded = ALL))
+
+  ### trivial: A
+  mat <- graph_from_strings('A->A')
+  mat[1,1] <- 0L
+
+  plan <- unload_plan('A', mat, loaded = ALL)
+  expect_identical(plan, data.frame(package = 'A', action = 'unload'))
+
+  ### simple : A-> B
+  mat <- graph_from_strings('A->B')
+
+  expect_identical(unload_plan('A', mat, loaded = ALL), data.frame(package = 'A', action = 'unload'))
+  expect_identical(unload_plan('B', mat, loaded = ALL), data.frame(package = c('A','B'), action = 'unload'))
+
+  ###  A-> B -> C
+  mat <- graph_from_strings('A->B->C')
+
+  expect_identical(unload_plan('A', mat, loaded = ALL), data.frame(package = 'A', action = 'unload'))
+  expect_identical(unload_plan('B', mat, loaded = ALL), data.frame(package = c('A','B'), action = 'unload'))
+  expect_identical(unload_plan('C', mat, loaded = ALL), 
+    data.frame(package = c('A','B', 'C'), action = rep('unload', 3)))
+  
+  # 
+  mat <- graph_from_strings('A->B->C', 'B->D->C')
+  
+  expect_identical(unload_plan('A', mat, loaded = ALL), data.frame(package = 'A', action = 'unload'))
+  expect_identical(unload_plan('D', mat, loaded = ALL), 
+    data.frame(package = c('A','B', 'D'), action = 'unload'))
+  expect_identical(unload_plan('C', mat, loaded = ALL), 
+    data.frame(package = c('A','B', 'D', 'C'), action = 'unload'))
+})
+
 
 test_that("pkg_unload", {
   setup_temp_dir()
+  all_src_pkgs <- examples_srcpkgs_complex_deps()
+  on.exit(cleanup_dangling_srcpkgs(), add =TRUE)
 
-  pkg_create('.', 'AA')
-  pkg_create('.', 'nsimports', imports = 'AA', namespace = TRUE)
-  pkg_create('.', 'nsimports2', imports = 'nsimports', namespace = TRUE)
-  pkg_create('.', 'descimports', imports = 'AA', namespace = FALSE)
-  pkg_create('.', 'descdepends', depends = 'AA')
+  ### srcpkg
 
-  on.exit({
-    unloadNamespace('descdepends')
-    unloadNamespace('descimports')
-    unloadNamespace('nsimports2')
-    unloadNamespace('nsimports')
-    unloadNamespace('AA')
-  }, add = TRUE)
+  .unload <- function(x, dry_run = TRUE, quiet = TRUE, src_pkgs = all_src_pkgs, ...) {
+    force(src_pkgs)
+    my_src_pkgs <- src_pkgs
+    pkg_unload(x, src_pkgs = my_src_pkgs, dry_run = dry_run, quiet = quiet, ...)
+  }
 
+  # not loaded
+  expect_null(.unload('AA', loaded = NULL))
 
-  pkg_unload('AA', quiet = TRUE) # just in case...
-  #### not loaded
-  expect_null(pkg_unload('AA')) 
+  # all loaded
+  plan <- .unload('EE', loaded = names(all_src_pkgs))
+  expect_identical(plan$package, c('AA', 'BB', 'CC', 'DD', 'EE'))
+  
+  plan <- .unload('BB', loaded = names(all_src_pkgs))
+  expect_identical(plan$package, c('AA', 'BB'))
 
-  ### no dependencies (yet)
-  devtools::load_all('AA', export_all = FALSE, attach = TRUE, quiet = TRUE)
+  # actually load/unload something
+  for(pkg in all_src_pkgs) .unload(pkg, dry_run = FALSE)
 
-  df <- pkg_unload('AA', quiet = TRUE)
+  devtools::load_all('EE', export_all = FALSE, attach = TRUE, quiet = TRUE)
+  devtools::load_all('DD', export_all = FALSE, attach = FALSE, quiet = TRUE)
+ 
+  plan <- .unload('EE', dry_run = FALSE)
 
-  expect_false(pkg_is_loaded('AA'))
-  expect_true(is.data.frame(df))
-  expect_identical(df$pkg, 'AA')
-  expect_true(df$attached)
+  expect_identical(plan$package, c('DD', 'EE'))
+  expect_false(pkg_is_loaded('DD'))
+  expect_false(pkg_is_loaded('EE'))
+  ### non srcpkg
 
-  ### with all dependencies
-  devtools::load_all('AA', export_all = FALSE, attach = TRUE, quiet = TRUE)
-  devtools::load_all('nsimports', export_all = FALSE, attach = FALSE, quiet = TRUE)
-  devtools::load_all('nsimports2', export_all = FALSE, attach = FALSE, quiet = TRUE)
-  devtools::load_all('descimports', export_all = FALSE, attach = FALSE, quiet = TRUE)
-  devtools::load_all('descdepends', export_all = FALSE, attach = FALSE, quiet = TRUE)
+  # not loaded
+  expect_null(.unload('rlang', loaded = NULL))
 
-  df <- pkg_unload('AA', quiet = TRUE)
-
-  expect_false(pkg_is_loaded('AA'))
-  expect_false(pkg_is_loaded('nsimports'))
-  expect_false(pkg_is_loaded('nsimports2'))
-  expect_true(pkg_is_loaded('descimports'))
-  expect_true(pkg_is_loaded('descdepends'))
-
-  expect_setequal(df$pkg, c('nsimports2', 'nsimports', 'AA'))
+  # all loaded
+  plan <- .unload('rlang', loaded = c('devtools', 'pkgload', 'rlang'))
+  expect_identical(plan$package, c('devtools', 'pkgload', 'rlang'))
 })
 
 

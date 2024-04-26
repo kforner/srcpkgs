@@ -4,10 +4,22 @@
 \alias{pkg_unload}
 \title{unloads a package, unloading some dependent packages if needed}
 \usage{
-pkg_unload(pkg_or_name, quiet = FALSE)
+pkg_unload(
+  pkg_or_name,
+  src_pkgs = get_srcpkgs(),
+  dry_run = FALSE,
+  loaded = loadedNamespaces(),
+  quiet = FALSE
+)
 }
 \arguments{
 \item{pkg_or_name}{a package name or object ("package" or "srcpkg")}
+
+\item{src_pkgs}{a collection of source packages as a \code{srckgs} object.}
+
+\item{dry_run}{whether not to actually execute any action having side-effects}
+
+\item{loaded}{the loaded packages, useful for testing.}
 
 \item{quiet}{whether to be quiet/silent}
 }

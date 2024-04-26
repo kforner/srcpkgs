@@ -3,12 +3,11 @@
 ######################################################################
 
 # creates a new "srcpkg" object from a devtools::package, or a path, or a srcpkg (noop)
-srcpkg <- function(pkg = devtools::as.package(path), path = NULL, md5 = NA_character_) {
+srcpkg <- function(pkg = devtools::as.package(path), path = NULL) {
   force(pkg)
   if (inherits(pkg, 'srcpkg')) return(pkg) 
   stop_unless(devtools::is.package(pkg), 'pkg is not a devtools package object')
 
-  pkg$MD5 <- md5
   class(pkg) <- c("srcpkg", "package")
 
   pkg

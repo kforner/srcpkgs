@@ -15,7 +15,6 @@ BugReports: https://github.com/kforner/srcpkgs/issues
 Imports:
   cli,
   devtools,
-  igraph,
   pkgload
 Suggests: 
     knitr,

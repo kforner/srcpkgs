@@ -98,3 +98,9 @@ get_elements <- function(lst, idx) {
 file_size <- function(path) {
   file.info(path, extra_cols = FALSE)$size
 }
+
+fast_unlist <- function(x, recursive = FALSE, use.names = FALSE) {
+  unlist(x, recursive, use.names)
+}
+
+get_text_logger <- function(quiet = FALSE) { if (quiet) function(...) {} else cli::cli_text }

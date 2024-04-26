@@ -1,8 +1,10 @@
 test_that("pkg_roxygenise", {
   setup_temp_dir()
-  pkg_create('.', 'AA')
-  on.exit({pkg_unload('AA', quiet = TRUE)}, add = TRUE)
-  pkg_unload('AA', quiet = TRUE)
+  pkg <- pkg_create('.', 'AA')
+  src_pkgs <- srcpkgs(list(pkg))
+  on.exit(cleanup_dangling_srcpkgs(), add = TRUE)
+  unloadNamespace('AA')
+  cleanup_dangling_srcpkgs()
 
   roxy <- "
 #' dummy roxy item
@@ -54,8 +56,9 @@ dummy_function <- function(param1, param2) {}
 
 test_that("pkg_needs_roxygen", {
   setup_temp_dir()
-  pkg_create('.', 'AA')
-  on.exit({pkg_unload('AA', quiet = TRUE)}, add = TRUE)
+  pkg <- pkg_create('.', 'AA')
+  src_pkgs <- srcpkgs(list(pkg))
+  on.exit(cleanup_dangling_srcpkgs(), add = TRUE)
 
   refresh <- function() {
     pkg_roxygenise('AA', quiet = TRUE, force = TRUE)

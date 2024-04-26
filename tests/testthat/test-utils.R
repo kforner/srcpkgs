@@ -1,3 +1,10 @@
+
+test_that("get_text_logger", {
+  expect_identical(get_text_logger(), cli::cli_text)
+  logger <- get_text_logger(quiet = TRUE)
+  expect_identical(as.character(body(logger)), '{')
+})
+
 test_that("is_condition_true", {
   is_condition_true <- srcpkgs:::is_condition_true
 

@@ -27,5 +27,8 @@ find_dangling_srcpkgs <- function() {
 }
 
 cleanup_dangling_srcpkgs <- function(quiet = TRUE) {
-  for (pkg_name in find_dangling_srcpkgs()) pkg_unload(pkg_name, quiet = quiet)
+  pkg_names <- find_dangling_srcpkgs() %||% return()
+  pkgs <- lapply(pkg_names, fetch_srcpkg_meta)
+  src_pkgs <- srcpkgs(pkgs)
+  for (pkg_name in pkg_names) pkg_unload(pkg_name, src_pkgs, quiet = quiet)
 }

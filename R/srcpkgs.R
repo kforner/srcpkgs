@@ -24,34 +24,40 @@ srcpkgs <- function(
   pkgs
 }
 
-srcpkgs_incidence_matrix <- function(src_pkgs, imports = TRUE, depends = TRUE, suggests = FALSE) {
+graph_from_srcpkgs <- function(src_pkgs, imports = TRUE, depends = TRUE, suggests = FALSE) {
   nb <- length(src_pkgs)
   if (nb == 0) return(NULL)
   nodes <- names(src_pkgs)
-  mat <- matrix(0L, nrow = nb, ncol = nb, dimnames = list(nodes, nodes))
 
   types <- character()
   if (imports) types <- append(types, 'imports')
   if (depends) types <- append(types, 'depends')
   if (suggests) types <- append(types, 'suggests')
-  
-  for (node in nodes) {
-    deps <- get_srcpkg_dependencies(src_pkgs[[node]])
-    dep_pkg_names <- intersect(unlist(deps[types], recursive = FALSE, use.names = FALSE), nodes)
-    mat[node, dep_pkg_names] <- 1L
-  }
 
-  mat
+  .deps <- function(node) {
+    deps <- get_srcpkg_dependencies(src_pkgs[[node]])
+    intersect(fast_unlist(deps[types]), nodes)
+  }
+  deps_lst <- lapply(nodes, .deps)
+  names(deps_lst) <- nodes
+
+  graph_from_deps(deps_lst)
 }
 
 ################### S3 methods#############################################################
 
 #' @export
 as.data.frame.srcpkgs <- function(x, ...) {
+  # fill in missing columns if needed
+  for (i in seq_along(x)) {
+    for (dep in c('imports', 'depends', 'suggests'))
+      x[[i]][[dep]] <- x[[i]][[dep]] %||% ''
+  }
+
   # convert the package lists to data frame
   rows <- lapply(x, as.data.frame.list, stringsAsFactors = FALSE)
   # keep columns of interest
-  rows <- lapply(rows, '[', c('package', 'version', 'path', 'MD5'))
+  rows <- lapply(rows, '[', c('package', 'version', 'path', 'imports', 'depends', 'suggests'))
 
   # bind rows to a df
   df <- do.call(rbind, rows)
