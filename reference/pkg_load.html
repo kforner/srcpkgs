@@ -60,14 +60,14 @@ document and reload them as needed.</p>
     <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">pkg_load</span><span class="op">(</span></span>
 <span>  <span class="va">pkgid</span>,</span>
 <span>  src_pkgs <span class="op">=</span> <span class="fu"><a href="get_srcpkgs.html">get_srcpkgs</a></span><span class="op">(</span><span class="op">)</span>,</span>
-<span>  deps_graph <span class="op">=</span> <span class="fu">compute_pkgs_dependencies_graph</span><span class="op">(</span><span class="va">src_pkgs</span><span class="op">)</span>,</span>
 <span>  attach <span class="op">=</span> <span class="cn">TRUE</span>,</span>
-<span>  ignore_suggests <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  suggests <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  force <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  roxygen <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  helpers <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  export_all <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  quiet <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  dry_run <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  <span class="va">...</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
@@ -82,10 +82,6 @@ document and reload them as needed.</p>
 <dd><p>a collection of source packages as a <code>srckgs</code> object.</p></dd>
 
 
-<dt>deps_graph</dt>
-<dd><p>a source package dependencies graph, as an igraph object</p></dd>
-
-
 <dt>attach</dt>
 <dd><p>Whether to attach a package environment to the search
 path. If <code>FALSE</code> <code>load_all()</code> behaves like <code><a href="https://rdrr.io/r/base/ns-load.html" class="external-link">loadNamespace()</a></code>. If
@@ -94,8 +90,8 @@ the <code>export_all</code>, <code>export_imports</code>, and <code>helpers</cod
 no effect.</p></dd>
 
 
-<dt>ignore_suggests</dt>
-<dd><p>whether not to load suggested packages. if FALSE, the suggested are processed
+<dt>suggests</dt>
+<dd><p>whether to load suggested packages. if TRUE, the suggested are processed
 like imports</p></dd>
 
 
@@ -119,6 +115,10 @@ in the NAMESPACE file.</p></dd>
 
 <dt>quiet</dt>
 <dd><p>whether to be quiet/silent</p></dd>
+
+
+<dt>dry_run</dt>
+<dd><p>whether not to actually execute any action having side-effects</p></dd>
 
 
 <dt>...</dt>
