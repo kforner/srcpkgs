@@ -13,7 +13,7 @@
 #' @inheritParams pkgload::load_all
 #' @inheritDotParams devtools::load_all
 #' @param force  if FALSE, will only reload packages if needed, i.e. if some changes are detected
-#' @param ignore_suggests whether not to load suggested packages. if FALSE, the suggested are processed
+#' @param suggests whether to load suggested packages. if TRUE, the suggested are processed
 #'    like imports
 #' @param roxygen whether to automatically roxygenise packages (if needed)
 #' @param ... passed to 
@@ -21,46 +21,50 @@
 #' @export
 pkg_load <- function(pkgid,
   src_pkgs = get_srcpkgs(),
-  deps_graph = compute_pkgs_dependencies_graph(src_pkgs),
   attach = TRUE,
-  ignore_suggests = TRUE,
+  suggests = FALSE,
   force = FALSE, 
   roxygen = TRUE,
   helpers = FALSE,
   export_all = FALSE, 
   quiet = FALSE,
+  dry_run = FALSE,
   ...)
 {
   force(src_pkgs)
-  force(deps_graph)
   pkg <- as_srcpkg(pkgid, src_pkgs)
 
   ### store the state of source packages BEFORE
-  df0 <- fetch_srcpkgs_meta()
+  # df0 <- fetch_srcpkgs_meta()
 
-  anything_loaded <- pkg_load_dependencies(pkg$package, src_pkgs, deps_graph, 
-    ignore_suggests = ignore_suggests, attach = attach, force = force, 
-    roxygen = roxygen, helpers = helpers, export_all = export_all, quiet = quiet, ...)
+  plan <- pkg_load_full_plan(pkg$package, src_pkgs, roxygen = roxygen, suggests = suggests, 
+    quiet = quiet, ...)
 
-  if (anything_loaded) {
-    # restore the state of packages, that may have been unloaded or detached
-    df1 <- fetch_srcpkgs_meta()
-    pkgs_to_restore <- setdiff(rownames(df0), rownames(df1))
-    # process row by row
-    for (pkg_name_to_restore in pkgs_to_restore) {
-      row  <- df0[pkg_name_to_restore, ]
-      Recall(pkg_name_to_restore, src_pkgs, deps_graph, attach = row$attached, quiet = quiet)
-    }
+  if (!dry_run) {
+     if (length(plan)) 
+     execute_plan(plan, src_pkgs, quiet = quiet, helpers = helpers, export_all = export_all)
+    if (attach) pkg_attach(pkg$package)
   }
 
-  invisible(anything_loaded)
+  # if (length(plan)) {
+  #   # restore the state of packages, that may have been unloaded or detached
+  #   df1 <- fetch_srcpkgs_meta()
+  #   pkgs_to_restore <- setdiff(rownames(df0), rownames(df1))
+  #   # process row by row
+  #   for (pkg_name_to_restore in pkgs_to_restore) {
+  #     row  <- df0[pkg_name_to_restore, ]
+  #     Recall(pkg_name_to_restore, src_pkgs, deps_graph, attach = row$attached, quiet = quiet)
+  #   }
+  # }
+
+  invisible(plan)
 }
 
 
 pkg_load_full_plan <- function(pkg_name, src_pkgs, loaded = loadedNamespaces(), 
-  outdated = NULL, roxygen = TRUE, quiet = FALSE) 
+  outdated = NULL, roxygen = TRUE, quiet = FALSE, ...) 
 {
-  mat <- graph_from_srcpkgs(src_pkgs)
+  mat <- graph_from_srcpkgs(src_pkgs, ...)
   deps <- graph_get_all_dependencies(mat, pkg_name)
   ordering <- rev(c(pkg_name, deps))
 
@@ -70,27 +74,36 @@ pkg_load_full_plan <- function(pkg_name, src_pkgs, loaded = loadedNamespaces(),
     outdated <- ordering[sapply(ordering, .is_outdated)]
   }
 
+  # we need to unload: all ordering already loaded AND outdated
   need_unload <- intersect(ordering, intersect(outdated, loaded))
-  plan <- NULL
-  if (length(need_unload)) plan <- unload_plan(need_unload, mat)
+  plana <- NULL
+  if (length(need_unload)) plana <- unload_plan(need_unload, mat, loaded = loaded)
 
+  # we need to load:
+  # - all unloaded packages (no side-effects), even if not part of ordering
+  # - all not loaded packages from ordering
   not_loaded <- setdiff(ordering, loaded)
-  pkgs_to_load <- intersect(ordering, union(plan$package, not_loaded))
+  pkgs_to_load <- union(plana$package, not_loaded)
+  planb <- NULL
   if (length(pkgs_to_load)) {
     planb <- load_plan(pkgs_to_load, mat)
-    planb[planb$package %in% outdated, 'action'] <- 'doc_and_load'
-    plan <- rbind.data.frame(plan, planb, make.row.names = FALSE)
-    rownames(plan) <- NULL
+    planb <- planb[planb$package %in% pkgs_to_load, , drop = FALSE]
+
+    if (roxygen)
+      planb[planb$package %in% outdated, 'action'] <- 'doc_and_load'
   }
+
+  plan <- rbind.data.frame(plana, planb, make.row.names = FALSE)
+  if (!nrow(plan)) plan <- NULL
 
   plan
 }
 
-load_plan <- function(pkg_names, mat, loaded = loadedNamespaces()) {
-  plan <- unload_plan(pkg_names, t(mat), loaded = NULL) %||% return(NULL)
+# plan to load pkg_names in the right order inconditionally (even if already loaded)
+load_plan <- function(pkg_names, mat) {
+  plan <- unload_plan(pkg_names, t(mat), loaded = colnames(mat)) %||% return(NULL)
   if (!nrow(plan)) return(NULL)
 
-  plan <- plan[!plan$package %in% loaded, , drop = FALSE]
   plan$action <- 'load'
 
   plan
@@ -177,11 +190,17 @@ pkg_just_load_pkg <- function(pkg, force = FALSE, quiet = FALSE, ...)
 }
 
 # N.B: should only be called if the package is not loaded or has changed
-pkg_load_wrapper <- function(pkg, roxygen = TRUE, helpers = FALSE, export_all = FALSE, quiet = FALSE, ...) {
+pkg_load_wrapper <- function(pkg, roxygen = TRUE, attach = FALSE, helpers = FALSE, export_all = FALSE, quiet = FALSE, ...) {
 
   if (roxygen) pkg_roxygenise_wrapper(pkg$path, quiet = TRUE)
 
-  devtools::load_all(pkg$path, export_all = export_all, helpers = helpers, quiet = quiet, ...)
+  # we assume the dependencies are loaded, but not necessarily attached
+  # let's take care of the Depends
+  depends <- get_srcpkg_dependencies(pkg)$depends
+  for (dep in depends) pkg_attach(dep)
+
+  devtools::load_all(pkg$path, export_all = export_all, 
+    helpers = helpers, quiet = quiet, attach = attach, ...)
 
   pkg_write_md5sum(pkg$path)
   store_srcpkg_meta(pkg)

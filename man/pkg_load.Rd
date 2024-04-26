@@ -7,14 +7,14 @@
 pkg_load(
   pkgid,
   src_pkgs = get_srcpkgs(),
-  deps_graph = compute_pkgs_dependencies_graph(src_pkgs),
   attach = TRUE,
-  ignore_suggests = TRUE,
+  suggests = FALSE,
   force = FALSE,
   roxygen = TRUE,
   helpers = FALSE,
   export_all = FALSE,
   quiet = FALSE,
+  dry_run = FALSE,
   ...
 )
 }
@@ -23,15 +23,13 @@ pkg_load(
 
 \item{src_pkgs}{a collection of source packages as a \code{srckgs} object.}
 
-\item{deps_graph}{a source package dependencies graph, as an igraph object}
-
 \item{attach}{Whether to attach a package environment to the search
 path. If \code{FALSE} \code{load_all()} behaves like \code{loadNamespace()}. If
 \code{TRUE} (the default), it behaves like \code{library()}. If \code{FALSE},
 the \code{export_all}, \code{export_imports}, and \code{helpers} arguments have
 no effect.}
 
-\item{ignore_suggests}{whether not to load suggested packages. if FALSE, the suggested are processed
+\item{suggests}{whether to load suggested packages. if TRUE, the suggested are processed
 like imports}
 
 \item{force}{if FALSE, will only reload packages if needed, i.e. if some changes are detected}
@@ -45,6 +43,8 @@ If \code{FALSE}, export only the objects that are listed as exports
 in the NAMESPACE file.}
 
 \item{quiet}{whether to be quiet/silent}
+
+\item{dry_run}{whether not to actually execute any action having side-effects}
 
 \item{...}{
   Arguments passed on to \code{\link[devtools:load_all]{devtools::load_all}}

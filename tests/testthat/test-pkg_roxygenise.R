@@ -3,6 +3,8 @@ test_that("pkg_roxygenise", {
   pkg <- pkg_create('.', 'AA')
   src_pkgs <- srcpkgs(list(pkg))
   on.exit(cleanup_dangling_srcpkgs(), add = TRUE)
+  unloadNamespace('AA')
+  cleanup_dangling_srcpkgs()
 
   roxy <- "
 #' dummy roxy item

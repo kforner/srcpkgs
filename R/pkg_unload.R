@@ -21,7 +21,7 @@ pkg_unload <- function(pkg_or_name,
     plan <- non_srcpkg_unload_plan(pkg_name, loaded = loaded)
   }
 
-  if (!dry_run) execute_plan(plan, quiet = quiet)
+  if (!dry_run) execute_plan(plan, src_pkgs, quiet = quiet)
 
 
   invisible(plan)
@@ -47,7 +47,7 @@ non_srcpkg_unload_plan <- function(pkg_name, loaded = loadedNamespaces())
   unload_plan(pkg_name, mat, loaded = loaded)
 }
 
-
+# plan to unload pkg_names. will not unload packages not loaded
 unload_plan <- function(pkg_names, mat, loaded = loadedNamespaces()) {
   if (!nrow(mat)) return(NULL)
   

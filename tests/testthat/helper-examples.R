@@ -1,4 +1,23 @@
 
+examples_srcpkgs_basic <- function() {
+  pkg_create('.', 'AA', imports = 'BB')
+  pkg_create('.', 'BB', suggests = 'stats')
+
+  find_srcpkgs('.')
+}
+
+examples_srcpkgs_star <- function() {
+  pkg_create('.', 'AA', suggests = 'roxygen2')
+  pkg_create('.', 'BB', suggests = 'stats')
+  pkg_create('.', 'CC')
+  pkg_create('.', 'DD')
+  pkg_create('.', 'EE', 
+    imports = c('AA', 'BB'), 
+    depends = c('BB', 'DD'), 
+    suggests = c('CC', 'roxygen2'))
+
+  find_srcpkgs('.')
+}
 
 examples_srcpkgs_complex_imports <- function() {
   # C-->B-->A, F-->D-->B, E-->A, Z
@@ -26,3 +45,4 @@ examples_srcpkgs_complex_deps <- function() {
 
   find_srcpkgs('.')
 }
+ 
