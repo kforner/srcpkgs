@@ -100,5 +100,7 @@ file_size <- function(path) {
 }
 
 fast_unlist <- function(x, recursive = FALSE, use.names = FALSE) {
-  .Internal(unlist(x, recursive, use.names))
+  unlist(x, recursive, use.names)
 }
+
+get_text_logger <- function(quiet = FALSE) { if (quiet) function(...) {} else cli::cli_text }

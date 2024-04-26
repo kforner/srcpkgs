@@ -4,7 +4,6 @@ pkg <- as.package('.')
 check_man(pkg)
 
 test(pkg, 'config')
-test(pkg, 'dep')
 test(pkg, 'find')
 test(pkg, 'graph')
 test(pkg, 'md5')
@@ -21,9 +20,6 @@ test(pkg, 'srcpkgs')
 test(pkg, '^utils')
 
 load_all(pkg)
-
-
-
 
 covr::report(covr::package_coverage())
 

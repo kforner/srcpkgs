@@ -87,6 +87,11 @@ test_that("graph_get_all_dep*", {
   expect_identical(graph_get_all_dependents(mat, 'A'), character())
   expect_identical(graph_get_all_dependents(mat, 'C'), character())
 
+  # edge cases: not in graph
+  expect_identical(graph_get_all_dependencies(mat, 'Z'),  character())
+  expect_identical(graph_get_all_dependents(mat, 'Z'),  'Z')
+
+
   ### A->B, C
   mat <- graph_from_strings('A->B', 'C->C')
   mat['C', 'C'] <- 0L

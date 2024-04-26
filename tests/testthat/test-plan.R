@@ -16,5 +16,9 @@ test_that("execute_plan", {
   expect_equal(nrow(uplan), 5)
 
   execute_plan(uplan, src_pkgs, quiet = TRUE)
+
+  ### edge cases
+  plan <- data.frame(package = 'AA', action = '')
+  expect_error(execute_plan(plan, src_pkgs, quiet = TRUE), 'unknown action')
 })
 

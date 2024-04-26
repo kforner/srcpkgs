@@ -54,8 +54,8 @@ unload_plan <- function(pkg_names, mat, loaded = loadedNamespaces()) {
   .deps <- function(x) c(graph_get_all_dependents(mat, x), x)
   deps_lst <- lapply(pkg_names, .deps)
 
+  # N.B: can not be mepty
   deps <- unique(fast_unlist(deps_lst))
-  if (!length(deps)) return(NULL)
 
   ordering <- graph_topo_sort_nodes(mat, deps)
   plan <- data.frame(package = ordering, action = 'unload')

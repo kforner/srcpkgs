@@ -67,7 +67,7 @@ test_that("unload_plan", {
   ### trivial: A
   mat <- graph_from_strings('A->A')
   mat[1,1] <- 0L
-  
+
   plan <- unload_plan('A', mat, loaded = ALL)
   expect_identical(plan, data.frame(package = 'A', action = 'unload'))
 
