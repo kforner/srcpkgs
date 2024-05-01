@@ -74,6 +74,11 @@
         <dd>get the current source packages list, if any, or discover them using <code><a href="../reference/find_srcpkgs.html">find_srcpkgs()</a></code></dd>
       </dl><dl><dt>
           
+          <code><a href="hack_r_loaders.html">hack_r_loaders()</a></code> 
+        </dt>
+        <dd>instruments the base library() and loadNamespace() to make them aware of source packages</dd>
+      </dl><dl><dt>
+          
           <code><a href="init_project_root.html">init_project_root()</a></code> 
         </dt>
         <dd>initializes the project root if needed and checks it</dd>
@@ -102,6 +107,11 @@
           <code><a href="srcpkgs-package.html">srcpkgs</a></code> <code><a href="srcpkgs-package.html">srcpkgs-package</a></code> 
         </dt>
         <dd>srcpkgs: R source packages manager</dd>
+      </dl><dl><dt>
+          
+          <code><a href="unhack_r_loaders.html">unhack_r_loaders()</a></code> 
+        </dt>
+        <dd>untraces library() and loadNamespace()</dd>
       </dl></div>
   </main></div>
 

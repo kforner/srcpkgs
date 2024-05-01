@@ -31,6 +31,9 @@
     <loc>/reference/get_srcpkgs.html</loc>
   </url>
   <url>
+    <loc>/reference/hack_r_loaders.html</loc>
+  </url>
+  <url>
     <loc>/reference/index.html</loc>
   </url>
   <url>
@@ -59,5 +62,8 @@
   </url>
   <url>
     <loc>/reference/srcpkgs-package.html</loc>
+  </url>
+  <url>
+    <loc>/reference/unhack_r_loaders.html</loc>
   </url>
 </urlset>
