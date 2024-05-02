@@ -88,11 +88,17 @@ pkg_load_full_plan <- function(pkg_name, src_pkgs, loaded = loadedNamespaces(),
       for (i in idx) planb$params[[i]] <- list(roxygen = TRUE)
     }
 
+    ## packages listed as Depends must be attached
+    deps_mat <- graph_from_srcpkgs(src_pkgs[planb$package], imports = FALSE, suggests = FALSE)
+    to_attach <- colnames(deps_mat)[colSums(deps_mat) > 0]
+    if (attach)
+      to_attach <- intersect(planb$package, append(to_attach, pkg_name))
+
     # attach requested package if needed
-    if (attach) {
-      pkg_name_idx <- match(pkg_name, planb$package)
-      if (!is.na(pkg_name_idx))
-        planb$params[[pkg_name_idx]] <- append(planb$params[[pkg_name_idx]], list(attach = TRUE))
+    if (length(to_attach)) {
+      pkg_name_idx <- match(to_attach, planb$package)
+      for (i in pkg_name_idx)
+        planb$params[[i]] <- append(planb$params[[i]], list(attach = TRUE))
     }
   }
 
@@ -122,11 +128,6 @@ pkg_is_outdated <- function(pkg_path, roxygen = TRUE, quiet = FALSE) {
 pkg_load_wrapper <- function(pkg, roxygen = TRUE, attach = FALSE, helpers = FALSE, export_all = FALSE, quiet = FALSE, ...) {
 
   if (roxygen) pkg_roxygenise_wrapper(pkg$path, quiet = TRUE)
-
-  # we assume the dependencies are loaded, but not necessarily attached
-  # let's take care of the Depends
-  depends <- get_srcpkg_dependencies(pkg)$depends
-  for (dep in depends) pkg_attach(dep)
 
   devtools::load_all(pkg$path, export_all = export_all, 
     helpers = helpers, quiet = quiet, attach = attach, ...)

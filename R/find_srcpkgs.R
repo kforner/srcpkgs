@@ -18,13 +18,17 @@ get_srcpkgs <- function(init = TRUE) {
   paths <- get_config(SRCPKGS_PATHS_KEY)
   if (!length(paths)) {
     if (!init) return(NULL)
-    paths <- init_srcpkgs_paths()
+    paths <- reset_srcpkgs_paths()
   }
 
   srcpkgs(paths = paths)
 }
-  
-init_srcpkgs_paths <- function() {
+
+#' reset the srcpkgs paths, that are used by [get_srcpkgs()]
+#' 
+#' This useful if you add a new source package, and want it to be used in your current R session
+#' @export
+reset_srcpkgs_paths <- function() {
   paths <- find_srcpkgs_paths(get_project_root())
   set_srcpkgs_paths(paths)
   paths

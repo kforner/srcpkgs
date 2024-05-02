@@ -1,4 +1,1 @@
-fix pkg_attach() that does not really work. It does not populate 
-
-must refactor execute_plan() and pkg_load_full_plan() to add parameters to the plan, and remove action doc_and_reload
 

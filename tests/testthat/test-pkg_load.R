@@ -60,9 +60,12 @@ test_that("pkg_load_full_plan() - examples_srcpkgs_complex_deps", {
   ##################################################
   ### load A
   # none loaded
+
   plan <- pkg_load_full_plan('AA', src_pkgs, loaded = NONE, outdated = NONE)
+
   expect_identical(plan$package, c("EE", "DD", "CC", "BB", "AA"))
   expect_identical(unique(plan$action), 'load')
+  expect_identical(plan$params, list(A, E, A, E, A))
   
   # all loaded
   plan <- pkg_load_full_plan('AA', src_pkgs, loaded = ALL, outdated = NONE)
@@ -74,7 +77,7 @@ test_that("pkg_load_full_plan() - examples_srcpkgs_complex_deps", {
   expected <- data.frame(
     package = c("AA", "BB", "CC", "DD", "EE", "EE", "DD", "CC", "BB", "AA"), 
     action = c(rep("unload", 5), rep("load", 5)))
-  expected$params <- list(E, E, E, E, E, R, R, R, R, RA)  
+  expected$params <- list(E, E, E, E, E, RA, R, RA, R, RA)
   expect_identical(plan, expected)
   
   # all loaded, C outdated
@@ -82,7 +85,7 @@ test_that("pkg_load_full_plan() - examples_srcpkgs_complex_deps", {
   expected <- data.frame(
     package = c("AA", "BB", "CC", "CC", "BB", "AA"), 
     action = c(rep("unload", 3), c("load", "load", "load")))
-  expected$params <- list(E, E, E, R, E, A)
+  expected$params <- list(E, E, E, RA, E, A)
   expect_identical(plan, expected)
 
   ### load Z
@@ -94,7 +97,7 @@ test_that("pkg_load_full_plan() - examples_srcpkgs_complex_deps", {
   ### load B
   plan <- pkg_load_full_plan('BB', src_pkgs, loaded = NONE, outdated = NONE)
   expected <- data.frame(package = c("EE", "DD", "CC", "BB"), action = "load")
-  expected$params <- list(E, E, E, A)
+  expected$params <- list(A, E, E, A)
   expect_identical(plan, expected)
 
   # all loaded, E outdated
@@ -102,7 +105,7 @@ test_that("pkg_load_full_plan() - examples_srcpkgs_complex_deps", {
   expected <- data.frame(
     package = c("AA", "BB", "CC", "DD", "EE", "EE", "DD", "CC", "BB", "AA"), 
     action = c(rep("unload", 5), rep("load",  5)))
-  expected$params <- list(E, E, E, E, E, R, E, E, A, E)
+  expected$params <- list(E, E, E, E, E, RA, E, A, A, E)
   expect_identical(plan, expected)
 })
 
@@ -117,18 +120,18 @@ test_that("pkg_load_full_plan() - star example ", {
   ### load E
   # none loaded, no suggests
   plan <- pkg_load_full_plan('EE', src_pkgs, loaded = NONE, outdated = ALL)
-  
+
   # N.B: no 'CC' which is in suggests only
   expect_identical(plan$package, c('AA', 'BB', 'DD', 'EE'))
   expect_identical(unique(plan$action), 'load')
-  expect_identical(plan$params,  list(R, R, R, RA))
+  expect_identical(plan$params,  list(R, RA, RA, RA))
 
   # none loaded, with suggests
   plan <- pkg_load_full_plan('EE', src_pkgs, loaded = NONE, outdated = ALL, suggests = TRUE)
 
   expect_identical(plan$package, c('AA', 'BB', 'CC', 'DD', 'EE'))
   expect_identical(unique(plan$action), 'load')
-  expect_identical(plan$params,  list(R, R, R, R, RA))
+  expect_identical(plan$params,  list(R, RA, R, RA, RA))
   
   # all loaded, none outdated
   plan <- pkg_load_full_plan('EE', src_pkgs, loaded = ALL, outdated = NONE, suggests = TRUE)
@@ -139,7 +142,7 @@ test_that("pkg_load_full_plan() - star example ", {
   expected <- data.frame(
     package = c("EE", "AA", "BB", "CC", "DD", "AA", "BB", "CC", "DD", "EE"),
     action = c(rep("unload", 5), rep("load", 5)))
-  expected$params <- list(E, E, E, E, E, R, R, R, R, RA)
+  expected$params <- list(E, E, E, E, E, R, RA, R, RA, RA)
   expect_identical(plan, expected)
 
   # all loaded, B outdated
@@ -147,7 +150,7 @@ test_that("pkg_load_full_plan() - star example ", {
   expected <- data.frame(
     package = c("EE",  "BB", "BB", "EE"),
     action = c("unload", "unload", "load",  "load"))
-  expected$params <- list(E, E, R, A)
+  expected$params <- list(E, E, RA, A)
   expect_identical(plan, expected)
 
   ### load other, like AA
