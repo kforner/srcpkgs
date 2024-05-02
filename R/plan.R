@@ -4,13 +4,13 @@ execute_plan <- function(plan, src_pkgs, quiet = FALSE, ...) {
   for (i in seq_len(nrow(plan))) {
     row <- plan[i, , drop = TRUE]
     pkg <- as_srcpkg(row$package, src_pkgs)
+    params <- row$params[[1]]
     logger('executing {.strong {row$action} on {.pkg {row$package}}}')
     switch(row$action, 
       unload = execute_action_unload(pkg, quiet = quiet, ...),
-      load = execute_action_load(pkg, quiet = quiet, ...),
-      doc_and_load = execute_action_doc_and_load(pkg, quiet = quiet, ...),
+      load = do.call(execute_action_load, c(list(pkg, quiet = quiet, ...), params)),
       stop_if(TRUE, 'unknown action: "%s"', row$action)
-    ) 
+    )
   }
 }
 
@@ -31,10 +31,7 @@ execute_action_unload <- function(pkg, quiet, ...) {
   # }
 }
 
-execute_action_load <- function(pkg, quiet, ...) {
-  pkg_load_wrapper(pkg, roxygen = FALSE, quiet = quiet, ...)
+execute_action_load <- function(pkg, quiet, attach = FALSE, roxygen = FALSE, ...) {
+  pkg_load_wrapper(pkg, attach = attach, roxygen = roxygen, quiet = quiet, ...)
 }
 
-execute_action_doc_and_load <- function(pkg, quiet, ...) {
-  pkg_load_wrapper(pkg, roxygen = TRUE, quiet = quiet, ...)
-}

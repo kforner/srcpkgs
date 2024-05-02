@@ -5,7 +5,7 @@ check_man(pkg)
 
 test(pkg, 'config')
 test(pkg, 'find')
-test(pkg, 'graph'
+test(pkg, 'graph')
 test(pkg, 'hack')
 test(pkg, 'md5')
 test(pkg, 'meta')

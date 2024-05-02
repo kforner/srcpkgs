@@ -33,36 +33,27 @@ pkg_load <- function(pkgid,
 {
   force(src_pkgs)
   pkg <- as_srcpkg(pkgid, src_pkgs)
+  pkg_name <- pkg$package
+  stop_unless(pkg_name %in% names(src_pkgs), 
+    'package "%s" is not managed by srcpkgs, check `get_srcpkgs()`', pkg_name)
 
   ### store the state of source packages BEFORE
   # df0 <- fetch_srcpkgs_meta()
 
-  plan <- pkg_load_full_plan(pkg$package, src_pkgs, roxygen = roxygen, suggests = suggests, 
-    quiet = quiet, ...)
+  plan <- pkg_load_full_plan(pkg_name, src_pkgs, roxygen = roxygen, attach = attach, 
+    suggests = suggests, quiet = quiet, ...)
 
   if (!dry_run) {
      if (length(plan)) 
      execute_plan(plan, src_pkgs, quiet = quiet, helpers = helpers, export_all = export_all)
-    if (attach) pkg_attach(pkg$package)
   }
-
-  # if (length(plan)) {
-  #   # restore the state of packages, that may have been unloaded or detached
-  #   df1 <- fetch_srcpkgs_meta()
-  #   pkgs_to_restore <- setdiff(rownames(df0), rownames(df1))
-  #   # process row by row
-  #   for (pkg_name_to_restore in pkgs_to_restore) {
-  #     row  <- df0[pkg_name_to_restore, ]
-  #     Recall(pkg_name_to_restore, src_pkgs, deps_graph, attach = row$attached, quiet = quiet)
-  #   }
-  # }
 
   invisible(plan)
 }
 
 
 pkg_load_full_plan <- function(pkg_name, src_pkgs, loaded = loadedNamespaces(), 
-  outdated = NULL, roxygen = TRUE, quiet = FALSE, ...) 
+  outdated = NULL, attach = TRUE, roxygen = TRUE, quiet = FALSE, ...) 
 {
   mat <- graph_from_srcpkgs(src_pkgs, ...)
   deps <- graph_get_all_dependencies(mat, pkg_name)
@@ -89,10 +80,23 @@ pkg_load_full_plan <- function(pkg_name, src_pkgs, loaded = loadedNamespaces(),
     planb <- load_plan(pkgs_to_load, mat)
     planb <- planb[planb$package %in% pkgs_to_load, , drop = FALSE]
 
-    if (roxygen)
-      planb[planb$package %in% outdated, 'action'] <- 'doc_and_load'
+    # add params
+    planb$params <- replicate(nrow(planb), list())
+
+    if (roxygen) {
+      idx <- which(planb$package %in% outdated)
+      for (i in idx) planb$params[[i]] <- list(roxygen = TRUE)
+    }
+
+    # attach requested package if needed
+    if (attach) {
+      pkg_name_idx <- match(pkg_name, planb$package)
+      if (!is.na(pkg_name_idx))
+        planb$params[[pkg_name_idx]] <- append(planb$params[[pkg_name_idx]], list(attach = TRUE))
+    }
   }
 
+  if (length(plana)) plana$params <- replicate(nrow(plana), list())
   plan <- rbind.data.frame(plana, planb, make.row.names = FALSE)
   if (!nrow(plan)) plan <- NULL
 

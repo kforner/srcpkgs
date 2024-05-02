@@ -1,3 +1,8 @@
+E <- list()
+R <- list(roxygen = TRUE)
+RA <- list(roxygen = TRUE, attach = TRUE)
+A <- list(attach = TRUE)
+
 test_that("pkg_load", {
   ### trivial example A->B
   setup_temp_dir()
@@ -6,7 +11,7 @@ test_that("pkg_load", {
   on.exit(cleanup_dangling_srcpkgs, add = TRUE)
   NONE <- character()
   ALL <- names(src_pkgs)
-
+  unloadNamespace('AA')
   ###
   plan <- pkg_load('AA', src_pkgs, quiet = TRUE)
 
@@ -51,6 +56,7 @@ test_that("pkg_load_full_plan() - examples_srcpkgs_complex_deps", {
   on.exit(cleanup_dangling_srcpkgs, add = TRUE)
   NONE <- character()
   ALL <- names(src_pkgs)
+
   ##################################################
   ### load A
   # none loaded
@@ -64,33 +70,39 @@ test_that("pkg_load_full_plan() - examples_srcpkgs_complex_deps", {
 
   # all loaded and outdated
   plan <- pkg_load_full_plan('AA', src_pkgs, loaded = ALL, outdated = ALL)
+
   expected <- data.frame(
     package = c("AA", "BB", "CC", "DD", "EE", "EE", "DD", "CC", "BB", "AA"), 
-    action = c(rep("unload", 5), rep("doc_and_load", 5)))
+    action = c(rep("unload", 5), rep("load", 5)))
+  expected$params <- list(E, E, E, E, E, R, R, R, R, RA)  
   expect_identical(plan, expected)
   
   # all loaded, C outdated
   plan <- pkg_load_full_plan('AA', src_pkgs, loaded = ALL, outdated = 'CC')
   expected <- data.frame(
     package = c("AA", "BB", "CC", "CC", "BB", "AA"), 
-    action = c(rep("unload", 3), c("doc_and_load", "load", "load")))
+    action = c(rep("unload", 3), c("load", "load", "load")))
+  expected$params <- list(E, E, E, R, E, A)
   expect_identical(plan, expected)
 
   ### load Z
   plan <- pkg_load_full_plan('ZZ', src_pkgs, loaded = NONE, outdated = ALL)
-  expected <- data.frame(package = 'ZZ', action = "doc_and_load")
+  expected <- data.frame(package = 'ZZ', action = "load")
+  expected$params <- list(RA)
   expect_identical(plan, expected)
 
   ### load B
   plan <- pkg_load_full_plan('BB', src_pkgs, loaded = NONE, outdated = NONE)
   expected <- data.frame(package = c("EE", "DD", "CC", "BB"), action = "load")
+  expected$params <- list(E, E, E, A)
   expect_identical(plan, expected)
 
   # all loaded, E outdated
   plan <- pkg_load_full_plan('BB', src_pkgs, loaded = ALL, outdated = 'EE')
   expected <- data.frame(
     package = c("AA", "BB", "CC", "DD", "EE", "EE", "DD", "CC", "BB", "AA"), 
-    action = c(rep("unload", 5), "doc_and_load", rep("load",  4)))
+    action = c(rep("unload", 5), rep("load",  5)))
+  expected$params <- list(E, E, E, E, E, R, E, E, A, E)
   expect_identical(plan, expected)
 })
 
@@ -108,14 +120,16 @@ test_that("pkg_load_full_plan() - star example ", {
   
   # N.B: no 'CC' which is in suggests only
   expect_identical(plan$package, c('AA', 'BB', 'DD', 'EE'))
-  expect_identical(unique(plan$action), 'doc_and_load')
+  expect_identical(unique(plan$action), 'load')
+  expect_identical(plan$params,  list(R, R, R, RA))
 
   # none loaded, with suggests
   plan <- pkg_load_full_plan('EE', src_pkgs, loaded = NONE, outdated = ALL, suggests = TRUE)
 
   expect_identical(plan$package, c('AA', 'BB', 'CC', 'DD', 'EE'))
-  expect_identical(unique(plan$action), 'doc_and_load')
-
+  expect_identical(unique(plan$action), 'load')
+  expect_identical(plan$params,  list(R, R, R, R, RA))
+  
   # all loaded, none outdated
   plan <- pkg_load_full_plan('EE', src_pkgs, loaded = ALL, outdated = NONE, suggests = TRUE)
   expect_null(plan)
@@ -124,15 +138,16 @@ test_that("pkg_load_full_plan() - star example ", {
   plan <- pkg_load_full_plan('EE', src_pkgs, loaded = ALL, outdated = ALL, suggests = TRUE)
   expected <- data.frame(
     package = c("EE", "AA", "BB", "CC", "DD", "AA", "BB", "CC", "DD", "EE"),
-    action = c("unload", "unload", "unload", "unload", "unload", 
-      "doc_and_load", "doc_and_load", "doc_and_load", "doc_and_load", "doc_and_load"))
+    action = c(rep("unload", 5), rep("load", 5)))
+  expected$params <- list(E, E, E, E, E, R, R, R, R, RA)
   expect_identical(plan, expected)
 
   # all loaded, B outdated
   plan <- pkg_load_full_plan('EE', src_pkgs, loaded = ALL, outdated = 'BB')
   expected <- data.frame(
     package = c("EE",  "BB", "BB", "EE"),
-    action = c("unload", "unload", "doc_and_load",  "load"))
+    action = c("unload", "unload", "load",  "load"))
+  expected$params <- list(E, E, R, A)
   expect_identical(plan, expected)
 
   ### load other, like AA
@@ -144,7 +159,8 @@ test_that("pkg_load_full_plan() - star example ", {
   plan <- pkg_load_full_plan('AA', src_pkgs, loaded = ALL, outdated = 'AA')
   expected <- data.frame(
     package = c("EE",  "AA", "AA", "EE"),
-    action = c("unload", "unload", "doc_and_load",  "load"))
+    action = c("unload", "unload", "load",  "load"))
+  expected$params <- list(E, E, RA, E)
   expect_identical(plan, expected)
 
   ### all loaded, EE outdated -> nothing to do, E is a parent
@@ -170,7 +186,8 @@ test_that("pkg_load_full_plan() - transitivity ", {
   plan <- pkg_load_full_plan('pkgA', src_pkgs, loaded = ALL, outdated = ALL)
   expected <- data.frame(
     package = c("pkgA", "pkgB", "pkgC", "pkgC", "pkgB", "pkgA"),
-    action = c("unload", "unload", "unload", "doc_and_load", "doc_and_load", "doc_and_load"))
+    action = c("unload", "unload", "unload", "load", "load", "load"))
+  expected$params <- list(E, E, E, R, R, RA)
   expect_identical(plan, expected)
 
   ### all loaded, none outdated
@@ -178,42 +195,40 @@ test_that("pkg_load_full_plan() - transitivity ", {
 
   ### all loaded, A outdated
   plan <- pkg_load_full_plan('pkgA', src_pkgs, loaded = ALL, outdated = 'pkgA')
-  expected <- data.frame(package = c("pkgA", "pkgA"), action = c("unload", "doc_and_load"))
+  expected <- data.frame(package = c("pkgA", "pkgA"), action = c("unload", "load"))
+  expected$params <- list(E, RA)
   expect_identical(plan, expected)
   
   ### all loaded, C outdated
   plan <- pkg_load_full_plan('pkgA', src_pkgs, loaded = ALL, outdated = 'pkgC')
   expected <- data.frame(
     package = c("pkgA", "pkgB", "pkgC", "pkgC", "pkgB", "pkgA"),
-    action = c("unload", "unload", "unload", "doc_and_load", "load", "load"))
+    action = c("unload", "unload", "unload", "load", "load", "load"))
+  expected$params <- list(E, E, E, R, E, A)
   expect_identical(plan, expected)
   
   ### none loaded, none outdated
   plan <- pkg_load_full_plan('pkgA', src_pkgs, loaded = NONE, outdated = NONE)
-  expected <- data.frame(
-    package = c("pkgC", "pkgB", "pkgA"),
-    action = c("load", "load", "load"))
+  expected <- data.frame(package = c("pkgC", "pkgB", "pkgA"), action = "load")
+  expected$params <- list(E, E, A)
   expect_identical(plan, expected)
   
   ### none loaded, all outdated
   plan <- pkg_load_full_plan('pkgA', src_pkgs, loaded = NONE, outdated = ALL)
-  expected <- data.frame(
-    package = c("pkgC", "pkgB", "pkgA"),
-    action = c("doc_and_load", "doc_and_load", "doc_and_load"))
+  expected <- data.frame(package = c("pkgC", "pkgB", "pkgA"), action = "load")
+  expected$params <- list(R, R, RA)
   expect_identical(plan, expected)
 
   ### none loaded, C outdated
   plan <- pkg_load_full_plan('pkgA', src_pkgs, loaded = NONE, outdated = 'pkgC')
-  expected <- data.frame(
-    package = c("pkgC", "pkgB", "pkgA"),
-    action = c("doc_and_load", "load", "load"))
+  expected <- data.frame(package = c("pkgC", "pkgB", "pkgA"), action = "load")
+  expected$params <- list(R, E, A)
   expect_identical(plan, expected)
 
   ### A loaded, B outdated (N.B: that should not be possible)
   plan <- pkg_load_full_plan('pkgA', src_pkgs, loaded = 'pkgA', outdated = 'pkgB')
-  expected <- data.frame(
-    package = c("pkgC", "pkgB"),
-    action = c("load", "doc_and_load"))
+  expected <- data.frame(package = c("pkgC", "pkgB"), action = "load")
+  expected$params <- list(E, R)
   expect_identical(plan, expected)
 
   ################### load C #################################################
@@ -221,7 +236,8 @@ test_that("pkg_load_full_plan() - transitivity ", {
   plan <- pkg_load_full_plan('pkgC', src_pkgs, loaded = ALL, outdated = ALL)
   expected <- data.frame(
     package = c("pkgA", "pkgB", "pkgC", "pkgC", "pkgB", "pkgA"),
-    action = c("unload", "unload", "unload", "doc_and_load", "doc_and_load", "doc_and_load"))
+    action = c(rep("unload", 3), rep("load", 3)))
+  expected$params <- list(E, E, E, RA, R, R)
   expect_identical(plan, expected)
 
   ### all loaded, only B outdated. B is a parent --> no need to reload C even if its parent is outdated
@@ -231,7 +247,8 @@ test_that("pkg_load_full_plan() - transitivity ", {
   plan <- pkg_load_full_plan('pkgC', src_pkgs, loaded = ALL, outdated = 'pkgC')
   expected <- data.frame(
     package = c("pkgA", "pkgB", "pkgC", "pkgC", "pkgB", "pkgA"),
-    action = c("unload", "unload", "unload", "doc_and_load", "load", "load"))
+    action = c(rep("unload", 3), rep("load", 3)))
+  expected$params <- list(E, E, E, RA, E, E)
   expect_identical(plan, expected)
 })
 

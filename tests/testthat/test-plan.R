@@ -10,7 +10,7 @@ test_that("execute_plan", {
   plan <- pkg_load('AA', src_pkgs, roxygen = FALSE, quiet = TRUE)
 
   mat2 <- sub_graph(mat, loadedNamespaces())
-  expect_equal(nrow(mat2), 5)
+  expect_equal(nrow(plan), nrow(mat2))
 
   uplan <- unload_plan('EE', mat2)
   expect_equal(nrow(uplan), 5)
