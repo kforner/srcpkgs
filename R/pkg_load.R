@@ -126,8 +126,10 @@ pkg_is_outdated <- function(pkg_path, roxygen = TRUE, quiet = FALSE) {
 
 # N.B: should only be called if the package is not loaded or has changed
 pkg_load_wrapper <- function(pkg, roxygen = TRUE, attach = FALSE, helpers = FALSE, export_all = FALSE, quiet = FALSE, ...) {
+  old_options <- options(rlib_restart_package_not_found = FALSE)
+  on.exit(options(old_options), add = TRUE)
 
-  if (roxygen) pkg_roxygenise_wrapper(pkg$path, quiet = TRUE)
+  if (roxygen) pkg_roxygenise_wrapper(pkg$path, quiet = quiet)
 
   devtools::load_all(pkg$path, export_all = export_all, 
     helpers = helpers, quiet = quiet, attach = attach, ...)
