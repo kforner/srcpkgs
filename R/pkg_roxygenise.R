@@ -20,7 +20,7 @@ pkg_roxygenise <- function(pkg_path, force = FALSE, quiet = FALSE,  ...) {
 }
 
 pkg_roxygenise_wrapper <- function(pkg_path, quiet = FALSE,  ...) {
-  wrapper <- if (quiet) mute else function(...) {}
+  wrapper <- if (quiet) mute else function(...) { force(...) }
   wrapper(devtools::document(pkg_path, quiet = quiet, ...))
   pkg_write_md5sum(pkg_path)
 }
