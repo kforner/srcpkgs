@@ -4,18 +4,12 @@
 \alias{reset}
 \title{reset the srcpkgs settings}
 \usage{
-reset(
-  root = find_project_root(),
-  srcpkgs_paths = find_srcpkgs_paths(root),
-  should_hack_r_loaders = should_hack_r_loaders_default(srcpkgs_paths)
-)
+reset(root = find_project_root(), srcpkgs_paths = find_srcpkgs_paths(root))
 }
 \arguments{
 \item{root}{directory from where to search for source packages}
 
 \item{srcpkgs_paths}{paths to the source packages folders}
-
-\item{should_hack_r_loaders}{whether to hack the R loaders (cf \code{\link[=hack_r_loaders]{hack_r_loaders()}})}
 }
 \description{
 reset the srcpkgs settings

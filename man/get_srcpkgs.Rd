@@ -4,13 +4,10 @@
 \alias{get_srcpkgs}
 \title{get the current source packages list, if any, or discover them using \code{\link[=find_srcpkgs]{find_srcpkgs()}}}
 \usage{
-get_srcpkgs(init = TRUE)
-}
-\arguments{
-\item{init}{whether to automatically discover the srcp pkgs if not set}
+get_srcpkgs()
 }
 \value{
-the source packages as a "scrpkgs" object
+the source packages as a "scrpkgs" object, or NULL if none
 }
 \description{
 get the current source packages list, if any, or discover them using \code{\link[=find_srcpkgs]{find_srcpkgs()}}

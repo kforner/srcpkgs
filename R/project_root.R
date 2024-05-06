@@ -2,14 +2,11 @@
 ROOT_KEY <- 'ROOT'
 
 #' get the current project root
-#' @param init  whether to automatically define the project root if not defined
+
 #' @return the project root dir path as a string, or NULL if none
 #' @export
-get_project_root <- function(init = TRUE) { 
-  root <- get_config(ROOT_KEY)
-  if (init && !length(root))
-    root <- init_project_root()
-  root
+get_project_root <- function() {
+  get_config(ROOT_KEY)
 }
 
 #' set the current project root
@@ -18,21 +15,11 @@ get_project_root <- function(init = TRUE) {
 #' @return the previous root as a string, or NULL
 #' @export
 set_project_root <- function(path, force = FALSE) {
-  if (!force) {
+  if (!force && length(path)) {
     stop_unless(length(path) == 1 && is.character(path), 'bad arg path: "%s", not a string', path)
     stop_unless(dir.exists(path), 'bad arg path: "%s", not a directory', path)
   }
   set_config(ROOT_KEY, path) 
-}
-
-#' initializes the project root if needed and checks it
-#' 
-#' @param root    the project root dir path to set if no root is already set
-#' @return the project root invisibly
-#' @export
-init_project_root <- function(root = find_project_root()) {
-  set_project_root(root)
-  invisible(root)
 }
 
 # heuristic: search upwards for the first folder with a .git/ folder, or return here

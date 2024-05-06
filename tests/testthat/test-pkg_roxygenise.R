@@ -8,8 +8,8 @@ test_that("pkg_roxygenise", {
 
   roxy <- "
 #' dummy roxy item
-#' @param param1
-#' @param param2
+#' @param param1 desc1
+#' @param param2 desc2
 #' @return stuff
 #' @export
 dummy_function <- function(param1, param2) {}
@@ -33,6 +33,7 @@ dummy_function <- function(param1, param2) {}
 
   ### again
   expect_false(pkg_roxygenise('AA', quiet = TRUE))
+  
 
   ### force regeneration
   cat('# srcpkgs rules!\n', file = 'AA/NAMESPACE', append = TRUE)
@@ -50,7 +51,14 @@ dummy_function <- function(param1, param2) {}
   files <- pkg_list_files('AA')
   expect_false('NAMESPACE' %in% files)
   expect_false('man' %in% unique(dirname(files)))
+
+  ### pkg_roxygenise_wrapper quiet=FALSE
+  suppressMessages(pkg_roxygenise_wrapper('AA'))
+  expect_true('NAMESPACE' %in% pkg_list_files('AA'))
 })
+
+
+
 
 
 

@@ -17,24 +17,47 @@ is_traced <- function(fun) {
   inherits(fun, "functionWithTrace")
 }
 
-#' instruments the base library() and loadNamespace() to make them aware of source packages
+INHIBIT_ENV_VAR <- 'SRCPKGS.INHIBIT_R_LOADERS_HACK'
+INHIBIT_OPTION <- tolower(INHIBIT_ENV_VAR)
+
+inhibit_r_loaders_hack <- function() {
+  raw <- get_env(INHIBIT_ENV_VAR, getOption(INHIBIT_OPTION, FALSE))
+
+  #### may be character, numeric or logical
+  # more annoying case: "1" and "0"
+  if (is.character(raw) && is.na(as.logical(raw)) && !is.na(as.integer(raw))) {
+    raw <- as.integer(raw)
+  }
+
+  isTRUE(as.logical(raw))
+}
+
+
+#' instruments the base library() and loadNamespace() functions to make them aware of source packages
 #'
-#' hacks library() and loadNamespace() using trace()
-#' library(package) will basically call pkg_load(package) if package is managed by srcpkgs
+#' hacks `library()` and `loadNamespace()` (using `trace()`).
+#' `library(pkg)` will basically call `pkg_load(pkg)` if the source package `pkg` 
+#' is managed by **srcpkgs**
 #'
+#' @section Package startup:
+#' 
+#' At package startup (actually OnAttach), `hack_r_loaders()` will be automatically called to hack
+#' the R loaders, UNLESS this is inhibited via the option `srcpkgs.inhibit_r_loaders_hack` or the 
+#' environment variable `SRCPKGS.INHIBIT_R_LOADERS_HACK`. You may set any value like TRUE, "TRUE", 1 or "1".
+#
 #' @export
-#' @seealso unhack_r_loaders
+#' @seealso [unhack_r_loaders()]
 hack_r_loaders <- function() {
-  set_loaders_hack(TRUE)
   hack_library()
   hack_loadNamespace()
+  set_loaders_hack(TRUE)
   invisible()
 }
 
 #' untraces library() and loadNamespace()
 #'
 #' @export
-#' @seealso hook_r_loaders
+#' @seealso [hack_r_loaders()]
 unhack_r_loaders <- function() {
   suppressMessages(untrace(library))
   suppressMessages(untrace(loadNamespace))
@@ -64,7 +87,7 @@ hack_library <- function() {
             else
               pkg <- package
           
-            src_pkgs <- get_srcpkgs() # may take som I/O time
+            src_pkgs <- get_srcpkgs() # may take some I/O time
             src_pkg <- src_pkgs[[pkg]]
             if (length(src_pkg)) {
               ### this is actually a source package that we manage, so we take care of loading it

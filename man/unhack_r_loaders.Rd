@@ -10,5 +10,5 @@ unhack_r_loaders()
 untraces library() and loadNamespace()
 }
 \seealso{
-hook_r_loaders
+\code{\link[=hack_r_loaders]{hack_r_loaders()}}
 }

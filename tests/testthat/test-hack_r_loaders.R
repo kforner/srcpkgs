@@ -43,8 +43,8 @@ test_that("hack_library", {
   on.exit(set_srcpkgs_paths(PATHS), add = TRUE) 
 
   ### default library() behaviour --> does NOT know about our source packages 
-  .untrace(library)
   pkg_unload(pkg_name, quiet = TRUE)
+  .untrace(library)
 
   expect_error(library(hack.library), 'there is no package called')
 
@@ -115,4 +115,56 @@ test_that("hack_loadNamespace", {
   set_loaders_hack(FALSE)
   # suddenly library() does not load our source package anymore
   expect_error(loadNamespace(pkg_name), 'there is no package called')
+})
+
+
+test_that("inhibit_r_loaders_hack", {
+
+  ### try to restore state
+  old_env <- get_env(INHIBIT_ENV_VAR)
+  old_option <- getOption(INHIBIT_OPTION)
+  on.exit({set_env(INHIBIT_ENV_VAR, old_env); set_option(INHIBIT_OPTION, old_option)}, add = TRUE)
+
+  ### defaults
+  set_env(INHIBIT_ENV_VAR, '')
+  set_option(INHIBIT_OPTION, NULL)
+
+  expect_false(inhibit_r_loaders_hack())
+
+  ### option
+  # TRUE
+  set_option(INHIBIT_OPTION, 'TRUE')
+  expect_true(inhibit_r_loaders_hack())
+
+  set_option(INHIBIT_OPTION, 1)
+  expect_true(inhibit_r_loaders_hack())
+
+  # FALSE
+  set_option(INHIBIT_OPTION, 'FALSE')
+  expect_false(inhibit_r_loaders_hack())
+
+  set_option(INHIBIT_OPTION, 0)
+  expect_false(inhibit_r_loaders_hack())
+
+  set_option(INHIBIT_OPTION, '')
+  expect_false(inhibit_r_loaders_hack())
+
+  ### env
+  set_option(INHIBIT_OPTION, '')
+  # TRUE
+  set_env(INHIBIT_ENV_VAR, 'TRUE')
+  expect_true(inhibit_r_loaders_hack())
+
+  set_env(INHIBIT_ENV_VAR, '1')
+  expect_true(inhibit_r_loaders_hack())
+
+  # FALSE
+  set_env(INHIBIT_ENV_VAR, 'FALSE')
+  expect_false(inhibit_r_loaders_hack())
+
+  set_env(INHIBIT_ENV_VAR, '0')
+  expect_false(inhibit_r_loaders_hack())
+
+  set_env(INHIBIT_ENV_VAR, '')
+  expect_false(inhibit_r_loaders_hack())
 })

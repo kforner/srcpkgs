@@ -2,14 +2,23 @@
 % Please edit documentation in R/hack_r_loaders.R
 \name{hack_r_loaders}
 \alias{hack_r_loaders}
-\title{instruments the base library() and loadNamespace() to make them aware of source packages}
+\title{instruments the base library() and loadNamespace() functions to make them aware of source packages}
 \usage{
 hack_r_loaders()
 }
 \description{
-hacks library() and loadNamespace() using trace()
-library(package) will basically call pkg_load(package) if package is managed by srcpkgs
+hacks \code{library()} and \code{loadNamespace()} (using \code{trace()}).
+\code{library(pkg)} will basically call \code{pkg_load(pkg)} if the source package \code{pkg}
+is managed by \strong{srcpkgs}
 }
+\section{Package startup}{
+
+
+At package startup (actually OnAttach), \code{hack_r_loaders()} will be automatically called to hack
+the R loaders, UNLESS this is inhibited via the option \code{srcpkgs.inhibit_r_loaders_hack} or the
+environment variable \code{SRCPKGS.INHIBIT_R_LOADERS_HACK}. You may set any value like TRUE, "TRUE", 1 or "1".
+}
+
 \seealso{
-unhack_r_loaders
+\code{\link[=unhack_r_loaders]{unhack_r_loaders()}}
 }

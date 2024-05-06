@@ -17,7 +17,7 @@ manual: rox
 clean:
 	rm -rf .checks* .Rd2*
 	
-pkgdown:
+pkgdown: rox
 	Rscript --no-save -e 'pkgdown::build_site()'
 
 zero-coverage:

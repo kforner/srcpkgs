@@ -32,3 +32,13 @@ cleanup_dangling_srcpkgs <- function(quiet = TRUE) {
   src_pkgs <- srcpkgs(pkgs)
   for (pkg_name in pkg_names) pkg_unload(pkg_name, src_pkgs, quiet = quiet)
 }
+
+# useful for tests
+restore_init <- function(previous) {
+  if (previous$initialized) {
+    reset(root = previous$root, srcpkgs_paths = previous$srcpkgs_paths)
+  } else {
+    set_initialized()
+    reset(root = NULL, srcpkgs_paths = NULL)
+  }
+}

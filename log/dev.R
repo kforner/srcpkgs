@@ -1,5 +1,6 @@
 library(devtools)
 pkg <- as.package('.')
+load_all(pkg)
 
 check_man(pkg)
 
@@ -21,10 +22,7 @@ test(pkg, 'srcpkg$')
 test(pkg, 'srcpkgs')
 test(pkg, '^utils')
 
-load_all(pkg)
-
 covr::report(covr::package_coverage())
-
 covr::codecov()
 
 library(usethis)

@@ -13,28 +13,13 @@ find_srcpkgs <- function(root = get_project_root(),
 }
 
 #' get the current source packages list, if any, or discover them using [find_srcpkgs()]
-#' @param init  whether to automatically discover the srcp pkgs if not set
-#' @return the source packages as a "scrpkgs" object
+#' @return the source packages as a "scrpkgs" object, or NULL if none
 #' @export
-get_srcpkgs <- function(init = TRUE) {
-  paths <- get_srcpkgs_paths()
-  if (!length(paths)) {
-    if (!init) return(NULL)
-    paths <- reset_srcpkgs_paths()
-  }
+get_srcpkgs <- function() {
+  init_if_needed() # triggers initialization
+  paths <- get_srcpkgs_paths() %||% return(NULL)
 
   srcpkgs(paths = paths)
-}
-
-#' reset the srcpkgs paths, that are used by [get_srcpkgs()]
-#' 
-#' This useful if you add a new source package, and want it to be used in your current R session
-#' @inheritParams params
-#' @export
-reset_srcpkgs_paths <- function(srcpkgs_paths = find_srcpkgs_paths(get_project_root())) {
-  force(srcpkgs_paths)
-  set_srcpkgs_paths(srcpkgs_paths)
-  srcpkgs_paths
 }
 
 #' set the current paths of source packages

@@ -104,3 +104,21 @@ fast_unlist <- function(x, recursive = FALSE, use.names = FALSE) {
 }
 
 get_text_logger <- function(quiet = FALSE) { if (quiet) function(...) {} else cli::cli_text }
+
+get_env <- function(name, default = '') {
+  value <- Sys.getenv(name)
+  if (length(value) && !is.na(value) && nzchar(value)) value else default
+}
+
+set_env <- function(var, value) {
+  args <- list(value)
+  names(args) <- var
+  do.call(Sys.setenv, args)
+}
+
+
+set_option <- function(option, value) {
+  args <- list(value)
+  names(args) <- option
+  do.call(options, args)
+}
