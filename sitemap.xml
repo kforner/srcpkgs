@@ -37,9 +37,6 @@
     <loc>/reference/index.html</loc>
   </url>
   <url>
-    <loc>/reference/init_project_root.html</loc>
-  </url>
-  <url>
     <loc>/reference/params.html</loc>
   </url>
   <url>
@@ -56,9 +53,6 @@
   </url>
   <url>
     <loc>/reference/reset.html</loc>
-  </url>
-  <url>
-    <loc>/reference/reset_srcpkgs_paths.html</loc>
   </url>
   <url>
     <loc>/reference/set_project_root.html</loc>
