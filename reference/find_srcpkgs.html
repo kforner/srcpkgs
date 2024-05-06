@@ -54,13 +54,21 @@
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">find_srcpkgs</span><span class="op">(</span>root <span class="op">=</span> <span class="fu"><a href="get_project_root.html">get_project_root</a></span><span class="op">(</span><span class="op">)</span>, prune <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">find_srcpkgs</span><span class="op">(</span></span>
+<span>  root <span class="op">=</span> <span class="fu"><a href="get_project_root.html">get_project_root</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>  srcpkgs_paths <span class="op">=</span> <span class="fu"><a href="find_srcpkgs_paths.html">find_srcpkgs_paths</a></span><span class="op">(</span><span class="va">root</span>, prune <span class="op">=</span> <span class="va">prune</span><span class="op">)</span>,</span>
+<span>  prune <span class="op">=</span> <span class="cn">TRUE</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
     <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
     <dl><dt>root</dt>
-<dd><p>from where to search for source packages</p></dd>
+<dd><p>directory from where to search for source packages</p></dd>
+
+
+<dt>srcpkgs_paths</dt>
+<dd><p>paths to the source packages folders</p></dd>
 
 
 <dt>prune</dt>
