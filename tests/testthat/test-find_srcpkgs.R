@@ -1,3 +1,4 @@
+
 test_that("get_srcpkgs", { 
   setup_temp_dir()
   old_paths <- set_srcpkgs_paths(NULL)

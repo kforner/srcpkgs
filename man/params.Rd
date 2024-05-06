@@ -4,8 +4,6 @@
 \alias{params}
 \title{shared params}
 \arguments{
-\item{deps_graph}{a source package dependencies graph, as an igraph object}
-
 \item{dry_run}{whether not to actually execute any action having side-effects}
 
 \item{lib}{directory where to install and find installed pkgs}
@@ -28,6 +26,10 @@ srcpkgs object. Also accept a singleton package object}
 \item{progress}{whether to display a progress bar}
 
 \item{src_pkgs}{a collection of source packages as a \code{srckgs} object.}
+
+\item{srcpkgs_paths}{paths to the source packages folders}
+
+\item{root}{directory from where to search for source packages}
 
 \item{quiet}{whether to be quiet/silent}
 

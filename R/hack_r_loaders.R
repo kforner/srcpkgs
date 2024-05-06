@@ -9,6 +9,10 @@ is_loaders_hack_enabled <- function() {
   isTRUE(get_config(LOADERS_HACK_KEY))
 }
 
+is_loaders_hack_installed <- function() {
+  is_traced(library)
+}
+
 is_traced <- function(fun) {
   inherits(fun, "functionWithTrace")
 }

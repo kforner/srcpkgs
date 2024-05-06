@@ -8,6 +8,7 @@ srcpkgs <- function(
   pkgs = lapply(paths, devtools::as.package), 
   paths = NULL) 
 {
+  force(paths)
   force(pkgs)
   if (inherits(pkgs, 'srcpkgs')) return(pkgs)
   stop_unless(length(pkgs), 'bad arg "pkgs": must not be empty')

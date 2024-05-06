@@ -31,25 +31,18 @@ set_project_root <- function(path, force = FALSE) {
 #' @return the project root invisibly
 #' @export
 init_project_root <- function(root = find_project_root()) {
-  # not found
-  if (!length(root)) root <- getwd()
   set_project_root(root)
   invisible(root)
 }
 
-# heuristic: search upwards for the first folder with a .git/ folder, or return NULL
+# heuristic: search upwards for the first folder with a .git/ folder, or return here
 find_project_root <- function(here = getwd()) {
-  if (!length(here)) return(NULL)
-  git <- find_file_upwards('.git', here)
+  if (!length(here)) return(here)
+  root <- here
+  git <- find_git_dir(here)
 
-  # not .git/ found
-  if (!length(git)) return(NULL)
-  root <- dirname(git)
-
-  if (!dir.exists(git)) {
-    # not a directory, e.g. could be a git submodule symlink. retry from the parent dir if any
-    return(find_project_root(parent_dir(root)))
-  }
+  if (length(git)) 
+    root <- parent_dir(git)
 
   root
 }
@@ -62,6 +55,19 @@ parent_dir <- function(dir) {
   if (parent == dir) return(NULL) # will happen on windows. e.g. with C:\
   
   parent
+}
+
+
+find_git_dir <- function(here = getwd()) {
+  if (!length(here)) return(NULL)
+  git <- find_file_upwards('.git', here)
+  if (!length(git)) return(NULL)
+  if (!dir.exists(git)) {
+    # not a directory, e.g. could be a git submodule symlink. retry from the parent dir if any
+    return(find_git_dir(parent_dir(here)))
+  }
+
+  git
 }
 
 find_file_upwards <- function(filename, folder = getwd()) {

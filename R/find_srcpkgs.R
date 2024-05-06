@@ -2,12 +2,14 @@ SRCPKGS_PATHS_KEY <- 'SRCPKGS_PATHS'
 
 #' find available source packages
 #'
-#' @param root		from where to search for source packages
+#' @inheritParams params
 #' @param prune   whether to report packages contained inside another package (e.g. in tests/)
 #' @return a "srcpkgs" object
 #' @export
-find_srcpkgs <- function(root = get_project_root(), prune = TRUE) {
-  srcpkgs(paths = find_srcpkgs_paths(root, prune = prune))
+find_srcpkgs <- function(root = get_project_root(), 
+  srcpkgs_paths = find_srcpkgs_paths(root, prune = prune), prune = TRUE) 
+{
+  srcpkgs(paths = srcpkgs_paths)
 }
 
 #' get the current source packages list, if any, or discover them using [find_srcpkgs()]
@@ -15,7 +17,7 @@ find_srcpkgs <- function(root = get_project_root(), prune = TRUE) {
 #' @return the source packages as a "scrpkgs" object
 #' @export
 get_srcpkgs <- function(init = TRUE) {
-  paths <- get_config(SRCPKGS_PATHS_KEY)
+  paths <- get_srcpkgs_paths()
   if (!length(paths)) {
     if (!init) return(NULL)
     paths <- reset_srcpkgs_paths()
@@ -27,11 +29,12 @@ get_srcpkgs <- function(init = TRUE) {
 #' reset the srcpkgs paths, that are used by [get_srcpkgs()]
 #' 
 #' This useful if you add a new source package, and want it to be used in your current R session
+#' @inheritParams params
 #' @export
-reset_srcpkgs_paths <- function() {
-  paths <- find_srcpkgs_paths(get_project_root())
-  set_srcpkgs_paths(paths)
-  paths
+reset_srcpkgs_paths <- function(srcpkgs_paths = find_srcpkgs_paths(get_project_root())) {
+  force(srcpkgs_paths)
+  set_srcpkgs_paths(srcpkgs_paths)
+  srcpkgs_paths
 }
 
 #' set the current paths of source packages
@@ -40,6 +43,8 @@ reset_srcpkgs_paths <- function() {
 #' @return the previous registered value (may be NULL) invisibly
 #' @export
 set_srcpkgs_paths <- function(paths) { set_config(SRCPKGS_PATHS_KEY, paths) }
+
+get_srcpkgs_paths <- function() {  get_config(SRCPKGS_PATHS_KEY) }
 
 
 #' find all source packages inside a directory

@@ -1,7 +1,6 @@
 
 #' shared params
 #'
-#' @param deps_graph		a source package dependencies graph, as an igraph object
 #' @param dry_run       whether not to actually execute any action having side-effects
 #' @param lib         	directory where to install and find installed pkgs
 #' @param pkg						a package as a "srcpkg" object
@@ -14,6 +13,8 @@
 #' @param md5         	the MD5 hash of the source package
 #' @param progress 			whether to display a progress bar
 #' @param src_pkgs      a collection of source packages as a `srckgs` object.
+#' @param srcpkgs_paths paths to the source packages folders
+#' @param root		      directory from where to search for source packages
 #' @param quiet         whether to be quiet/silent
 #' @param test_filter		a pattern to select the testthat tests to run.
 #'                      Test files are names test-xxxxx.R where xxxxx is the

@@ -39,11 +39,11 @@ test_that("find_project_root", {
   setup_temp_dir()
 
   # no .git/
-  expect_null(find_project_root())
+  expect_identical(basename(find_project_root()), basename(getwd()))
 
   # a .git file, but not a dir!
   writeLines('', '.git')
-  expect_null(find_project_root())
+  expect_identical(basename(find_project_root()), basename(getwd()))
 
   dir.create('dir1/dir2/dir3', recursive = TRUE)
   dir.create('dir1/dir2/.git')
@@ -52,7 +52,7 @@ test_that("find_project_root", {
   # N.B: we compare only basenames because of Windows... :(
   expect_identical(basename(find_project_root('dir1/dir2/dir3')), basename(root2))
   expect_identical(basename(find_project_root('dir1/dir2/')), basename(root2))
-  expect_null(find_project_root('dir1/'))
+  expect_identical(basename(find_project_root('dir1/')), 'dir1')
 
   root3 <- file.path(getwd(), 'dir1/dir2/dir3')
   dir.create(file.path(root3, '.git'))

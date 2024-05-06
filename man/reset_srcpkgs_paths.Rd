@@ -4,7 +4,10 @@
 \alias{reset_srcpkgs_paths}
 \title{reset the srcpkgs paths, that are used by \code{\link[=get_srcpkgs]{get_srcpkgs()}}}
 \usage{
-reset_srcpkgs_paths()
+reset_srcpkgs_paths(srcpkgs_paths = find_srcpkgs_paths(get_project_root()))
+}
+\arguments{
+\item{srcpkgs_paths}{paths to the source packages folders}
 }
 \description{
 This useful if you add a new source package, and want it to be used in your current R session
