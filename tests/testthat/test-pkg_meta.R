@@ -1,4 +1,11 @@
 
+## N.B: in some cases, srcpkgs itself is registered in meta and that affects the tests
+# so we remove it
+{
+  meta_env <- pkgload::dev_meta('srcpkgs')
+  if (!is.null(meta_env)) get_or_set_meta(meta_env, NULL)
+}
+
 test_that("fetch_srcpkgs_meta", {
   setup_temp_dir()
   pkg1 <- pkg_create('.', 'pkg1')

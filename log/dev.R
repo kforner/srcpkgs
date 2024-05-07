@@ -21,6 +21,7 @@ test(pkg, 'roxy')
 test(pkg, 'srcpkg$')
 test(pkg, 'srcpkgs')
 test(pkg, '^utils')
+test(pkg, 'zzz')
 
 covr::report(covr::package_coverage())
 covr::codecov()

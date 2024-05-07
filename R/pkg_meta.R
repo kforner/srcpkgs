@@ -18,7 +18,7 @@ fetch_srcpkgs_meta <- function() {
 }
 
 
-get_or_set <- function(meta_env, value) {
+get_or_set_meta <- function(meta_env, value) {
   key <- 'SRCPKGS_META_KEY'
   if (missing(value)) {
     get0(key, envir = meta_env, inherits = FALSE)
@@ -30,8 +30,9 @@ get_or_set <- function(meta_env, value) {
 # returns the srcpkg object stored in the devtools meta env of any, or NULL
 fetch_srcpkg_meta <- function(pkg_name) {
   if (!pkg_is_loaded(pkg_name)) return(NULL)
-  meta_env <- pkgload::dev_meta(pkg_name) %||% return(NULL)
-  get_or_set(meta_env)
+  meta_env <- pkgload::dev_meta(pkg_name)
+  if (is.null(meta_env)) return(NULL)
+  get_or_set_meta(meta_env)
 }
 
 # stores the srcpkg, or dies
@@ -39,5 +40,5 @@ store_srcpkg_meta <- function(srcpkg) {
   pkg_name <- srcpkg$package
   meta_env <- pkgload::dev_meta(pkg_name)
   stop_if(is.null(meta_env), 'error, no devtools meta env for package "%s"', pkg_name)
-  get_or_set(meta_env, srcpkg)
+  get_or_set_meta(meta_env, srcpkg)
 }

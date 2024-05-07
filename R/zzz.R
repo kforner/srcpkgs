@@ -6,3 +6,7 @@
     packageStartupMessage('hacked R loaders (cf srcpkgs::hack_r_loaders()).')
   }
 }
+
+.onDetach <- function(libpath) {
+  srcpkgs::unhack_r_loaders()
+}
