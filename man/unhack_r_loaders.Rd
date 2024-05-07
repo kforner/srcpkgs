@@ -7,7 +7,7 @@
 unhack_r_loaders()
 }
 \description{
-untraces library() and loadNamespace()
+The function is reentrant.
 }
 \seealso{
 \code{\link[=hack_r_loaders]{hack_r_loaders()}}

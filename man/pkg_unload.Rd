@@ -2,7 +2,7 @@
 % Please edit documentation in R/pkg_unload.R
 \name{pkg_unload}
 \alias{pkg_unload}
-\title{unloads a package, unloading some dependent packages if needed}
+\title{unloads a package, unloading its dependent packages if needed}
 \usage{
 pkg_unload(
   pkg_or_name,
@@ -30,4 +30,12 @@ attached, invisibly or NULL if the package is not loaded
 \description{
 To be able to unload properly a package, all the packages that depend
 even indirectly on it should be unloaded first.
+}
+\details{
+N.B: this function also works for non source packages.
+}
+\examples{
+\dontrun{
+plan <- pkg_unload('mypkg')
+}
 }

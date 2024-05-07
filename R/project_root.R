@@ -1,19 +1,12 @@
 
 ROOT_KEY <- 'ROOT'
 
-#' get the current project root
-
-#' @return the project root dir path as a string, or NULL if none
-#' @export
+# gets the current project root
 get_project_root <- function() {
   get_config(ROOT_KEY)
 }
 
-#' set the current project root
-#' @param path    the project root dir path
-#' @param force   whether to bypass sanity checks and set the value
-#' @return the previous root as a string, or NULL
-#' @export
+# sets the current project root
 set_project_root <- function(path, force = FALSE) {
   if (!force && length(path)) {
     stop_unless(length(path) == 1 && is.character(path), 'bad arg path: "%s", not a string', path)

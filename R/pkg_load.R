@@ -2,6 +2,14 @@
 
 #' loads or reloads if needed a source package, taking care of its dependencies
 #'
+#' N.B: the defaults are different from [devtools::load_all()]: the helpers are not loaded, only 
+#' the functions tagged as *exported* are actually exported. The intended goal is to make it as similar
+#' to the behaviour of the R loaders.
+#' 
+#' 
+#' This the workhorse function of the package, called by [library()] and [loadNamespace()] 
+#' when hacked (cf [hack_r_loaders()].
+#' 
 #' This function will check that all dependent packages are up-to-date, and
 #' document and reload them as needed.
 #'
@@ -12,18 +20,30 @@
 #' @inheritParams params
 #' @inheritParams pkgload::load_all
 #' @inheritDotParams devtools::load_all
-#' @param force  if FALSE, will only reload packages if needed, i.e. if some changes are detected
 #' @param suggests whether to load suggested packages. if TRUE, the suggested are processed
 #'    like imports
 #' @param roxygen whether to automatically roxygenise packages (if needed)
 #' @param ... passed to 
-#' @return FALSE iff not a single package was (re)loaded
+#' @return the load plan as a data frame, or NULL if there is nothing to do.
 #' @export
+#' @examples
+#' \dontrun{
+#' # load and attach a package
+#' pkg_load('mypkg')
+#' 
+#' # just load, do not attach it (~ loadNamespace())
+#' pkg_load('mypkg', attach = FALSE)
+#' 
+#' # do some changed, to a source package or any of its depencies or dependents
+#' plan <- pkg_load('mypkg', dry_run = TRUE)
+#' # then you can inspect the plan actions
+#' 
+#' 
+#' }
 pkg_load <- function(pkgid,
   src_pkgs = get_srcpkgs(),
   attach = TRUE,
   suggests = FALSE,
-  force = FALSE, 
   roxygen = TRUE,
   helpers = FALSE,
   export_all = FALSE, 

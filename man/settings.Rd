@@ -2,13 +2,20 @@
 % Please edit documentation in R/reset.R
 \name{settings}
 \alias{settings}
-\title{informs about the settings of srcpkgs}
+\title{informs about the settings currently used by \code{srcpkgs}}
 \usage{
 settings()
 }
 \value{
-a named list
+a named list of:
+\itemize{
+\item initialized: whether the settings are initialized (as triggered by \code{\link[=get_srcpkgs]{get_srcpkgs()}})
+\item root: the project root
+\item srcpkgs_paths: the paths of the source packages to manage
+\item hack_r_loaders_installed: whether the R loaders are hacked
+\item hack_r_loaders_enabled: whether the R loaded hack is in action (internal use0
+}
 }
 \description{
-informs about the settings of srcpkgs
+informs about the settings currently used by \code{srcpkgs}
 }

@@ -2,7 +2,7 @@
 % Please edit documentation in R/reset.R
 \name{reset}
 \alias{reset}
-\title{reset the srcpkgs settings}
+\title{resets the \code{srcpkgs} settings}
 \usage{
 reset(root = find_project_root(), srcpkgs_paths = find_srcpkgs_paths(root))
 }
@@ -11,6 +11,21 @@ reset(root = find_project_root(), srcpkgs_paths = find_srcpkgs_paths(root))
 
 \item{srcpkgs_paths}{paths to the source packages folders}
 }
+\value{
+the settings (cf \code{\link[=settings]{settings()}}) invisibly
+}
 \description{
-reset the srcpkgs settings
+With this function, you can reset or set precisely the settings.
+}
+\examples{
+\dontrun{
+# reset to appropriate defaults based on your current directory
+reset()
+
+# explictly set the project root
+reset(root = 'my/project/dir')
+
+# explictly set the source package paths (very unlikely)
+reset(srcpkgs_paths = c('pkgs/mypkg1', 'pkgs/mypkg2'))
+}
 }

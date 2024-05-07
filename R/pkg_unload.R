@@ -1,13 +1,19 @@
-#' unloads a package, unloading some dependent packages if needed
+#' unloads a package, unloading its dependent packages if needed
 #'
 #' To be able to unload properly a package, all the packages that depend
 #' even indirectly on it should be unloaded first.
-#
+#'
+#' N.B: this function also works for non source packages.
+#'  
 #' @inheritParams params
 #' @param loaded  the loaded packages, useful for testing.
 #' @return a data frame of the unloaded package names, and whether they were
 #'  attached, invisibly or NULL if the package is not loaded
 #' @export
+#' @examples
+#' \dontrun{
+#' plan <- pkg_unload('mypkg')
+#' }
 pkg_unload <- function(pkg_or_name, 
   src_pkgs = get_srcpkgs(), dry_run = FALSE, loaded = loadedNamespaces(), quiet = FALSE)
 {
@@ -22,7 +28,6 @@ pkg_unload <- function(pkg_or_name,
   }
 
   if (!dry_run) execute_plan(plan, src_pkgs, quiet = quiet)
-
 
   invisible(plan)
 }

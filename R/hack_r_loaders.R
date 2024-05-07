@@ -33,20 +33,36 @@ inhibit_r_loaders_hack <- function() {
 }
 
 
-#' instruments the base library() and loadNamespace() functions to make them aware of source packages
+#' instruments the R loaders to make them aware of source packages
 #'
-#' hacks `library()` and `loadNamespace()` (using `trace()`).
+#' hacks `library()` and `loadNamespace()` using the base R tracer function `trace()`.
 #' `library(pkg)` will basically call `pkg_load(pkg)` if the source package `pkg` 
 #' is managed by **srcpkgs**
 #'
+#' N.B: usually you do not need to call that function explicitly. The function is reentrant.
+#' 
 #' @section Package startup:
 #' 
-#' At package startup (actually OnAttach), `hack_r_loaders()` will be automatically called to hack
+#' At package startup (actually `.OnAttach()`), `hack_r_loaders()` will be automatically called to hack
 #' the R loaders, UNLESS this is inhibited via the option `srcpkgs.inhibit_r_loaders_hack` or the 
 #' environment variable `SRCPKGS.INHIBIT_R_LOADERS_HACK`. You may set any value like TRUE, "TRUE", 1 or "1".
 #
 #' @export
 #' @seealso [unhack_r_loaders()]
+#' @examples
+#' \dontrun{
+#' # hack library
+#' hack_r_loaders()
+#' 
+#' # unhack
+#' unhack_r_loaders()
+#' 
+#' # prevent automatic hacking when srcpkgs is loaded
+#' option(srcpkgs.inhibit_r_loaders_hack=TRUE)
+#' # or
+#' Sys.setenv(SRCPKGS.INHIBIT_R_LOADERS_HACK="1")
+#' library(srcpkgs)
+#' }
 hack_r_loaders <- function() {
   hack_library()
   hack_loadNamespace()
@@ -56,6 +72,7 @@ hack_r_loaders <- function() {
 
 #' untraces library() and loadNamespace()
 #'
+#' The function is reentrant.
 #' @export
 #' @seealso [hack_r_loaders()]
 unhack_r_loaders <- function() {

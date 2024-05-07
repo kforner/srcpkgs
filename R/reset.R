@@ -13,10 +13,24 @@ init_if_needed <- function() {
 
 
 
-#' reset the srcpkgs settings
+#' resets the `srcpkgs` settings
+#' 
+#' With this function, you can reset or set precisely the settings. 
+#
 #' @inheritParams params
-# @param should_hack_r_loaders  whether to hack the R loaders (cf [hack_r_loaders()])
+#' @return the settings (cf [settings()]) invisibly
 #' @export
+#' @examples
+#' \dontrun{
+#' # reset to appropriate defaults based on your current directory
+#' reset()
+#' 
+#' # explictly set the project root
+#' reset(root = 'my/project/dir')
+#' 
+#' # explictly set the source package paths (very unlikely)
+#' reset(srcpkgs_paths = c('pkgs/mypkg1', 'pkgs/mypkg2'))
+#' }
 reset <- function(
   root = find_project_root(), 
   srcpkgs_paths = find_srcpkgs_paths(root)
@@ -30,21 +44,21 @@ reset <- function(
 }
 
 
-
-# should_hack_r_loaders_default <- function(srcpkgs_paths) {
-#   (length(srcpkgs_paths) > 0) && (length(find_srcpkgs(srcpkgs_paths = srcpkgs_paths)) > 0)
-# }
-
-#' informs about the settings of srcpkgs
+#' informs about the settings currently used by `srcpkgs`
 #' 
-#' @return a named list
+#' @return a named list of:
+#'   - initialized: whether the settings are initialized (as triggered by [get_srcpkgs()])
+#'   - root: the project root
+#'   - srcpkgs_paths: the paths of the source packages to manage
+#'   - hack_r_loaders_installed: whether the R loaders are hacked
+#'   - hack_r_loaders_enabled: whether the R loaded hack is in action (internal use0
 #' @export 
 settings <- function() {
   list(
     initialized = is_initialized(),
     root = get_project_root(), 
     srcpkgs_paths = get_srcpkgs_paths(),
-    hack_r_loaders_installed =  is_loaders_hack_installed(), 
+    hack_r_loaders_installed = is_loaders_hack_installed(), 
     hack_r_loaders_enabled = is_loaders_hack_enabled()
   )
 }

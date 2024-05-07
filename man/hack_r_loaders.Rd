@@ -2,23 +2,41 @@
 % Please edit documentation in R/hack_r_loaders.R
 \name{hack_r_loaders}
 \alias{hack_r_loaders}
-\title{instruments the base library() and loadNamespace() functions to make them aware of source packages}
+\title{instruments the R loaders to make them aware of source packages}
 \usage{
 hack_r_loaders()
 }
 \description{
-hacks \code{library()} and \code{loadNamespace()} (using \code{trace()}).
+hacks \code{library()} and \code{loadNamespace()} using the base R tracer function \code{trace()}.
 \code{library(pkg)} will basically call \code{pkg_load(pkg)} if the source package \code{pkg}
 is managed by \strong{srcpkgs}
+}
+\details{
+N.B: usually you do not need to call that function explicitly. The function is reentrant.
 }
 \section{Package startup}{
 
 
-At package startup (actually OnAttach), \code{hack_r_loaders()} will be automatically called to hack
+At package startup (actually \code{.OnAttach()}), \code{hack_r_loaders()} will be automatically called to hack
 the R loaders, UNLESS this is inhibited via the option \code{srcpkgs.inhibit_r_loaders_hack} or the
 environment variable \code{SRCPKGS.INHIBIT_R_LOADERS_HACK}. You may set any value like TRUE, "TRUE", 1 or "1".
 }
 
+\examples{
+\dontrun{
+# hack library
+hack_r_loaders()
+
+# unhack
+unhack_r_loaders()
+
+# prevent automatic hacking when srcpkgs is loaded
+option(srcpkgs.inhibit_r_loaders_hack=TRUE)
+# or
+Sys.setenv(SRCPKGS.INHIBIT_R_LOADERS_HACK="1")
+library(srcpkgs)
+}
+}
 \seealso{
 \code{\link[=unhack_r_loaders]{unhack_r_loaders()}}
 }

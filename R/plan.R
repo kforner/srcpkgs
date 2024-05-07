@@ -3,19 +3,18 @@ execute_plan <- function(plan, src_pkgs, quiet = FALSE, ...) {
   logger <- get_text_logger(quiet)
   for (i in seq_len(nrow(plan))) {
     row <- plan[i, , drop = TRUE]
-    pkg <- as_srcpkg(row$package, src_pkgs)
     params <- row$params[[1]]
     logger('executing {.strong {row$action} on {.pkg {row$package}}}')
     switch(row$action, 
-      unload = execute_action_unload(pkg, quiet = quiet, ...),
-      load = do.call(execute_action_load, c(list(pkg, quiet = quiet, ...), params)),
+      unload = execute_action_unload(row$package, quiet = quiet, ...),
+      load = do.call(execute_action_load, 
+        c(list(as_srcpkg(row$package, src_pkgs), quiet = quiet, ...), params)),
       stop_if(TRUE, 'unknown action: "%s"', row$action)
     )
   }
 }
 
-execute_action_unload <- function(pkg, quiet, ...) {
-  pkg_name <- pkg$package
+execute_action_unload <- function(pkg_name, quiet, ...) {
   pkgload::unregister(pkg_name)
   # N.B: shoud not happen with source packages
   # # check since sometimes it may fail (e.g. for rlang)

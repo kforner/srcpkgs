@@ -9,7 +9,6 @@ pkg_load(
   src_pkgs = get_srcpkgs(),
   attach = TRUE,
   suggests = FALSE,
-  force = FALSE,
   roxygen = TRUE,
   helpers = FALSE,
   export_all = FALSE,
@@ -31,8 +30,6 @@ no effect.}
 
 \item{suggests}{whether to load suggested packages. if TRUE, the suggested are processed
 like imports}
-
-\item{force}{if FALSE, will only reload packages if needed, i.e. if some changes are detected}
 
 \item{roxygen}{whether to automatically roxygenise packages (if needed)}
 
@@ -61,14 +58,36 @@ present. This is equivalent to running \code{\link[pkgbuild:clean_dll]{pkgbuild:
   }}
 }
 \value{
-FALSE iff not a single package was (re)loaded
+the load plan as a data frame, or NULL if there is nothing to do.
 }
 \description{
-This function will check that all dependent packages are up-to-date, and
-document and reload them as needed.
+N.B: the defaults are different from \code{\link[devtools:load_all]{devtools::load_all()}}: the helpers are not loaded, only
+the functions tagged as \emph{exported} are actually exported. The intended goal is to make it as similar
+to the behaviour of the R loaders.
 }
 \details{
+This the workhorse function of the package, called by \code{\link[=library]{library()}} and \code{\link[=loadNamespace]{loadNamespace()}}
+when hacked (cf \code{\link[=hack_r_loaders]{hack_r_loaders()}}.
+
+This function will check that all dependent packages are up-to-date, and
+document and reload them as needed.
+
 To be able to properly load a package, its dependent source packages
 must be loaded in proper order.
 i.e. if A-->B-->C, the load order must be C, B, A
+}
+\examples{
+\dontrun{
+# load and attach a package
+pkg_load('mypkg')
+
+# just load, do not attach it (~ loadNamespace())
+pkg_load('mypkg', attach = FALSE)
+
+# do some changed, to a source package or any of its depencies or dependents
+plan <- pkg_load('mypkg', dry_run = TRUE)
+# then you can inspect the plan actions
+
+
+}
 }

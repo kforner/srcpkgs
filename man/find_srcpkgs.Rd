@@ -2,7 +2,7 @@
 % Please edit documentation in R/find_srcpkgs.R
 \name{find_srcpkgs}
 \alias{find_srcpkgs}
-\title{find available source packages}
+\title{finds all available source packages starting from the project root}
 \usage{
 find_srcpkgs(
   root = get_project_root(),
@@ -21,5 +21,6 @@ find_srcpkgs(
 a "srcpkgs" object
 }
 \description{
-find available source packages
+N.B: the \emph{hidden} files and directories are ignored.
+In general, this function is not used directly, instead you should use \code{\link[=get_srcpkgs]{get_srcpkgs()}}
 }

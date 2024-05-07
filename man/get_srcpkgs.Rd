@@ -2,7 +2,7 @@
 % Please edit documentation in R/find_srcpkgs.R
 \name{get_srcpkgs}
 \alias{get_srcpkgs}
-\title{get the current source packages list, if any, or discover them using \code{\link[=find_srcpkgs]{find_srcpkgs()}}}
+\title{get the current source packages list}
 \usage{
 get_srcpkgs()
 }
@@ -10,5 +10,17 @@ get_srcpkgs()
 the source packages as a "scrpkgs" object, or NULL if none
 }
 \description{
-get the current source packages list, if any, or discover them using \code{\link[=find_srcpkgs]{find_srcpkgs()}}
+The first call to this function will trigger the initialization of the package ((cf \code{\link[=reset]{reset()}}).
+Since it is used by mostly all user-facing load-related functions, this enables a runtime initialization,
+as opposed to a load-time initialization. So for example
+you may load \code{srcpkgs}, then change the current directory to your project.
+Then the first load will setup the settings.
+}
+\details{
+For optimization, the paths to discovered source packages are cached (cf \code{\link[=reset]{reset()}} and \code{\link[=settings]{settings()}}.
+This function will reparse the DESCRIPTION for any change.
+If you add or delete a source package, you must reset the source package paths using \code{\link[=reset]{reset()}}
+
+This function is useful for troubleshooting, to understand what are the source packages discovered
+and managed by \code{srcpkgs}
 }
