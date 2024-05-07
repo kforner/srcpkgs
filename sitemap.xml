@@ -22,12 +22,6 @@
     <loc>/reference/find_srcpkgs.html</loc>
   </url>
   <url>
-    <loc>/reference/find_srcpkgs_paths.html</loc>
-  </url>
-  <url>
-    <loc>/reference/get_project_root.html</loc>
-  </url>
-  <url>
     <loc>/reference/get_srcpkgs.html</loc>
   </url>
   <url>
@@ -53,12 +47,6 @@
   </url>
   <url>
     <loc>/reference/reset.html</loc>
-  </url>
-  <url>
-    <loc>/reference/set_project_root.html</loc>
-  </url>
-  <url>
-    <loc>/reference/set_srcpkgs_paths.html</loc>
   </url>
   <url>
     <loc>/reference/settings.html</loc>

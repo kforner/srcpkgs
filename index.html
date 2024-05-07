@@ -63,18 +63,61 @@
   </div>
 </nav><div class="container template-home">
 <div class="row">
-  <main id="main" class="col-md-9">
-<p><a href="https://app.codecov.io/gh/kforner/srcpkgs?branch=main" class="external-link"><img src="https://codecov.io/gh/kforner/srcpkgs/branch/main/graph/badge.svg" alt="Codecov test coverage"></a></p>
-<p><!-- badges: end --></p>
-<div class="section level1">
-<div class="page-header"><h1 id="todo">TODO<a class="anchor" aria-label="anchor" href="#todo"></a>
-</h1></div>
-<p>blah blah</p>
+  <main id="main" class="col-md-9"><p># srcpkgs</p>
+<p><!-- badges: start --> <a href="https://github.com/kforner/srcpkgs/actions/workflows/R-CMD-check.yaml" class="external-link"><img src="https://github.com/kforner/srcpkgs/actions/workflows/R-CMD-check.yaml/badge.svg" alt="R-CMD-check"></a></p>
+<p><a href="https://app.codecov.io/gh/kforner/srcpkgs?branch=main" class="external-link"><img src="https://codecov.io/gh/kforner/srcpkgs/branch/main/graph/badge.svg" alt="Codecov test coverage"></a> <!-- badges: end --></p>
+<p>The aim of <code>srcpkgs</code> is to make development and use of source packages easy, and thus encourage to continuously develop a shared library of reusable code.</p>
 <div class="section level2">
-<h2 id="todo1">TODO1<a class="anchor" aria-label="anchor" href="#todo1"></a>
+<h2 id="synopsis">Synopsis<a class="anchor" aria-label="anchor" href="#synopsis"></a>
 </h2>
-<p>etc…</p>
+<p>Developing a library of packages can be really tedious, especially if there are dependencies between those packages. Each time you change a package, you have to <strong>install</strong> it before being able to use it.</p>
+<p>The advent of <a href="https://devtools.r-lib.org/" class="external-link">devtools</a> enabled the use of source packages directly, bypassing the installation step, which considerably streamlined the development of ONE package, also making it possible to reload a package within a R session.</p>
+<p><code>srcpkgs</code> <em>extends</em> devtools to manage the development and use of a collection or library of source packages as easily and efficiently as possible. In particular, it understands the dependencies between those packages and upon changes, determine and apply the optimal course of action to apply those changes.</p>
 </div>
+<div class="section level2">
+<h2 id="intended-target">intended target<a class="anchor" aria-label="anchor" href="#intended-target"></a>
+</h2>
+<p>The main use case for <code>srcpkgs</code> is for an organization with many R users, that want to share and reuse code across projects and users. This reusable code will be implemented as a collection of R source packages. The project code itself should also be implemented as a source package. This way: - each project has it own version of the collection - the project devs can easily adapt the collection for their project (add features, fix bugs) in the same R session used for the project - at any time, the project devs can <strong>push</strong> their changes to the collection</p>
+<p>The recommended setup is: - one git repository for the (interdependent) collection of source packages * of course you could have a git repo per source package, but if you have dozends of them it’s cumbersome to add them as git sub modules to all your projects. Moreover it’s harder to select compatible versions. - one git repository for a project * with the collection add the the project as a <strong>git submodule</strong></p>
+<p>This can also be useful for a single developer. This will allow to easily reuse code across projects, avoiding the duplication of code.</p>
+<p><strong>N.B</strong>: wrapping the code as a source package is for convenience, and is really easy. It’s useful even if you have no plan of releasing or distributing the package.</p>
+</div>
+<div class="section level2">
+<h2 id="features">Features<a class="anchor" aria-label="anchor" href="#features"></a>
+</h2>
+<ul>
+<li>fast and automatic <strong>discovery</strong> of the source packages</li>
+<li>fast and automatic detection of <strong>changes</strong>: quickly unload/reload/load only what is needed.</li>
+<li>apply roxygen (<a href="https://roxygen2.r-lib.org/" class="external-link">cf roxygen2</a>) automatically and only when needed</li>
+<li>can <strong>hack</strong> the R loaders (<code><a href="https://rdrr.io/r/base/library.html" class="external-link">library()</a></code> and <code><a href="https://rdrr.io/r/base/ns-load.html" class="external-link">loadNamespace()</a></code>) to use <code>srcpkgs</code> in development, so that your scripts still work if you install your packages (e.g. in <em>Production</em> mode)</li>
+<li>extensively tested (~ 450 tests) and 100% test coverage</li>
+</ul>
+<div class="section level3">
+<h3 id="forthcoming">forthcoming<a class="anchor" aria-label="anchor" href="#forthcoming"></a>
+</h3>
+<ul>
+<li>
+<strong>testing</strong> the collection at once, in parallel, and output an aggregated report (using <a href="https://testthat.r-lib.org/" class="external-link">testthat</a> of course).</li>
+<li>same for <code>R CMD check</code>ing the collection</li>
+<li>same for test coverage (using <a href="https://covr.r-lib.org/" class="external-link">covr</a>).</li>
+</ul>
+</div>
+</div>
+<div class="section level2">
+<h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
+</h2>
+<p>The package is not (yet) available on CRAN.</p>
+<p>Install it from github:</p>
+<pre><code><span><span class="co">### using devtools</span></span>
+<span><span class="co"># install devtools from CRAN if needed</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">'devtools'</span><span class="op">)</span> </span>
+<span></span>
+<span><span class="fu">install_github</span><span class="op">(</span><span class="st">'kforner/srcpkgs'</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co">### or using pak</span></span>
+<span><span class="co"># install pak from CRAN if needed</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">'pak'</span><span class="op">)</span> </span>
+<span><span class="fu">pak</span><span class="fu">::</span><span class="fu"><a href="https://pak.r-lib.org/reference/pak.html" class="external-link">pak</a></span><span class="op">(</span><span class="st">"kforner/srcpkgs"</span><span class="op">)</span></span></code></pre>
 </div>
 
   </main><aside class="col-md-3"><div class="links">
@@ -108,12 +151,7 @@
 </ul>
 </div>
 
-<div class="dev-status">
-<h2 data-toc-skip>Dev status</h2>
-<ul class="list-unstyled">
-<li><a href="https://github.com/kforner/srcpkgs/actions/workflows/R-CMD-check.yaml" class="external-link"><img src="https://github.com/kforner/srcpkgs/actions/workflows/R-CMD-check.yaml/badge.svg" alt="R-CMD-check"></a></li>
-</ul>
-</div>
+
 
   </aside>
 </div>
