@@ -1,0 +1,3 @@
+[submodule "vignettes/srcpkgs_lotr_demo"]
+	path = vignettes/srcpkgs_lotr_demo
+	url = ../srcpkgs_lotr_demo
