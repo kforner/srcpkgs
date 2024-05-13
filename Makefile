@@ -3,6 +3,9 @@ PKG=srcpkgs
 rox:
 	Rscript --no-save -e 'devtools::document()'
 
+build: rox
+	Rscript --no-save -e 'devtools::build()'
+
 check: rox
 	Rscript --no-save -e 'devtools::check(".", check_dir = ".checks")'
 

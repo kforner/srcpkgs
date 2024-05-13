@@ -26,6 +26,6 @@ Useful links:
 
 }
 \author{
-\strong{Maintainer}: Karl Forner \email{karl.forner@gmail.com}
+\strong{Maintainer}: Karl Forner \email{karl.forner@gmail.com} [copyright holder]
 
 }

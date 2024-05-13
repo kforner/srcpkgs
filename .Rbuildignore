@@ -13,3 +13,4 @@
 ^cov.html
 ^doc$
 ^Meta$
+^cran-comments\.md$
