@@ -1,0 +1,126 @@
+---
+title: "why would you need srcpkgs?"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{why would you need srcpkgs?}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, echo = FALSE, results='hide'}
+# suppressPackageStartupMessages(library(srcpkgs))
+
+# setup a temp dir
+root_dir <- tempfile()
+dir.create(root_dir)
+file.copy('srcpkgs_lotr_demo', root_dir, recursive = TRUE)
+workdir <- file.path(root_dir, 'srcpkgs_lotr_demo')
+knitr::opts_knit$set(root.dir = workdir) # set directory for other chunks
+```
+
+```{r test}
+dir()
+```
+
+I will demonstrate srcpkgs using a dummy collection of source packages: https://github.com/kforner/srcpkgs_lotr_demo
+
+## overview of the srcpkgs_lotr_demo collection
+
+It consists currently in 11 related packages, with a tree structure:
+
+  - lotr - the highest level package
+    * elves
+      * legolas
+      * galadriel
+    * hobbits
+      * bilbo
+      * frodo
+    * gimli
+    * aragorn
+    * gandalf
+    * elrond
+
+N.B: `lotr` depends on all other packages, except for `elrond` (not yet).
+
+The dependencies are implemented by a mix of Imports, Imports with namespace imports and Depends.
+
+## using devtools
+
+
+```{r devtools_setup, results = 'hide'}
+suppressPackageStartupMessages(library(devtools))
+```
+
+### loading
+
+`devtools` is designed to manage a single source package. Let's use it to load our `lotr` source package:
+
+```{r devtools_load, error = TRUE}
+load_all('lotr')
+```
+
+--> devtools can NOT load `lotr` since it can not possibly find the `hobbits` package, which is a dependency.
+
+Let's help him:
+```{r devtools_load2, error = TRUE}
+load_all('hobbits')
+```
+
+--> same problem
+
+Here is how we must load the packages, following the dependencies order:
+```{r devtools_load3, message = FALSE}
+load_all('bilbo')
+load_all('frodo')
+load_all('hobbits')
+
+load_all('legolas')
+load_all('galadriel')
+load_all('elves')
+
+load_all('gimli')
+load_all('aragorn')
+load_all('gandalf')
+```
+
+
+and finally
+```{r devtools_load_final}
+load_all('lotr')
+# use it
+str(lotr())
+```
+
+### editing and reloading
+
+#### a package listed in Depends
+
+Let's modify one of the direct dependency of `lotr`, e.g. the `hobbits` package. 
+Currently:
+
+```{r devtools_edit1}
+names(lotr()$hobbits)
+```
+
+
+```{r devtools_edit2}
+lines <- readLines('hobbits/R/main.R')
+cat(lines, sep = '\n')
+```
+
+Edit `hobbits/R/main.R` and comment out bilbo, which comes from the `bilbo` package in **Depends**.
+
+```{r devtools_edit3}
+edited_lines <- grep('bilbo', lines, invert = TRUE, value = TRUE)
+writeLines(edited_lines, 'hobbits/R/main.R')
+```
+
+Let's try to apply our changes:
+
+```{r devtools_edit4}
+load_all('lotr')
+names(lotr()$hobbits)
+
+load_all('hobbits')
+names(lotr()$hobbits)
+```

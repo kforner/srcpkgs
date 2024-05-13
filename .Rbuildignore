@@ -11,3 +11,5 @@
 ^pkgdown$
 ^codecov\.yml$
 ^cov.html
+^doc$
+^Meta$

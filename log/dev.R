@@ -27,3 +27,6 @@ covr::report(covr::package_coverage())
 covr::codecov()
 
 library(usethis)
+
+
+build_vignettes()
