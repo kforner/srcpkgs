@@ -1,0 +1,121 @@
+---
+title: "Getting started"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Getting started}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+# use the LOTR dummy collection of source packages
+
+To illustrate the use of the `srcpkgs`, we need some source packages.
+An easy way to experiment with `srcpkgs` is with the https://github.com/kforner/srcpkgs_lotr_demo repository:
+
+  - install the `srcpkgs` package (cf https://kforner.github.io/srcpkgs/#installation)
+  - check out the https://github.com/kforner/srcpkgs_lotr_demo repository:
+
+```
+git clone https://github.com/kforner/srcpkgs_lotr_demo.git
+cd srcpkgs_lotr_demo
+```
+
+then start a R session in that folder (type `R`):
+
+```
+# load srcpkgs
+>library(srcpkgs)
+```
+
+
+# get_srcpkgs()
+
+The `get_srcpkgs()` fetches the list of source packages that are currently managed by `srcpkgs`.
+You should see all packages from the `srcpkgs_lotr_demo` repository.
+
+```
+# let's see what source packages are discovered:
+> get_srcpkgs()
+            package version                                                path                     imports depends suggests
+aragorn     aragorn     0.1   /workspaces/srcpkgs_pkg/srcpkgs_lotr_demo/aragorn                                             
+bilbo         bilbo     0.1     /workspaces/srcpkgs_pkg/srcpkgs_lotr_demo/bilbo                                             
+elrond       elrond     0.1    /workspaces/srcpkgs_pkg/srcpkgs_lotr_demo/elrond                                             
+elves         elves     0.1     /workspaces/srcpkgs_pkg/srcpkgs_lotr_demo/elves         galadriel,\nlegolas                 
+frodo         frodo     0.1     /workspaces/srcpkgs_pkg/srcpkgs_lotr_demo/frodo                                             
+galadriel galadriel     0.1 /workspaces/srcpkgs_pkg/srcpkgs_lotr_demo/galadriel                                             
+gandalf     gandalf     0.1   /workspaces/srcpkgs_pkg/srcpkgs_lotr_demo/gandalf                                             
+gimli         gimli     0.1     /workspaces/srcpkgs_pkg/srcpkgs_lotr_demo/gimli                                             
+hobbits     hobbits     0.1   /workspaces/srcpkgs_pkg/srcpkgs_lotr_demo/hobbits                       frodo   bilbo         
+legolas     legolas     0.1   /workspaces/srcpkgs_pkg/srcpkgs_lotr_demo/legolas                                             
+lotr           lotr     0.1      /workspaces/srcpkgs_pkg/srcpkgs_lotr_demo/lotr elves,gimli,aragorn,gandalf hobbits  
+```
+
+This function returns a `srcpkgs` object, that is a named list of `srcpkg` objects.
+You can `print` that object, or transform it in a data frame using `as.data.frame()`.
+
+```
+pkgs <- get_srcpkgs()
+print(pkgs)
+
+df <- as.data.frame(pkgs)
+```
+
+# loading and reloading packages
+
+## hacked R loaders
+
+Since by default, the R loaders should be automatically *hacked* by `srcpkgs` (cf `hack_r_loaders()`),
+ you may simply load and/or ttach these packages using `library()`, `loadNamespace()`, `getNamespace`, `::` and so on:
+
+```
+library(elves)
+loadNamespace('bilbo')
+frodo::frodo()
+```
+
+The rationale for hacking the R loaders is not just for convenience. It's also for writing R code that
+will still work once the source packages are installed.
+
+## using pkg_load()
+
+The `pkg_load()` is the workhorse function to load packages. A major difference with 
+`devtools::load_all()` defaults is that it does not source the *test helpers*, nor does it 
+export all objects (cf `export_all`). The rationale is to stick as much as possible to the standard
+R loaders behaviour. 
+
+You may use a package name, path, package or `srcpkgs` object to designate the package to load:
+
+```
+pkg_load('lotr')
+pkg_load('/workspaces/srcpkgs_pkg/srcpkgs_lotr_demo/lotr')
+pkg_load(pkgs$lotr)
+```
+
+### updating
+
+When you execute `pkg_load()` on a package already loaded, it will check for changes not only in that 
+package but also in all its dependencies (among the source packages), and will do what's needed to roxygenize, unload, reload
+until your package is up-to-date inside your R session.
+
+
+
+# reset and settings
+
+At `srcpkgs` startup time, i.e. when the `library(srcpkgs)` statement is executed, the R loaders are
+automatically hacked (cf `hack_r_loaders()`) UNLESS the hack is inhibited using 
+the option `srcpkgs.inhibit_r_loaders_hack` or the environment variable `SRCPKGS.INHIBIT_R_LOADERS_HACK`.
+
+Then the fist time `get_srcpkgs()` will be executed (for example indirectly by calling `pkg_load()`), 
+`srcpkgs` will figure out the **project root**, and from this root will search for source packages, 
+using a heuristic. Since that can take a bit of I/O time, the project root and the paths of found 
+source packages are cached. 
+
+You may check those using the `settings()` function, and can change them using the `reset()` function.
+

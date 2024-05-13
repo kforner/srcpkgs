@@ -129,7 +129,7 @@ Let's try to apply our changes:
 load_all('lotr')
 names(lotr()$hobbits)
 ```
---> `load_all()` can not properly reload our package, since it does not possibly know that 
+--> `load_all()` can not properly reload our package, since it does not know that 
 a dependency has been modified.
 
 To apply the changes:

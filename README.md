@@ -18,6 +18,11 @@ The advent of [devtools](https://devtools.r-lib.org/) enabled the use of source 
 In particular, it understands the dependencies between those packages and upon changes, determine and apply the optimal
 course of action to apply those changes.
 
+See the vignettes:
+
+-  [Why would you need srcpkgs?](https://kforner.github.io/srcpkgs/articles/demo.html)
+- [Getting Started](https://kforner.github.io/srcpkgs/articles/getting_started.html)
+
 ## intended target
 
 The main use case for `srcpkgs` is for an organization with many R users, that want to share and reuse code across projects and users. This reusable code will be implemented as a collection of R source packages. The project code itself should also be implemented as a source package. 
