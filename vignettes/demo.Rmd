@@ -18,10 +18,6 @@ workdir <- file.path(root_dir, 'srcpkgs_lotr_demo')
 knitr::opts_knit$set(root.dir = workdir) # set directory for other chunks
 ```
 
-```{r test}
-dir()
-```
-
 I will demonstrate srcpkgs using a dummy collection of source packages: https://github.com/kforner/srcpkgs_lotr_demo
 
 ## overview of the srcpkgs_lotr_demo collection
@@ -49,6 +45,7 @@ The dependencies are implemented by a mix of Imports, Imports with namespace imp
 
 ```{r devtools_setup, results = 'hide'}
 suppressPackageStartupMessages(library(devtools))
+pkgs <- c('bilbo', 'frodo', 'hobbits', 'legolas', 'galadriel', 'elves', 'gimli', 'aragorn', 'gandalf', 'lotr')
 ```
 
 ### loading
@@ -68,32 +65,43 @@ load_all('hobbits')
 
 --> same problem
 
-Here is how we must load the packages, following the dependencies order:
+Here is how we must load the packages, following the dependencies order.
+Note that we also need to roxygenize them (using `document()`)
 ```{r devtools_load3, message = FALSE}
-load_all('bilbo')
+document('frodo')
 load_all('frodo')
+document('bilbo')
+load_all('frodo')
+document('hobbits')
 load_all('hobbits')
 
+document('legolas')
 load_all('legolas')
+document('galadriel')
 load_all('galadriel')
+document('elves')
 load_all('elves')
 
+document('gimli')
 load_all('gimli')
+document('aragorn')
 load_all('aragorn')
+document('gandalf')
 load_all('gandalf')
 ```
 
 
-and finally
+and finally we can load it
 ```{r devtools_load_final}
+document('lotr')
 load_all('lotr')
+
 # use it
 str(lotr())
 ```
 
-### editing and reloading
 
-#### a package listed in Depends
+### editing and reloading
 
 Let's modify one of the direct dependency of `lotr`, e.g. the `hobbits` package. 
 Currently:
@@ -120,7 +128,98 @@ Let's try to apply our changes:
 ```{r devtools_edit4}
 load_all('lotr')
 names(lotr()$hobbits)
+```
+--> `load_all()` can not properly reload our package, since it does not possibly know that 
+a dependency has been modified.
 
+To apply the changes:
+```{r devtools_edit5}
 load_all('hobbits')
 names(lotr()$hobbits)
 ```
+--> now it works. Note that this is because `load_all()` is now able to force the unload of a package
+even though it is needed by another package:
+
+
+```{r devtools_edit6, error = TRUE}
+unloadNamespace('hobbits')
+```
+
+But:
+```{r devtools_edit7}
+devtools::unload('hobbits')
+```
+
+Note that now `lotr` is **broken**:
+```{r devtools_edit8, error = TRUE}
+lotr()
+```
+
+Let's fix it
+```{r devtools_edit9, error = TRUE}
+load_all('hobbits')
+names(lotr())
+```
+
+## using srcpkgs
+
+```{r srcpkgs_setup}
+library(srcpkgs)
+options(width = 200)
+print(get_srcpkgs())
+```
+
+### unloading
+
+the `srcpkgs::pkg_unload()` takes into account the dependencies between the source packages.
+
+```{r srcpkgs_unload1}
+plan <- pkg_unload('bilbo')
+print(plan)
+```
+
+unload all our packages to start from a clean state. We will also 
+```{r srcpkgs_unload2}
+for (pkg in get_srcpkgs()) pkg_unload(pkg)
+```
+
+
+### loading
+
+`srcpkgs::pkg_load()` takes care of everything: it roxygenizes the packages if needed, and load them 
+in the appropriate order:
+
+```{r srcpkgs_load1}
+plan <- pkg_load('lotr')
+print(plan)
+print(names(lotr()))
+```
+
+### editing and reloading
+
+Let's edit the `frodo` package, and change the weapon from `sting` to `sword`:
+
+```{r srcpkgs_edit1}
+lotr()$hobbits$frodo
+
+lines <- readLines('frodo/R/main.R')
+cat(lines, sep = '\n')
+
+edited_lines <- sub('sting', 'sword', lines)
+writeLines(edited_lines, 'frodo/R/main.R')
+```
+
+Now let's ask `srcpkgs` to make sure the `lotr` package is up-to-date: 
+
+```{r srcpkgs_edit2}
+plan <- pkg_load('lotr')
+print(plan)
+```
+
+--> It figured out that `frodo` was modified, and needed to be reloaded, and for that 
+all its dependents needed to be also properly unloaded and re-loaded.
+
+```{r srcpkgs_edit3}
+lotr()$hobbits$frodo$weapons
+```
+
