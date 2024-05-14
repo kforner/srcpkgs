@@ -1,17 +1,17 @@
 
 test_that("get_srcpkgs", { 
   setup_temp_dir()
+  OLD <- settings()
+  on.exit(restore_init(OLD), add = TRUE)
+  reset(root = '.')
 
-  ### no pkg found
+  ### no pkg yet to be found
   expect_null(find_srcpkgs())
   expect_null(get_srcpkgs())
 
   ### create a AA package
   pkg_create('.', 'AA', imports = 'stats')
-  OLD <- settings()
-  on.exit(restore_init(OLD), add = TRUE)
   reset(root = '.')
-
   ###
   # automatic
   src_pkgs <- find_srcpkgs()
