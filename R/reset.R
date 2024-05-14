@@ -21,12 +21,12 @@ init_if_needed <- function() {
 #' @return the settings (cf [settings()]) invisibly
 #' @export
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' # reset to appropriate defaults based on your current directory
 #' reset()
 #' 
 #' # explictly set the project root
-#' reset(root = 'my/project/dir')
+#' reset(root = tempdir())
 #' 
 #' # explictly set the source package paths (very unlikely)
 #' reset(srcpkgs_paths = c('pkgs/mypkg1', 'pkgs/mypkg2'))

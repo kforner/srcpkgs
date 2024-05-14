@@ -46,11 +46,12 @@ inhibit_r_loaders_hack <- function() {
 #' At package startup (actually `.OnAttach()`), `hack_r_loaders()` will be automatically called to hack
 #' the R loaders, UNLESS this is inhibited via the option `srcpkgs.inhibit_r_loaders_hack` or the 
 #' environment variable `SRCPKGS.INHIBIT_R_LOADERS_HACK`. You may set any value like TRUE, "TRUE", 1 or "1".
-#
+#'
+#' @return no return value, called for side-effects
 #' @export
 #' @seealso [unhack_r_loaders()]
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' # hack library
 #' hack_r_loaders()
 #' 
@@ -58,7 +59,7 @@ inhibit_r_loaders_hack <- function() {
 #' unhack_r_loaders()
 #' 
 #' # prevent automatic hacking when srcpkgs is loaded
-#' option(srcpkgs.inhibit_r_loaders_hack=TRUE)
+#' options(srcpkgs.inhibit_r_loaders_hack=TRUE)
 #' # or
 #' Sys.setenv(SRCPKGS.INHIBIT_R_LOADERS_HACK="1")
 #' library(srcpkgs)
@@ -73,6 +74,7 @@ hack_r_loaders <- function() {
 #' untraces library() and loadNamespace()
 #'
 #' The function is reentrant.
+#' @return no return value, called for side-effects
 #' @export
 #' @seealso [hack_r_loaders()]
 unhack_r_loaders <- function() {

@@ -35,7 +35,7 @@ even indirectly on it should be unloaded first.
 N.B: this function also works for non source packages.
 }
 \examples{
-\dontrun{
+\donttest{
 plan <- pkg_unload('mypkg')
 }
 }

@@ -18,12 +18,12 @@ the settings (cf \code{\link[=settings]{settings()}}) invisibly
 With this function, you can reset or set precisely the settings.
 }
 \examples{
-\dontrun{
+\donttest{
 # reset to appropriate defaults based on your current directory
 reset()
 
 # explictly set the project root
-reset(root = 'my/project/dir')
+reset(root = tempdir())
 
 # explictly set the source package paths (very unlikely)
 reset(srcpkgs_paths = c('pkgs/mypkg1', 'pkgs/mypkg2'))

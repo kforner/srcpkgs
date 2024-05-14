@@ -4,9 +4,9 @@
 \name{srcpkgs-package}
 \alias{srcpkgs}
 \alias{srcpkgs-package}
-\title{srcpkgs: R source packages manager}
+\title{srcpkgs: R Source Packages Manager}
 \description{
-Manage a collection/library of R source packages. Discover, roxygenize, load, test source packages. Enable to use those packages as if they were actually installed. Quickly reload only what is needed on source code change. Run tests and checks in parallel.
+Manage a collection/library of R source packages. Discover, document, load, test source packages. Enable to use those packages as if they were actually installed. Quickly reload only what is needed on source code change. Run tests and checks in parallel.
 }
 \section{Features}{
 

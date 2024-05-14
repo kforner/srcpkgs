@@ -18,9 +18,13 @@ find_srcpkgs(
 \item{prune}{whether to report packages contained inside another package (e.g. in tests/)}
 }
 \value{
-a "srcpkgs" object
+a "srcpkgs" object (or NULL if none found), a named list of "srcpkg" objects, that essentially are
+devtools "package" objects. The list is named after the package names.
 }
 \description{
 N.B: the \emph{hidden} files and directories are ignored.
 In general, this function is not used directly, instead you should use \code{\link[=get_srcpkgs]{get_srcpkgs()}}
+}
+\examples{
+find_srcpkgs('.')
 }

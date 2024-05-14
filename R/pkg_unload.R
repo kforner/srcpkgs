@@ -11,7 +11,7 @@
 #'  attached, invisibly or NULL if the package is not loaded
 #' @export
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' plan <- pkg_unload('mypkg')
 #' }
 pkg_unload <- function(pkg_or_name, 

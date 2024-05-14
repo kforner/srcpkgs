@@ -3,7 +3,7 @@ Title: R Source Packages Manager
 Version: 0.1
 Authors@R: 
     person("Karl", "Forner", , "karl.forner@gmail.com", role = c("aut", "cre", "cph"))
-Description: Manage a collection/library of R source packages. Discover, document with roxygen, load, test 
+Description: Manage a collection/library of R source packages. Discover, document, load, test 
   source packages. Enable to use those packages as if they were actually installed. Quickly reload
   only what is needed on source code change. Run tests and checks in parallel.
 License: GPL (>= 3)

@@ -7,7 +7,7 @@
 get_srcpkgs()
 }
 \value{
-the source packages as a "scrpkgs" object, or NULL if none
+the source packages as a "scrpkgs" object, cf \code{\link[=find_srcpkgs]{find_srcpkgs()}}, or NULL if none
 }
 \description{
 The first call to this function will trigger the initialization of the package ((cf \code{\link[=reset]{reset()}}).
@@ -23,4 +23,8 @@ If you add or delete a source package, you must reset the source package paths u
 
 This function is useful for troubleshooting, to understand what are the source packages discovered
 and managed by \code{srcpkgs}
+}
+\examples{
+pkgs <- get_srcpkgs()
+print(pkgs)
 }

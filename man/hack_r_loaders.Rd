@@ -6,6 +6,9 @@
 \usage{
 hack_r_loaders()
 }
+\value{
+no return value, called for side-effects
+}
 \description{
 hacks \code{library()} and \code{loadNamespace()} using the base R tracer function \code{trace()}.
 \code{library(pkg)} will basically call \code{pkg_load(pkg)} if the source package \code{pkg}
@@ -23,7 +26,7 @@ environment variable \code{SRCPKGS.INHIBIT_R_LOADERS_HACK}. You may set any valu
 }
 
 \examples{
-\dontrun{
+\donttest{
 # hack library
 hack_r_loaders()
 
@@ -31,7 +34,7 @@ hack_r_loaders()
 unhack_r_loaders()
 
 # prevent automatic hacking when srcpkgs is loaded
-option(srcpkgs.inhibit_r_loaders_hack=TRUE)
+options(srcpkgs.inhibit_r_loaders_hack=TRUE)
 # or
 Sys.setenv(SRCPKGS.INHIBIT_R_LOADERS_HACK="1")
 library(srcpkgs)

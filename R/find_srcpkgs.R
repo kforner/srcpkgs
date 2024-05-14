@@ -7,11 +7,15 @@ SRCPKGS_PATHS_KEY <- 'SRCPKGS_PATHS'
 #' 
 #' @inheritParams params
 #' @param prune   whether to report packages contained inside another package (e.g. in tests/)
-#' @return a "srcpkgs" object
+#' @return a "srcpkgs" object (or NULL if none found), a named list of "srcpkg" objects, that essentially are 
+#' devtools "package" objects. The list is named after the package names.
 #' @export
+#' @examples
+#' find_srcpkgs('.')
 find_srcpkgs <- function(root = get_project_root(), 
   srcpkgs_paths = find_srcpkgs_paths(root, prune = prune), prune = TRUE)
 {
+  if (!length(srcpkgs_paths)) return(NULL)
   srcpkgs(paths = srcpkgs_paths)
 }
 
@@ -30,8 +34,11 @@ find_srcpkgs <- function(root = get_project_root(),
 #' This function is useful for troubleshooting, to understand what are the source packages discovered 
 #' and managed by `srcpkgs` 
 #' 
-#' @return the source packages as a "scrpkgs" object, or NULL if none
+#' @return the source packages as a "scrpkgs" object, cf [find_srcpkgs()], or NULL if none
 #' @export
+#' @examples
+#' pkgs <- get_srcpkgs()
+#' print(pkgs)
 get_srcpkgs <- function() {
   init_if_needed() # triggers initialization
   paths <- get_srcpkgs_paths() %||% return(NULL)

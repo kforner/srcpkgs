@@ -15,7 +15,6 @@
 #'
 #' @return the srcpkg instance, invisibly
 #' @keywords internal
-#' @export
 pkg_create <- function(dir, name, functions = list(dummy = function() 'DUMMY'),
    imports = NULL, depends = NULL, suggests = NULL, namespace = FALSE, roxygen_imports = FALSE)
 {

@@ -6,6 +6,9 @@
 \usage{
 unhack_r_loaders()
 }
+\value{
+no return value, called for side-effects
+}
 \description{
 The function is reentrant.
 }

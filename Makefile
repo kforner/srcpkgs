@@ -9,6 +9,9 @@ build: rox
 check: rox
 	Rscript --no-save -e 'devtools::check(".", check_dir = ".checks")'
 
+run_examples: rox
+	Rscript --no-save -e 'devtools::run_examples(run_donttest = TRUE)'
+
 FILTER=
 test: rox
 	Rscript --no-save -e 'devtools::test(filter="$(FILTER)")'

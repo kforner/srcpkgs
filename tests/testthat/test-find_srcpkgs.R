@@ -1,6 +1,12 @@
 
 test_that("get_srcpkgs", { 
   setup_temp_dir()
+
+  ### no pkg found
+  expect_null(find_srcpkgs())
+  expect_null(get_srcpkgs())
+
+  ### create a AA package
   pkg_create('.', 'AA', imports = 'stats')
   OLD <- settings()
   on.exit(restore_init(OLD), add = TRUE)
