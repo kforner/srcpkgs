@@ -77,7 +77,7 @@ Then the first load will setup the settings.</p>
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
     
 
-<p>the source packages as a "scrpkgs" object, or NULL if none</p>
+<p>the source packages as a "scrpkgs" object, cf <code><a href="find_srcpkgs.html">find_srcpkgs()</a></code>, or NULL if none</p>
     </div>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
@@ -88,6 +88,18 @@ If you add or delete a source package, you must reset the source package paths u
 and managed by <code>srcpkgs</code></p>
     </div>
 
+    <div class="section level2">
+    <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">pkgs</span> <span class="op">&lt;-</span> <span class="fu">get_srcpkgs</span><span class="op">(</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">pkgs</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         package version                              path</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> srcpkgs srcpkgs     0.1 /home/runner/work/srcpkgs/srcpkgs</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                          imports depends</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> srcpkgs cli,\ndevtools,\npkgload        </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                                                suggests</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> srcpkgs knitr,\nrmarkdown,\ntestthat (&gt;= 3.0.0),\nwithr</span>
+</code></pre></div>
+    </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
     </nav></aside></div>
 
