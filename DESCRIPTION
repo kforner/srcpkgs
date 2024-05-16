@@ -1,6 +1,6 @@
 Package: srcpkgs
 Title: R Source Packages Manager
-Version: 0.1
+Version: 0.1.1
 Authors@R: 
     person("Karl", "Forner", , "karl.forner@gmail.com", role = c("aut", "cre", "cph"))
 Description: Manage a collection/library of R source packages. Discover, document, load, test 
