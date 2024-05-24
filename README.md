@@ -64,7 +64,12 @@ This can also be useful for a single developer. This will allow to easily reuse 
 
 ## Installation
 
-The package is not (yet) available on CRAN.
+The package is now available on CRAN!
+
+Install if from CRAN:
+```
+install.packages('srcpkgs') 
+```
 
 Install it from github: 
 ```
