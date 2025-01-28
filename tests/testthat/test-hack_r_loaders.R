@@ -22,7 +22,7 @@ test_that("hack_r_loaders", {
   
   expect_false(is_traced(library))
   expect_false(is_traced(loadNamespace))
-  expect_true(is_loaders_hack_enabled())
+  expect_false(is_loaders_hack_enabled())
 
 })
 
@@ -89,8 +89,8 @@ test_that("hack_loadNamespace", {
   on.exit(set_srcpkgs_paths(PATHS), add = TRUE) 
 
   ### default library() behaviour --> does NOT know about our source packages 
-  .untrace(loadNamespace)
   pkg_unload(pkg_name, quiet = TRUE)
+  .untrace(loadNamespace)
 
   expect_error(loadNamespace(pkg_name), 'there is no package called')
 

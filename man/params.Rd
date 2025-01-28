@@ -16,7 +16,7 @@
 
 \item{pkg_or_name}{a package name or object ("package" or "srcpkg")}
 
-\item{pkgid}{a package name, path or object}
+\item{pkgid}{a package name, path or package object}
 
 \item{pkgids}{a list of package ids (names, paths or object), or a
 srcpkgs object. Also accept a singleton package object}

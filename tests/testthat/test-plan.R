@@ -1,7 +1,6 @@
 test_that("execute_plan", {
-  setup_temp_dir()
   src_pkgs <- examples_srcpkgs_complex_deps()
-  on.exit(cleanup_dangling_srcpkgs(), add = TRUE)
+
   mat <- graph_from_srcpkgs(src_pkgs)
 
   pkg_unload('EE', src_pkgs, quiet = TRUE) # in case

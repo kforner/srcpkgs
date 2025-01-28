@@ -1,3 +1,7 @@
+^[.].*$
+^.*/[.].*$
+
+
 ^srcpkgs\.Rproj$
 ^\.Rproj\.user$
 ^LICENSE\.md$
@@ -15,3 +19,4 @@
 ^Meta$
 ^cran-comments\.md$
 vignettes/srcpkgs_lotr_demo/.git
+

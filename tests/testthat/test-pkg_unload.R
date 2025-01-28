@@ -6,9 +6,7 @@ test_that("non_srcpkg_unload_plan", {
 
 
 test_that("srcpkg_unload_plan", {
-  setup_temp_dir()
   src_pkgs <- examples_srcpkgs_complex_deps()
-  on.exit(cleanup_dangling_srcpkgs(), add = TRUE)
 
   ### nothing to unload
   expect_null(srcpkg_unload_plan('EE', src_pkgs, loaded = NULL))
@@ -97,9 +95,7 @@ test_that("unload_plan", {
 
 
 test_that("pkg_unload", {
-  setup_temp_dir()
   all_src_pkgs <- examples_srcpkgs_complex_deps()
-  on.exit(cleanup_dangling_srcpkgs(), add =TRUE)
 
   ### srcpkg
 
@@ -143,6 +139,8 @@ test_that("pkg_unload", {
 
 test_that("find_loaded_packages_namespace_imports", {
   setup_temp_dir()
+  on.exit(cleanup_dangling_srcpkgs(), add = TRUE)
+  cleanup_dangling_srcpkgs()
 
   pkg_create('.', 'AA', imports = c('tools', 'devtools'), namespace = TRUE)
   pkg_create('.', 'BB', imports = 'AA', namespace = TRUE)

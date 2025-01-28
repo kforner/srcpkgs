@@ -1,6 +1,5 @@
 test_that("reset/settings", {
   OLD <- settings()
-  setup_temp_dir()
   on.exit(restore_init(OLD), add = TRUE)
   src_pkgs <- examples_srcpkgs_basic()
 

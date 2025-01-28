@@ -5,10 +5,8 @@ A <- list(attach = TRUE)
 
 test_that("pkg_load", {
   ### trivial example A->B
-  setup_temp_dir()
   src_pkgs <- examples_srcpkgs_basic()
-  cleanup_dangling_srcpkgs()
-  on.exit(cleanup_dangling_srcpkgs, add = TRUE)
+
   NONE <- character()
   ALL <- names(src_pkgs)
   unloadNamespace('AA')
@@ -50,10 +48,8 @@ test_that("load_plan", {
 
 
 test_that("pkg_load_full_plan() - examples_srcpkgs_complex_deps", {
-  setup_temp_dir()
   src_pkgs <- examples_srcpkgs_complex_deps()
-  cleanup_dangling_srcpkgs()
-  on.exit(cleanup_dangling_srcpkgs, add = TRUE)
+
   NONE <- character()
   ALL <- names(src_pkgs)
 
@@ -110,10 +106,8 @@ test_that("pkg_load_full_plan() - examples_srcpkgs_complex_deps", {
 })
 
 test_that("pkg_load_full_plan() - star example ", {
-  setup_temp_dir()
   src_pkgs <- examples_srcpkgs_star()
-  cleanup_dangling_srcpkgs()
-  on.exit(cleanup_dangling_srcpkgs, add = TRUE)
+
   NONE <- character()
   ALL <- names(src_pkgs)
   ###############################################################################################
@@ -179,7 +173,7 @@ test_that("pkg_load_full_plan() - transitivity ", {
   pkg_create('.', 'pkgB', imports  = 'pkgC')
   pkg_create('.','pkgC', suggests = 'roxygen2')
   cleanup_dangling_srcpkgs()
-  on.exit(cleanup_dangling_srcpkgs, add = TRUE)
+  on.exit(cleanup_dangling_srcpkgs(), add = TRUE)
   src_pkgs <- find_srcpkgs('.')
   NONE <- character()
   ALL <- names(src_pkgs)
@@ -261,7 +255,7 @@ test_that("pkg_is_outdated", {
   setup_temp_dir()
   pkg_create('.', 'AA')
   cleanup_dangling_srcpkgs()
-  on.exit(cleanup_dangling_srcpkgs, add = TRUE)
+  on.exit(cleanup_dangling_srcpkgs(), add = TRUE)
   PKG <- srcpkg(path = 'AA')
 
   ### no doc

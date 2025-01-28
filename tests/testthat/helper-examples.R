@@ -1,12 +1,18 @@
 
-examples_srcpkgs_basic <- function() {
+examples_srcpkgs_basic <- function(.local_envir = parent.frame()) {
+  setup_temp_dir(.local_envir = .local_envir)
+  withr::defer(cleanup_dangling_srcpkgs, .local_envir)
+
   pkg_create('.', 'AA', imports = 'BB')
   pkg_create('.', 'BB', suggests = 'stats')
 
   find_srcpkgs('.')
 }
 
-examples_srcpkgs_star <- function() {
+examples_srcpkgs_star <- function(.local_envir = parent.frame()) {
+  setup_temp_dir(.local_envir = .local_envir)
+  withr::defer(cleanup_dangling_srcpkgs, .local_envir)
+
   pkg_create('.', 'AA', suggests = 'roxygen2')
   pkg_create('.', 'BB', suggests = 'stats')
   pkg_create('.', 'CC')
@@ -19,7 +25,10 @@ examples_srcpkgs_star <- function() {
   find_srcpkgs('.')
 }
 
-examples_srcpkgs_complex_imports <- function() {
+examples_srcpkgs_complex_imports <- function(.local_envir = parent.frame()) {
+  setup_temp_dir(.local_envir = .local_envir)
+  withr::defer(cleanup_dangling_srcpkgs, .local_envir)
+
   # C-->B-->A, F-->D-->B, E-->A, Z
   # N.B: we use namespace = TRUE because for unloading, only the ns-imports are considered
   pkg_create('.', 'AA', imports = 'stats', namespace = TRUE)
@@ -33,7 +42,10 @@ examples_srcpkgs_complex_imports <- function() {
   find_srcpkgs('.')
 }
 
-examples_srcpkgs_complex_deps <- function() {
+examples_srcpkgs_complex_deps <- function(.local_envir = parent.frame()) {
+  setup_temp_dir(.local_envir = .local_envir)
+  withr::defer(cleanup_dangling_srcpkgs, .local_envir)
+
   # A->B->C->D, B->D->E, Z
   # N.B: we use namespace = TRUE because for unloading, only the ns-imports are considered
   pkg_create('.', 'AA', imports = c('stats', 'BB'), depends = 'CC')

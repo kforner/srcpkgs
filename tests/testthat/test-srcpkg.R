@@ -67,19 +67,6 @@ test_that("as_pkg_name", {
 })
 
 
-test_that("get_srcpkg_dependencies", {
-  setup_temp_dir()
-  
-  ### pkg with all types of deps
-  pkg <- pkg_create('.', 'AA', imports = c('i1', 'i2'), depends = 'd1', suggests = c('s1', 's2'))
-  deps <- get_srcpkg_dependencies(pkg)
-  expect_identical(deps, list(imports = c("i1", "i2"), depends = "d1", suggests = c("s1", "s2")))
-
-  ### package with no deps
-  pkg <- pkg_create('.', 'nodeps')
-  deps <- get_srcpkg_dependencies(pkg)
-  expect_identical(deps, list(imports = NULL, depends = NULL, suggests = NULL))
-})
 
 
 

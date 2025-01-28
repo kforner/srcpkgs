@@ -18,7 +18,7 @@ pkg_load(
 )
 }
 \arguments{
-\item{pkgid}{a package name, path or object}
+\item{pkgid}{a package name, path or package object}
 
 \item{src_pkgs}{a collection of source packages as a \code{srckgs} object.}
 

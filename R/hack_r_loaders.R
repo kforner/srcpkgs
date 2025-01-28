@@ -49,6 +49,7 @@ inhibit_r_loaders_hack <- function() {
 #'
 #' @return no return value, called for side-effects
 #' @export
+#' @importFrom utils   getFromNamespace()
 #' @seealso [unhack_r_loaders()]
 #' @examples
 #' \donttest{
@@ -80,6 +81,7 @@ hack_r_loaders <- function() {
 unhack_r_loaders <- function() {
   suppressMessages(untrace(library))
   suppressMessages(untrace(loadNamespace))
+  set_loaders_hack(FALSE)
 }
 
 

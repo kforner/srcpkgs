@@ -75,11 +75,8 @@ test_that("print.srcpkgs", {
 
 
 test_that("graph_from_srcpkgs", {
-  setup_temp_dir()
-
   src_pkgs <- examples_srcpkgs_complex_deps()
   nb <- length(src_pkgs)
-  on.exit(cleanup_dangling_srcpkgs(), add = TRUE)
 
   ### default: imports + depends
   mat <- graph_from_srcpkgs(src_pkgs)

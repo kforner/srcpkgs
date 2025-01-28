@@ -1,7 +1,6 @@
 # mostly for the test coverage
 test_that(".onDetach", {
-  old <- is_loaders_hack_installed()
-  if (old) on.exit(hack_r_loaders(), add = TRUE)
+  on.exit(unhack_r_loaders(), add = TRUE)
   
   ###
   hack_r_loaders()
