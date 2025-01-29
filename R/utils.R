@@ -23,7 +23,7 @@ enhanced_sprintf <- function(fmt, ..., collapse = ',') {
 # for building error messages, we must not crash on bad input
 safe_enhanced_sprintf <- function(fmt, ...) {
   msg <- try(enhanced_sprintf(fmt, ...))
-  if (inherits(msg, 'try-error')) {
+  if (is_error(msg)) {
     msg <- paste0('could not build error message: "', extract_error_message(msg), '"')
   }
 
@@ -40,6 +40,8 @@ is_condition_true <- function(cond) {
 
   as.logical(cond)
 }
+
+is_error <- function(x) inherits(x, "try-error")
 
 stop_unless <- function(cond, format, ...) {
 	if (missing(format)) {

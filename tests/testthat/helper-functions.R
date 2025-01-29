@@ -39,6 +39,7 @@ find_dangling_srcpkgs <- function() {
 }
 
 cleanup_dangling_srcpkgs <- function(quiet = TRUE) {
+  if (!quiet) message("cleanup_dangling_srcpkgs")
   pkg_names <- find_dangling_srcpkgs() %||% return()
   pkgs <- lapply(pkg_names, fetch_srcpkg_meta)
   src_pkgs <- srcpkgs(pkgs)
@@ -54,6 +55,22 @@ restore_init <- function(previous) {
     reset(root = NULL, srcpkgs_paths = NULL)
   }
 }
+
+fix_pkg_tests_results__timings <- function(res, time = 0) {
+  for (i in seq_along(res)) {
+    if (is_error(res[[i]])) next
+    res[[i]] <- fix_test_result_timings(res[[i]], time)
+  }
+  res
+}
+
+fix_test_result_timings <- function(res, time = 0) {
+  for (j in seq_along(res)) {
+    res[[j]]$real <- time
+  }
+  res
+}
+
 
 add_dummy_test_to_srcpkgs <- function(srcpkgs) {
   for (pkg in srcpkgs) add_dummy_test_to_srcpkg(pkg)

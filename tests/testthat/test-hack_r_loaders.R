@@ -61,7 +61,7 @@ test_that("hack_library", {
   writeLines('new_fun <- function(x) { x + 1}', file.path(pkg_name, 'R/new_fun.R'))
 
   expect_error(library(hack.library), NA)
-  expect_true(is.function(getFromNamespace('new_fun', pkg_name)))
+  expect_true(is.function(utils::getFromNamespace('new_fun', pkg_name)))
 
   ### set_loaders_hack / is_loaders_hack_enabled
   expect_true(is_loaders_hack_enabled())
@@ -108,7 +108,7 @@ test_that("hack_loadNamespace", {
   writeLines('new_fun <- function(x) { x + 1}', file.path(pkg_name, 'R/new_fun.R'))
 
   expect_error(loadNamespace(pkg_name), NA)
-  expect_true(is.function(getFromNamespace('new_fun', pkg_name)))
+  expect_true(is.function(utils::getFromNamespace('new_fun', pkg_name)))
 
   ### unload
   pkg_unload(pkg_name, quiet = TRUE)

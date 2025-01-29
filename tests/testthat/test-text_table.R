@@ -10,7 +10,7 @@ test_that("print_text_table_with_huxtable", {
   local_reproducible_output(crayon = TRUE)
   df <- head(iris)
 
- withr::local_options(list(cli.num_colors = 256))
+  withr::local_options(list(cli.num_colors = 256))
 
   expect_snapshot(print_text_table_with_huxtable(df))
   expect_snapshot(print_text_table_with_huxtable(df, styler = NULL))

@@ -49,7 +49,7 @@ inhibit_r_loaders_hack <- function() {
 #'
 #' @return no return value, called for side-effects
 #' @export
-#' @importFrom utils   getFromNamespace()
+#' @importFrom utils   getFromNamespace
 #' @seealso [unhack_r_loaders()]
 #' @examples
 #' \donttest{

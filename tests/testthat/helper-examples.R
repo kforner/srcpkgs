@@ -1,7 +1,12 @@
 
 examples_srcpkgs_basic <- function(.local_envir = parent.frame()) {
+  # CRITICAL: must be BEFORE setup_temp_dir(), so that loaded packages are actually dangling
+  withr::defer({
+    # message("examples_srcpkgs_basic --> cleanup")
+    cleanup_dangling_srcpkgs()
+  }, .local_envir)
   setup_temp_dir(.local_envir = .local_envir)
-  withr::defer(cleanup_dangling_srcpkgs, .local_envir)
+
 
   pkg_create('.', 'AA', imports = 'BB')
   pkg_create('.', 'BB', suggests = 'stats')
@@ -10,8 +15,10 @@ examples_srcpkgs_basic <- function(.local_envir = parent.frame()) {
 }
 
 examples_srcpkgs_star <- function(.local_envir = parent.frame()) {
+  # CRITICAL: must be BEFORE setup_temp_dir(), so that loaded packages are actually dangling
+  withr::defer({cleanup_dangling_srcpkgs()}, .local_envir)
   setup_temp_dir(.local_envir = .local_envir)
-  withr::defer(cleanup_dangling_srcpkgs, .local_envir)
+
 
   pkg_create('.', 'AA', suggests = 'roxygen2')
   pkg_create('.', 'BB', suggests = 'stats')
@@ -26,8 +33,9 @@ examples_srcpkgs_star <- function(.local_envir = parent.frame()) {
 }
 
 examples_srcpkgs_complex_imports <- function(.local_envir = parent.frame()) {
+  # CRITICAL: must be BEFORE setup_temp_dir(), so that loaded packages are actually dangling
+  withr::defer({cleanup_dangling_srcpkgs()}, .local_envir)
   setup_temp_dir(.local_envir = .local_envir)
-  withr::defer(cleanup_dangling_srcpkgs, .local_envir)
 
   # C-->B-->A, F-->D-->B, E-->A, Z
   # N.B: we use namespace = TRUE because for unloading, only the ns-imports are considered
@@ -43,8 +51,14 @@ examples_srcpkgs_complex_imports <- function(.local_envir = parent.frame()) {
 }
 
 examples_srcpkgs_complex_deps <- function(.local_envir = parent.frame()) {
+  # CRITICAL: must be BEFORE setup_temp_dir(), so that loaded packages are actually dangling
+  withr::defer({
+    # message("examples_srcpkgs_complex_deps --> cleanup")
+    cleanup_dangling_srcpkgs()
+  }, .local_envir)
+
   setup_temp_dir(.local_envir = .local_envir)
-  withr::defer(cleanup_dangling_srcpkgs, .local_envir)
+
 
   # A->B->C->D, B->D->E, Z
   # N.B: we use namespace = TRUE because for unloading, only the ns-imports are considered

@@ -1,3 +1,15 @@
+.pkg_test_errors <- 
+test_that(".pkg_test_errors", {
+  src_pkgs <- examples_srcpkgs_basic()
+  add_dummy_test_to_srcpkgs(src_pkgs)
+
+  ### an exception in the setup
+  pkga <- src_pkgs$AA
+  writeLines(r"{ stop("aie aie aie") }", file.path(pkga$path, "tests/testthat/setup.R"))
+ 
+  expect_error(pkg_test('AA', src_pkgs = src_pkgs, reporter = "silent"), "aie aie aie")
+})
+
 .pkg_test <- 
 test_that("pkg_test", {
   ### trivial example A->B
@@ -62,9 +74,7 @@ test_that("pkg_test_s3_methods", {
 
   ### print
   withr::local_options(list(cli.num_colors = 256))
-  # N.B: because of timings, the execution is not reproducible, so
-  # we can not use expect_snapshot
-  capture_output(expect_error(print(res), NA))
+  expect_snapshot(print(fix_test_result_timings(res)))
   
   ### summary
   df <- as.data.frame(res)
@@ -83,32 +93,15 @@ test_that("pkg_test_s3_methods", {
   expect_setequal(names(sdf), setdiff(names(df), c("test", "file")))
   expect_equal(sum(sdf$nb), sum(df$nb))
   expect_equal(sum(sdf$failed), sum(df$failed))
+
+  ### as.logical
+  expect_false(as.logical(res))
+
+  # keep only successful tests
+  good <- res[df$failed == 0 & !df$error]
+  class(good) <- class(res)
+
+  expect_true(as.logical(good))
 })
-
-
-.pkgs_test <- 
-test_that("pkgs_test", {
-  ### trivial example A->B
-  src_pkgs <- examples_srcpkgs_basic()
-
-  # ### pkg with no tests
-  # expect_null(pkg_test('AA', src_pkgs = src_pkgs, reporter = "silent"))
-  # expect_null(pkg_test('BB', src_pkgs = src_pkgs, reporter = "silent"))
-
-  ###### with tests
-  add_dummy_test_to_srcpkgs(src_pkgs)
-  ### 
-  res <- pkgs_test(src_pkgs = src_pkgs, reporter = "silent", quiet = TRUE)
-
-  expect_s3_class(res, "pkgs_test")
-  expect_true(is.list(res))
-  expect_length(res, 2)
-  expect_s3_class(res[[1]], "pkg_test")
-  
-  # browser()
-
-
-})
-
 
 

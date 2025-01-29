@@ -18,7 +18,7 @@ pkg_test(pkgid, filter = NULL, src_pkgs = get_srcpkgs(), quiet = TRUE, ...)
 \item{...}{passed to \code{testthat::test_dir()}}
 }
 \value{
-the results as a \code{testthat_results} object, or NULL if no tests found
+the results as a \code{pkg_test} object, or NULL if no tests found
 }
 \description{
 This function will test a source package using \code{testthat},

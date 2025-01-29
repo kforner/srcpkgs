@@ -6,7 +6,7 @@
 #' @inheritParams params
 #' @param filter    filter in the tests to run. cf `testthat::test_dir()`
 #' @param ...   passed to `testthat::test_dir()`
-#' @return the results as a `testthat_results` object, or NULL if no tests found
+#' @return the results as a `pkg_test` object, or NULL if no tests found
 #' @importFrom testthat   test_dir
 #' @export
 #' @examples
@@ -40,11 +40,17 @@ pkg_test <- function(pkgid, filter = NULL, src_pkgs = get_srcpkgs(), quiet = TRU
   invisible(res)
 }
 
-#' @export
-as.data.frame.pkg_test <- function(x, ...) {
-  df <- NextMethod()
 
-  # remove context (which is deprecated)
+#' tells if the test is successful
+#' @export
+as.logical.pkg_test <- function(x, ...) {
+  df <- as.data.frame(x)
+  !any(df$error) && all(df$failed == 0)
+}
+
+# reformat the testthat_results data frame 
+fortify_pkg_test <- function(df) {
+ # remove context (which is deprecated)
   df$context <- NULL
 
   # hide user and system (not really informative)
@@ -59,6 +65,7 @@ as.data.frame.pkg_test <- function(x, ...) {
 
   # rename real into time
   names(df)[names(df) == "real"] <- "time"
+
   # reorder cols --> put "passed" after failed
   cols <- names(df)
   cols <- setdiff(cols, "passed")
@@ -66,6 +73,11 @@ as.data.frame.pkg_test <- function(x, ...) {
   df <- df[cols]
 
   df
+}
+
+#' @export
+as.data.frame.pkg_test <- function(x, ...) {
+  fortify_pkg_test(NextMethod())
 }
 
 #' @export
@@ -90,7 +102,8 @@ print.pkg_test <- function(x, ...) {
 
   ### overview
   sdf <- summary(x, col = NULL)
-  print_text_table(sdf, title = paste0("Test results overview for package ", pkg$package))
+  final_message <- if (as.logical(x)) "Tests successful :) !" else "Test failed :( ..."
+  print_text_table(sdf, title = paste0("Test results overview for package ", pkg$package), footnote = final_message)
   
   invisible()
 }
@@ -125,23 +138,4 @@ summary.pkg_test <- function(object, col = 'file', ...) {
   rownames(sdf) <- NULL
 
   sdf
-}
-
-
-#' tests a list of packages
-#'
-pkgs_test <- function(pkgids = names(src_pkgs), src_pkgs = get_srcpkgs(), 
-  quiet = TRUE, fail_on_error = FALSE, ...)
-{
-  force(src_pkgs)
-
-  if (!length(pkgids)) stop('No package to test')
-  pkgs <- srcpkgs(lapply(pkgids, as_srcpkg, src_pkgs))
-
-  .test_pkg <- function(pkg) {
-    pkg_test(pkg, src_pkgs = src_pkgs, quiet = quiet, fail_on_error = fail_on_error, ...)
-  }
-  lst <- lapply(pkgs, .test_pkg)
-  class(lst) <- ('pkgs_test')
-  invisible(lst)
 }
