@@ -7,7 +7,7 @@
 #' @return the results as a `pkgs_test` object
 #' @export
 pkgs_test <- function(pkgids = names(src_pkgs), src_pkgs = get_srcpkgs(), 
-  quiet = TRUE, fail_on_error = FALSE, ...)
+  quiet = TRUE, ...)
 {
   force(src_pkgs)
 
@@ -15,7 +15,7 @@ pkgs_test <- function(pkgids = names(src_pkgs), src_pkgs = get_srcpkgs(),
   pkgs <- srcpkgs(lapply(pkgids, as_srcpkg, src_pkgs))
 
   .test_pkg <- function(pkg) {
-    try(pkg_test(pkg, src_pkgs = src_pkgs, quiet = quiet, fail_on_error = fail_on_error, ...), silent = quiet)
+    try(pkg_test(pkg, src_pkgs = src_pkgs, quiet = quiet, fail_on_error = FALSE, ...), silent = quiet)
   }
   lst <- lapply(pkgs, .test_pkg)
   class(lst) <- ('pkgs_test')

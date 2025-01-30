@@ -8,7 +8,6 @@ pkgs_test(
   pkgids = names(src_pkgs),
   src_pkgs = get_srcpkgs(),
   quiet = TRUE,
-  fail_on_error = FALSE,
   ...
 )
 }

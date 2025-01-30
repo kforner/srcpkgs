@@ -55,13 +55,14 @@ graph_get_all_dependents <- function(mat, node) {
   rev(graph_get_all_dependencies(t(mat), node))
 }
 
-
+# depth first search
 graph_dfs <- function(mat, node,  processed = new.env(parent = emptyenv())) {
   processed[[node]] <- TRUE
   deps <- colnames(mat)[which(mat[node, ] > 0, useNames = FALSE)]
   deps <- setdiff(deps, names(processed))
   for (dep in deps) graph_dfs(mat, dep, processed)
 }
+
 graph_get_all_dependencies <- function(mat, node) {
   if (!node %in% rownames(mat)) return(character())
   processed <- new.env(parent = emptyenv())

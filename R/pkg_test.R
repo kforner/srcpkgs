@@ -41,7 +41,8 @@ pkg_test <- function(pkgid, filter = NULL, src_pkgs = get_srcpkgs(), quiet = TRU
 }
 
 
-#' tells if the test is successful
+# tells if the test is successful
+# N.B: this is not a roxygen comment ON PURPOSE
 #' @export
 as.logical.pkg_test <- function(x, ...) {
   df <- as.data.frame(x)
@@ -108,7 +109,8 @@ print.pkg_test <- function(x, ...) {
   invisible()
 }
 
-#' summarizes by test source file. Use by=NA to summarize all rows to get an overview
+# summarizes by test source file. Use by=NA to summarize all rows to get an overview
+# N.B: this is not a roxygen comment ON PURPOSE
 #' @export
 summary.pkg_test <- function(object, col = 'file', ...) {
   df <- as.data.frame(object)
