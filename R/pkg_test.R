@@ -4,7 +4,9 @@
 #' making sure the package and its source package dependencies are up-to-date and loaded 
 #'
 #' @inheritParams params
-#' @param filter    filter in the tests to run. cf `testthat::test_dir()`
+#' @param filter      filter in the tests to run. cf `testthat::test_dir()`
+#' @param export_all  passed to [pkg_load()]. Enables the test functions to easily access to non-exported
+#'                    functions. Caveat: If the pkg is already loaded and up-to-date with export_all=FALSE, it will not work.
 #' @param ...   passed to `testthat::test_dir()`
 #' @return the results as a `pkg_test` object, or NULL if no tests found
 #' @importFrom testthat   test_dir
@@ -13,7 +15,7 @@
 #' \dontrun{
 #'  pkg_test("mypkg")
 #' }
-pkg_test <- function(pkgid, filter = NULL, src_pkgs = get_srcpkgs(), quiet = TRUE, ...)
+pkg_test <- function(pkgid, filter = NULL, src_pkgs = get_srcpkgs(), export_all = TRUE, quiet = TRUE, ...)
 {
   if (is_loaders_hack_enabled()) {
     unhack_r_loaders()
@@ -27,7 +29,7 @@ pkg_test <- function(pkgid, filter = NULL, src_pkgs = get_srcpkgs(), quiet = TRU
     'package "%s" is not managed by srcpkgs, check `get_srcpkgs()`', pkg_name)
 
   # load and document if needed
-  pkg_load(pkg, src_pkgs, quiet = quiet)
+  pkg_load(pkg, src_pkgs, quiet = quiet, export_all = export_all)
 
   test_path <- file.path(pkg$path, "tests/testthat")
   if (!dir.exists(test_path) || length(dir(test_path)) == 0) return(invisible())

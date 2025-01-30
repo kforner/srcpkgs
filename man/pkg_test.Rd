@@ -4,7 +4,14 @@
 \alias{pkg_test}
 \title{tests a package - runs its unit tests}
 \usage{
-pkg_test(pkgid, filter = NULL, src_pkgs = get_srcpkgs(), quiet = TRUE, ...)
+pkg_test(
+  pkgid,
+  filter = NULL,
+  src_pkgs = get_srcpkgs(),
+  export_all = TRUE,
+  quiet = TRUE,
+  ...
+)
 }
 \arguments{
 \item{pkgid}{a package name, path or package object}
@@ -12,6 +19,9 @@ pkg_test(pkgid, filter = NULL, src_pkgs = get_srcpkgs(), quiet = TRUE, ...)
 \item{filter}{filter in the tests to run. cf \code{testthat::test_dir()}}
 
 \item{src_pkgs}{a collection of source packages as a \code{srckgs} object.}
+
+\item{export_all}{passed to \code{\link[=pkg_load]{pkg_load()}}. Enables the test functions to easily access to non-exported
+functions. Caveat: If the pkg is already loaded and up-to-date with export_all=FALSE, it will not work.}
 
 \item{quiet}{whether to be quiet/silent}
 
