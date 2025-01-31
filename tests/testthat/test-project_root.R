@@ -12,16 +12,26 @@ test_that("find_project_root", {
 
   dir.create('dir1/dir2/dir3', recursive = TRUE)
   dir.create('dir1/dir2/.git')
-
+# browser()
   root2 <- file.path(getwd(), 'dir1/dir2')
   # N.B: we compare only basenames because of Windows... :(
+  # dir2 because of dir2/.git in ..
   expect_identical(basename(find_project_root('dir1/dir2/dir3')), basename(root2))
+  # dir2 because of dir2/.git in .
   expect_identical(basename(find_project_root('dir1/dir2/')), basename(root2))
-  expect_identical(basename(find_project_root('dir1/')), 'dir1')
+  # # dir1 by default
+  # expect_identical(basename(find_project_root('dir1/')), 'dir1')
+  # root because of .git file
+ 
+  expect_identical(basename(find_project_root('dir1/')), basename(getwd()))
 
   root3 <- file.path(getwd(), 'dir1/dir2/dir3')
-  dir.create(file.path(root3, '.git'))
+  # a .git file, not a directory, like for git submodules
+  writeLines("", file.path(root3, '.git'))
+  # dir.create(file.path(root3, '.git'))
+   # dir3 because of dir3/.git in .
   expect_identical(basename(find_project_root('dir1/dir2/dir3')), basename(root3))
+  # dir2 because of dir2/.git in .
   expect_identical(basename(find_project_root('dir1/dir2/')), basename(root2))
 
   ### edge cases
