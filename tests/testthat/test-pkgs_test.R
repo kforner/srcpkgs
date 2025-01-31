@@ -19,8 +19,12 @@ test_that("pkgs_test", {
   expect_s3_class(res[[1]], "pkg_test")
   expect_s3_class(res[[2]], "try-error")
 
-  res1 <- res[1]; class(res1) <- class(res)
-  res2 <- res[2];class(res2) <- class(res)
+  res1 <- subset_s3_list(res, 1)
+  res2 <- subset_s3_list(res, 2)
+
+  ## filter
+  subres <- pkgs_test(src_pkgs = src_pkgs, reporter = "silent", quiet = TRUE, filter = "A")
+  expect_identical(names(subres), "AA")
 
   ####### =============== S3 methods ================================
   ### as.data.frame

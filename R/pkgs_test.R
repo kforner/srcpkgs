@@ -6,7 +6,7 @@
 #' @param ...   passed to `pkg_test`
 #' @return the results as a `pkgs_test` object
 #' @export
-pkgs_test <- function(pkgids = names(src_pkgs), src_pkgs = get_srcpkgs(), quiet = TRUE, ...)
+pkgs_test <- function(pkgids = names(filter_srcpkgs(src_pkgs, filter)), src_pkgs = get_srcpkgs(), filter = NULL, quiet = TRUE, ...)
 {
   force(src_pkgs)
 

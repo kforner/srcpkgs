@@ -5,8 +5,9 @@
 \title{tests a list of source packages}
 \usage{
 pkgs_test(
-  pkgids = names(src_pkgs),
+  pkgids = names(filter_srcpkgs(src_pkgs, filter)),
   src_pkgs = get_srcpkgs(),
+  filter = NULL,
   quiet = TRUE,
   ...
 )
