@@ -34,17 +34,26 @@ find_srcpkgs <- function(root = get_project_root(),
 #' This function is useful for troubleshooting, to understand what are the source packages discovered 
 #' and managed by `srcpkgs` 
 #' 
+#' @param filter    a pattern to filter the source packages
 #' @return the source packages as a "scrpkgs" object, cf [find_srcpkgs()], or NULL if none
 #' @export
 #' @examples
 #' pkgs <- get_srcpkgs()
 #' print(pkgs)
-get_srcpkgs <- function() {
+get_srcpkgs <- function(filter = NULL) {
   init_if_needed() # triggers initialization
   paths <- get_srcpkgs_paths() %||% return(NULL)
 
-  srcpkgs(paths = paths)
+  filter_srcpkgs(srcpkgs(paths = paths), filter)
 }
+
+filter_srcpkgs <- function(src_pkgs, filter = NULL) {
+  if (!length(filter) || !nzchar(filter)) return(src_pkgs)
+  packages <- vapply(src_pkgs, getElement, "", "package")
+
+  subset_s3_list(src_pkgs, grepl(filter, packages))
+}
+
 
 # sets the current paths of source packages
 set_srcpkgs_paths <- function(paths) { set_config(SRCPKGS_PATHS_KEY, paths) }

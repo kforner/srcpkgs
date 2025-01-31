@@ -124,3 +124,10 @@ set_option <- function(option, value) {
   names(args) <- option
   do.call(options, args)
 }
+
+# subset a list with a s3 class without losing the class attribute
+subset_s3_list <- function(lst, idx) {
+  subset_lst <- lst[idx]
+  class(subset_lst) <- class(lst)
+  subset_lst
+}
