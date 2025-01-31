@@ -18,6 +18,8 @@ srcpkgs object. Also accept a singleton package object}
 
 \item{src_pkgs}{a collection of source packages as a \code{srckgs} object.}
 
+\item{filter}{filter out the packages to test using this pattern}
+
 \item{quiet}{whether to be quiet/silent}
 
 \item{...}{passed to \code{pkg_test}}

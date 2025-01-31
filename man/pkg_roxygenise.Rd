@@ -18,7 +18,7 @@ if the roxygenation has been performed
 }
 \description{
 \itemize{
-\item if the package has not changed (based on the md5sum file), does noting
+\item if the package has not changed (based on the md5sum file), does nothing
 \item otherwise roxygenise the package using roxygen2::roxygenise
 \item and update and save the new md5sum file
 }

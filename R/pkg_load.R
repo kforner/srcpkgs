@@ -143,7 +143,7 @@ load_plan <- function(pkg_names, mat) {
 
 # return TRUE iff the package should be updated: roxigenised, (re)loaded
 pkg_is_outdated <- function(pkg_path, roxygen = TRUE, quiet = FALSE) {
-  (roxygen && pkg_has_no_doc(pkg_path)) || pkg_has_changed(pkg_path, quiet)
+  (roxygen && pkg_has_no_doc(pkg_path)) || pkg_has_changed(pkg_path, quiet = quiet)
 }
 
 # N.B: should only be called if the package is not loaded or has changed

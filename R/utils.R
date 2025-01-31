@@ -41,6 +41,9 @@ is_condition_true <- function(cond) {
   as.logical(cond)
 }
 
+is_string <- function(x) length(x) == 1 && is.character(x)
+is_nz_string <- function(x)  length(x) == 1 && is.character(x) && nzchar(x)
+
 is_error <- function(x) inherits(x, "try-error")
 
 stop_unless <- function(cond, format, ...) {

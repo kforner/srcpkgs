@@ -4,7 +4,6 @@ execute_plan <- function(plan, src_pkgs, quiet = FALSE, ...) {
     on.exit(hack_r_loaders(), add = TRUE)
   }
 
-
   if (!length(plan)) return()
   logger <- get_text_logger(quiet)
   for (i in seq_len(nrow(plan))) {

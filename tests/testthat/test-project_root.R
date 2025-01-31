@@ -12,7 +12,7 @@ test_that("find_project_root", {
 
   dir.create('dir1/dir2/dir3', recursive = TRUE)
   dir.create('dir1/dir2/.git')
-# browser()
+
   root2 <- file.path(getwd(), 'dir1/dir2')
   # N.B: we compare only basenames because of Windows... :(
   # dir2 because of dir2/.git in ..

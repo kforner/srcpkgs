@@ -3,8 +3,8 @@
 
 # checks if the package has changed since the last pkg_write_md5sum() call
 # if no md5sum file exists, return TRUE since we can not know, so we assume it has changed
-pkg_has_changed <- function(pkg_path, quiet = FALSE) {
-  md5sum <- pkg_read_md5sum(pkg_path) %||% return(TRUE)
+pkg_has_changed <- function(pkg_path, md5sum = pkg_read_md5sum(pkg_path), quiet = FALSE) {
+  if (!length(md5sum)) return(TRUE)
 
   rel_paths <- pkg_list_files(pkg_path)
 
@@ -28,6 +28,9 @@ pkg_has_changed <- function(pkg_path, quiet = FALSE) {
 # N.B: by default exclude lots of files, but also make use of .Rbuildignore to exclude more
 # N.B: return relative file paths
 pkg_list_files <- function(pkg_path) {
+  stop_unless(is_nz_string(pkg_path), "bad param 'pkg_path', must be a string")
+  stop_unless(dir.exists(pkg_path), "pkg_path '%s' does not exist", pkg_path)
+
   ### exclusion
   exclude <- default_exclude_patterns()
 

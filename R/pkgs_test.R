@@ -3,6 +3,7 @@
 #' tests a list of source packages
 #'
 #' @inheritParams params
+#' @param filter  filter out the packages to test using this pattern
 #' @param ...   passed to `pkg_test`
 #' @return the results as a `pkgs_test` object
 #' @export

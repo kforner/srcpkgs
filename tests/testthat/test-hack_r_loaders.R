@@ -34,10 +34,11 @@ test_that("hack_library", {
 
 
   ### try to restore state
-  old <- set_loaders_hack(TRUE)
-  on.exit(set_loaders_hack(old), add = TRUE)
-  TRACED <- is_traced(library)
-  if (TRACED) on.exit(hack_library(), add = TRUE) else on.exit(.untrace(library), add = TRUE)
+  on.exit(unhack_r_loaders(), add = TRUE)
+  # old <- set_loaders_hack(TRUE)
+  # on.exit(set_loaders_hack(old), add = TRUE)
+  # TRACED <- is_traced(library)
+  # if (TRACED) on.exit(hack_library(), add = TRUE) else on.exit(.untrace(library), add = TRUE)
   paths <- find_srcpkgs_paths('.')
   PATHS <- set_srcpkgs_paths(paths)
   on.exit(set_srcpkgs_paths(PATHS), add = TRUE) 
@@ -49,7 +50,9 @@ test_that("hack_library", {
   expect_error(library(hack.library), 'there is no package called')
 
   ### now hack it
+
   hack_library()
+  set_loaders_hack(TRUE)
 
   expect_error(library(hack.library), NA)
   expect_true(pkg_is_attached(pkg_name))
