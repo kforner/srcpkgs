@@ -26,7 +26,9 @@ setup_temp_dir <- function(setwd = TRUE, .local_envir = parent.frame(), ...) {
 # }
 
 find_dangling_srcpkgs <- function() {
+  # pkgs loaded via devtools
   pkgs_names <- sort(devtools::dev_packages())
+  # metadata stored by devtools
   pkgs <- lapply(pkgs_names, fetch_srcpkg_meta)
   pkgs <- pkgs[lengths(pkgs) > 0] %||% return(NULL)
   pkgs <- srcpkgs(pkgs)
@@ -45,6 +47,14 @@ cleanup_dangling_srcpkgs <- function(quiet = TRUE) {
   src_pkgs <- srcpkgs(pkgs)
   for (pkg_name in pkg_names) pkg_unload(pkg_name, src_pkgs, quiet = quiet)
 }
+
+# radical: unload all double-letter loaded package, such as AA, BB, CC...
+cleanup_test_packages <- function() {
+  pkg_names <- paste0(LETTERS, LETTERS)
+  loaded <- intersect(pkg_names, loadedNamespaces())
+  for (pkg_name in loaded) devtools::unload(pkg_name, quiet = TRUE)
+}
+
 
 # useful for tests
 restore_init <- function(previous) {

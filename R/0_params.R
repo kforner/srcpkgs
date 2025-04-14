@@ -7,6 +7,7 @@
 #' @param pkgs					packages as a "srcpkgs" object
 #' @param pkg_name			the package name, as a character
 #' @param pkg_or_name   a package name or object ("package" or "srcpkg")
+#' @param pkg_path			the package path, as a character
 #' @param pkgid         a package name, path or package object
 #' @param pkgids        a list of package ids (names, paths or object), or a
 #' 											srcpkgs object. Also accept a singleton package object

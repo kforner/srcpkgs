@@ -7,6 +7,8 @@
 pkg_roxygenise(pkg_path, force = FALSE, quiet = FALSE, ...)
 }
 \arguments{
+\item{pkg_path}{the package path, as a character}
+
 \item{force}{if force(d), do not use the md5-based system to detect package changes}
 
 \item{quiet}{whether to be quiet/silent}
@@ -28,4 +30,3 @@ if the roxygenation has been performed
 \item N.B: has the side-effect of loading the package
 }
 }
-\keyword{internal}

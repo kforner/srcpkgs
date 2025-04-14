@@ -11,7 +11,7 @@
 #' @param ...         passed to  [devtools::document()]
 #'
 #' @return if the roxygenation has been performed
-#' @keywords internal
+#' @export
 pkg_roxygenise <- function(pkg_path, force = FALSE, quiet = FALSE,  ...) {
   if (!force && !pkg_needs_roxygen(pkg_path, quiet = quiet)) 
     return(invisible(FALSE))

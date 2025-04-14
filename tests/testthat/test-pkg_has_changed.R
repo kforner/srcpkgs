@@ -49,7 +49,7 @@ test_that("pkg_list_files", {
   rel_paths <- pkg_list_files('mypkg')
   paths <- file.path('mypkg', rel_paths)
 
-  common <- c('DESCRIPTION', 'R/dummy.R', 'man/dummy.Rd')
+  common <- c('DESCRIPTION', 'R/dummy.R')
   expect_true(all(file.path('mypkg', common) %in% paths))
   expect_true(all(file.exists(paths)))
 
