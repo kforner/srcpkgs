@@ -8,8 +8,8 @@ examples_srcpkgs_basic <- function(.local_envir = parent.frame()) {
   setup_temp_dir(.local_envir = .local_envir)
 
 
-  pkg_create('.', 'AA', imports = 'BB')
-  pkg_create('.', 'BB', suggests = 'stats')
+  pkg_create('.', 'AA', imports = 'BB', suggests = 'testthat')
+  pkg_create('.', 'BB', suggests = c('stats', 'testthat'))
 
   find_srcpkgs('.')
 }
