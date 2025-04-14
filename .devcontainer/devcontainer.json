@@ -16,13 +16,15 @@
 			"installRadian": true,
 			"installVscDebugger": true,
 			"installBspm": true
-		},
+		}
+
+    // ,"ghcr.io/rocker-org/devcontainer-features/r-dependent-packages:latest": {}
 
     // search for APT R packages with: `apt-cache search "^r-.*" | sort`
-
-    "ghcr.io/rocker-org/devcontainer-features/apt-packages:1": {
-      "packages": "bash-completion,pandoc,qpdf,r-cran-debugme,r-cran-cli,r-cran-covr, r-cran-dt, r-cran-htmltools, r-cran-igraph"
+    ,"ghcr.io/rocker-org/devcontainer-features/apt-packages:1.0.2": {
+      "packages": "bash-completion,pandoc,qpdf,r-cran-assertthat,r-cran-debugme,r-cran-cli,r-cran-covr,r-cran-dt,r-cran-htmltools,r-cran-huxtable,r-cran-igraph,r-cran-scales"
     }
+
 	},
   "overrideFeatureInstallOrder": [
     "ghcr.io/rocker-org/devcontainer-features/r-apt"
