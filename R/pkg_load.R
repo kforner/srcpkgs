@@ -70,6 +70,12 @@ pkg_load <- function(pkgid,
      execute_plan(plan, src_pkgs, quiet = quiet, helpers = helpers, export_all = export_all)
   }
 
+
+  ### currently the plan does not include an "attach" action. So in the case where the package
+  ### is already loaded and up to date, we still need to attach it
+  if (attach && !pkg_is_attached(pkg_name))
+    attachNamespace(pkg_name)
+
   invisible(plan)
 }
 

@@ -3,6 +3,7 @@ R <- list(roxygen = TRUE)
 RA <- list(roxygen = TRUE, attach = TRUE)
 A <- list(attach = TRUE)
 
+.pkg_load <- 
 test_that("pkg_load", {
   cleanup_test_packages()
 
@@ -31,7 +32,7 @@ test_that("pkg_load", {
   expect_equal(nrow(plan), 4)
 })
 
-
+.load_plan <- 
 test_that("load_plan", {
   ### A->C->D, B->D
   mat <- graph_from_strings('A->C->D', 'B->D')
@@ -48,7 +49,27 @@ test_that("load_plan", {
   expect_identical(load_plan('D', mat)$package, 'D')
 })
 
+# fix regression: we need to attach the package it is already loaded and up to date but not
+# attached
+.pkg_load__attach <- 
+test_that("pkg_load() - attach", {
+  cleanup_test_packages()
+  ### trivial example A->B
+  src_pkgs <- examples_srcpkgs_basic()
 
+  pkg_load('AA', src_pkgs, quiet = TRUE)
+
+
+  expect_true(pkg_is_attached('AA'))
+  pkg_detach('AA')
+  expect_false(pkg_is_attached('AA'))
+
+  pkg_load('AA', src_pkgs, quiet = TRUE)
+  expect_true(pkg_is_attached('AA'))
+})
+
+
+.pkg_load_full_plan__complex_deps <- 
 test_that("pkg_load_full_plan() - examples_srcpkgs_complex_deps", {
   src_pkgs <- examples_srcpkgs_complex_deps()
 
@@ -107,6 +128,7 @@ test_that("pkg_load_full_plan() - examples_srcpkgs_complex_deps", {
   expect_identical(plan, expected)
 })
 
+.pkg_load_full_plan__star <- 
 test_that("pkg_load_full_plan() - star example ", {
   src_pkgs <- examples_srcpkgs_star()
 
@@ -167,6 +189,7 @@ test_that("pkg_load_full_plan() - star example ", {
   expect_null(plan)
 })
 
+.pkg_load_full_plan__transitivity <- 
 test_that("pkg_load_full_plan() - transitivity ", {
   # the deps graph is A-->B--C
   setup_temp_dir()
@@ -252,7 +275,7 @@ test_that("pkg_load_full_plan() - transitivity ", {
 })
 
 
-
+.pkg_is_outdated <- 
 test_that("pkg_is_outdated", {
   setup_temp_dir()
   pkg_create('.', 'AA')

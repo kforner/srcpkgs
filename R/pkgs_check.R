@@ -13,6 +13,14 @@ summary.pkgs_check <- function(object, ...) {
   do.call(rbind, lapply(object, summary.pkg_check)  )
 }
 
+#' checks a list of source packages
+#'
+#' @inheritParams params
+#' @param filter          filter out the packages to check using this pattern
+#' @param fail_on_error   whether to die if there is at least an error or warning in the checks
+#' @param ...   passed to `pkg_check`
+#' @return the results as a `pkgs_test` object
+#' @export
 pkgs_check <- function(pkgids = names(filter_srcpkgs(src_pkgs, filter)), src_pkgs = get_srcpkgs(), 
   filter = NULL, lib = ".check",  quiet = FALSE, fail_on_error = FALSE,  ...) 
 {  

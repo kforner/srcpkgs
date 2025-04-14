@@ -27,6 +27,8 @@ srcpkgs object. Also accept a singleton package object}
 
 \item{progress}{whether to display a progress bar}
 
+\item{roxygen}{whether to roxygenize}
+
 \item{src_pkgs}{a collection of source packages as a \code{srckgs} object.}
 
 \item{srcpkgs_paths}{paths to the source packages folders}
