@@ -38,6 +38,35 @@ test_that("srcpkgs", {
 })
 
 
+test_that("as_srcpkgs", {
+  src_pkgs <- examples_srcpkgs_basic()
+
+  ### srcpkgs
+  res <- as_srcpkgs(src_pkgs, src_pkgs)
+  expect_identical(res, src_pkgs)
+
+  x <- subset_s3_list(src_pkgs, 2)
+  expect_identical(as_srcpkgs(x, src_pkgs), x)
+  
+  ### srcpkg
+  x <- src_pkgs[[2]]
+  expect_identical(as_srcpkgs(x, src_pkgs), srcpkgs(list(x)))
+  
+  ### names
+  res <- as_srcpkgs(c("BB", "AA"), src_pkgs)
+  expect_identical(res, subset_s3_list(src_pkgs, c("BB", "AA")))
+  
+  ### paths
+  res <- as_srcpkgs(src_pkgs$BB$path)
+  expect_identical(res, subset_s3_list(src_pkgs, "BB"))
+
+  ### edge cases
+  expect_error(as_srcpkgs(1), "bad arg")
+  expect_error(as_srcpkgs("/toto"), "not a directory")
+})
+
+
+
 test_that("as.data.frame.srcpkgs", {
   setup_temp_dir()
   pkg1 <- pkg_create('.', 'pkg1', imports = c('i1', 'i2'), depends = c('d1', 'd2'))

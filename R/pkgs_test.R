@@ -10,9 +10,8 @@
 pkgs_test <- function(pkgids = names(filter_srcpkgs(src_pkgs, filter)), src_pkgs = get_srcpkgs(), filter = NULL, quiet = TRUE, ...)
 {
   force(src_pkgs)
-
   if (!length(pkgids)) stop('No package to test')
-  pkgs <- srcpkgs(lapply(pkgids, as_srcpkg, src_pkgs))
+  pkgs <- as_srcpkgs(pkgids, src_pkgs)
 
   .test_pkg <- function(pkg) {
     try(pkg_test(pkg, src_pkgs = src_pkgs, quiet = quiet, ...), silent = quiet)

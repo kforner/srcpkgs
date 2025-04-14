@@ -26,7 +26,30 @@ test_that("pkgs_test", {
   subres <- pkgs_test(src_pkgs = src_pkgs, reporter = "silent", quiet = TRUE, filter = "A")
   expect_identical(names(subres), "AA")
 
+  ## alternate inputs
+  # names
+  res2 <- pkgs_test("AA", src_pkgs = src_pkgs, reporter = "silent", quiet = TRUE)
+
+  .cmp_res <- function(res1, res2) {
+    df1 <- as.data.frame(res1)
+    df2 <- as.data.frame(res2)
+    df1$time <- df2$time <- NULL
+    identical(df1, df2)
+  }
+  expect_true(.cmp_res(res2, subset_s3_list(res, "AA")))
+  
+  # srcpkgs objects
+  resbis <- pkgs_test(src_pkgs, src_pkgs = src_pkgs, reporter = "silent", quiet = TRUE)
+  expect_identical(names(resbis), c("AA", "BB"))
+  
+  res22 <- pkgs_test(subset_s3_list(src_pkgs, "BB"), src_pkgs = src_pkgs, reporter = "silent", quiet = TRUE)
+  expect_identical(names(res22), "BB")
+
   ####### =============== S3 methods ================================
+  res <- pkgs_test(src_pkgs = src_pkgs, reporter = "silent", quiet = TRUE)
+  res1 <- subset_s3_list(res, 1)
+  res2 <- subset_s3_list(res, 2)
+
   ### as.data.frame
   df <- as.data.frame(res)
 
@@ -47,7 +70,6 @@ test_that("pkgs_test", {
   expect_identical(df1, summary(res1[[1]], col = NULL))
   
   # 1 pkg with error
-
   df2 <- as.data.frame(res2)
   df2$skipped <- as.integer(df2$skipped)
   expect_identical(df2, df[2,])
