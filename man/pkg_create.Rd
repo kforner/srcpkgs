@@ -12,7 +12,8 @@ pkg_create(
   depends = NULL,
   suggests = NULL,
   namespace = FALSE,
-  roxygen_imports = FALSE
+  roxygen_imports = FALSE,
+  ignore_hidden_files = TRUE
 )
 }
 \arguments{
@@ -32,6 +33,8 @@ pkg_create(
 N.B: if the namespace file is generated, roxygen will refuse to update it}
 
 \item{roxygen_imports}{whether to write the roxygen statements to defined the imports}
+
+\item{ignore_hidden_files}{whether to create a \code{.Rbuildignore} file to ignore hidden files.}
 }
 \value{
 the srcpkg instance, invisibly

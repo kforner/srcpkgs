@@ -17,7 +17,7 @@ pkgs_test <- function(pkgids = names(filter_srcpkgs(src_pkgs, filter)), src_pkgs
     try(pkg_test(pkg, src_pkgs = src_pkgs, quiet = quiet, ...), silent = quiet)
   }
   lst <- lapply(pkgs, .test_pkg)
-  class(lst) <- ('pkgs_test')
+  class(lst) <- 'pkgs_test'
   invisible(lst)
 }
 
