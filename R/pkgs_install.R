@@ -13,9 +13,9 @@ pkgs_install <- function(pkgids, lib, src_pkgs = get_srcpkgs(), only_deps = FALS
 {
   stop_unless(length(pkgids), "No package to test")
   force(src_pkgs)
-  pkgs <- srcpkgs(lapply(pkgids, as_srcpkg, src_pkgs))
+  pkgs <- as_srcpkgs(pkgids, src_pkgs)
 
-  pkgs_to_install <- pkgs_deps(pkgids, src_pkgs, installed = FALSE)
+  pkgs_to_install <- pkgs_deps(names(pkgs), src_pkgs, installed = FALSE)
   # N.B: must process them in reverse topological order
   pkgs_to_install <- rev(pkgs_to_install)
 
