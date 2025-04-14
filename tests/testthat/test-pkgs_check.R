@@ -1,37 +1,44 @@
 
-.pkg_test <- 
-test_that("pkg_test", {
-  ### trivial example A->B
-  src_pkgs <- examples_srcpkgs_basic()
 
-  ### pkg with no tests
-  expect_null(pkg_test('AA', src_pkgs = src_pkgs, reporter = "silent"))
-  expect_null(pkg_test('BB', src_pkgs = src_pkgs, reporter = "silent"))
+.pkgs_check <- 
+test_that("pkgs_check", {
+  src_pkgs <- examples_srcpkgs_basic()
+  setup_temp_dir()
 
   ###### with tests
   add_dummy_test_to_srcpkgs(src_pkgs)
-  ### one package with a dep
+  # make BB to fail
+  writeLines(r"{ stop("aie aie aie") }", file.path(src_pkgs$BB$path, "tests/testthat/setup.R"))
 
-  res <- pkg_test('AA', src_pkgs = src_pkgs, reporter = "silent")
+  ### 
+  chks <- pkgs_check(src_pkgs = src_pkgs, quiet = TRUE)
 
-  expect_s3_class(res, "pkg_test")
-  df <- as.data.frame(res)
-  expect_equal(sum(df$failed), 6)
-  pkg <- attr(res, 'pkg')
-  expect_identical(pkg, src_pkgs$AA)
+  expect_s3_class(chks, "pkgs_check")
+  expect_true(is.list(chks))
+  expect_length(chks, 2)
+  expect_s3_class(chks[[1]], "pkg_check")
+  expect_s3_class(chks[[2]], "pkg_check")
 
-  ### pkg with no deps
-  res <- pkg_test('BB', src_pkgs = src_pkgs, reporter = "silent")
-  expect_s3_class(res, "pkg_test")
 
-  ####### filter
-  res <- pkg_test('AA', filter = "success", src_pkgs = src_pkgs, reporter = "silent")
-  df <- as.data.frame(res)
-  expect_equal(sum(df$failed), 0)
+  ####### =============== S3 methods ================================
+  ### summary
+  sdf <- summary(chks)
+  expect_true(is.data.frame(sdf))
+  expect_equal(nrow(sdf), 2)
 
-  res <- pkg_test('AA', filter = "failure", src_pkgs = src_pkgs, reporter = "silent")
-  df <- as.data.frame(res)
-  expect_true(all(df$failed > 0))
+  for (i in 1:2) {
+    expected <- summary(chks[[i]])
+    rownames(expected) <- src_pkgs[[i]]$package
+    expect_identical(sdf[i,], expected)
+  }
+
+  ### print
+  expect_snapshot(print(chks))
+
+  #### fail_on_error
+  expect_error(chks <- pkgs_check(src_pkgs = src_pkgs, quiet = TRUE, fail_on_error = TRUE), "checks failed")
+
 })
+
 
 

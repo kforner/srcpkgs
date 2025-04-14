@@ -2,4 +2,4 @@
 - make pkgs_test() accept a srcpkgs and srcpkg object as first arg
 - export pkg_roxygenise()
 - fix pkg_load() to attach a package (if attach == TRUE) whose namespace is loaded
- 
+ - export pkg_attach() and pkg_list_attached()
