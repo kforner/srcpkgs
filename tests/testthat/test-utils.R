@@ -1,3 +1,21 @@
+.subset_s3_list <- 
+test_that(".subset_s3_list", {
+  ### regular list
+  lst <- as.list(1:5)
+  expect_identical(subset_s3_list(lst, 2), lst[2])
+  
+  ###
+  class(lst) <- "toto"
+  res <- subset_s3_list(lst, 2)
+  expect_identical(unclass(res), lst[2])
+  expect_identical(class(res), "toto")
+  
+  res <- subset_s3_list(lst, 2:3)
+  expect_identical(unclass(res), lst[2:3])
+  expect_identical(class(res), "toto")
+})
+
+
 
 test_that("get_text_logger", {
   expect_identical(get_text_logger(), cli::cli_text)

@@ -13,15 +13,6 @@ srcpkg <- function(pkg = devtools::as.package(path), path = NULL) {
   pkg
 }
 
-get_srcpkg_dependencies <- function(src_pkg) {
-  .parse_deps_field <- function(type) {
-    str <- gsub('\n', '', src_pkg[[type]])
-    if (length(str) == 0 || !nzchar(str)) return(NULL)
-    strsplit(str, ',')[[1]]
-  }
-
-  sapply(c('imports', 'depends', 'suggests'), .parse_deps_field, simplify = FALSE)
-}
 
 
 # makes sure we get a srcpkg instance

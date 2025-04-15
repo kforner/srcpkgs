@@ -16,7 +16,9 @@
 
 \item{pkg_or_name}{a package name or object ("package" or "srcpkg")}
 
-\item{pkgid}{a package name, path or object}
+\item{pkg_path}{the package path, as a character}
+
+\item{pkgid}{a package name, path or package object}
 
 \item{pkgids}{a list of package ids (names, paths or object), or a
 srcpkgs object. Also accept a singleton package object}
@@ -24,6 +26,8 @@ srcpkgs object. Also accept a singleton package object}
 \item{md5}{the MD5 hash of the source package}
 
 \item{progress}{whether to display a progress bar}
+
+\item{roxygen}{whether to roxygenize}
 
 \item{src_pkgs}{a collection of source packages as a \code{srckgs} object.}
 

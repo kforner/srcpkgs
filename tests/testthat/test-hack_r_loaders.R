@@ -22,7 +22,7 @@ test_that("hack_r_loaders", {
   
   expect_false(is_traced(library))
   expect_false(is_traced(loadNamespace))
-  expect_true(is_loaders_hack_enabled())
+  expect_false(is_loaders_hack_enabled())
 
 })
 
@@ -34,10 +34,11 @@ test_that("hack_library", {
 
 
   ### try to restore state
-  old <- set_loaders_hack(TRUE)
-  on.exit(set_loaders_hack(old), add = TRUE)
-  TRACED <- is_traced(library)
-  if (TRACED) on.exit(hack_library(), add = TRUE) else on.exit(.untrace(library), add = TRUE)
+  on.exit(unhack_r_loaders(), add = TRUE)
+  # old <- set_loaders_hack(TRUE)
+  # on.exit(set_loaders_hack(old), add = TRUE)
+  # TRACED <- is_traced(library)
+  # if (TRACED) on.exit(hack_library(), add = TRUE) else on.exit(.untrace(library), add = TRUE)
   paths <- find_srcpkgs_paths('.')
   PATHS <- set_srcpkgs_paths(paths)
   on.exit(set_srcpkgs_paths(PATHS), add = TRUE) 
@@ -49,7 +50,9 @@ test_that("hack_library", {
   expect_error(library(hack.library), 'there is no package called')
 
   ### now hack it
+
   hack_library()
+  set_loaders_hack(TRUE)
 
   expect_error(library(hack.library), NA)
   expect_true(pkg_is_attached(pkg_name))
@@ -61,7 +64,7 @@ test_that("hack_library", {
   writeLines('new_fun <- function(x) { x + 1}', file.path(pkg_name, 'R/new_fun.R'))
 
   expect_error(library(hack.library), NA)
-  expect_true(is.function(getFromNamespace('new_fun', pkg_name)))
+  expect_true(is.function(utils::getFromNamespace('new_fun', pkg_name)))
 
   ### set_loaders_hack / is_loaders_hack_enabled
   expect_true(is_loaders_hack_enabled())
@@ -89,8 +92,8 @@ test_that("hack_loadNamespace", {
   on.exit(set_srcpkgs_paths(PATHS), add = TRUE) 
 
   ### default library() behaviour --> does NOT know about our source packages 
-  .untrace(loadNamespace)
   pkg_unload(pkg_name, quiet = TRUE)
+  .untrace(loadNamespace)
 
   expect_error(loadNamespace(pkg_name), 'there is no package called')
 
@@ -108,7 +111,7 @@ test_that("hack_loadNamespace", {
   writeLines('new_fun <- function(x) { x + 1}', file.path(pkg_name, 'R/new_fun.R'))
 
   expect_error(loadNamespace(pkg_name), NA)
-  expect_true(is.function(getFromNamespace('new_fun', pkg_name)))
+  expect_true(is.function(utils::getFromNamespace('new_fun', pkg_name)))
 
   ### unload
   pkg_unload(pkg_name, quiet = TRUE)

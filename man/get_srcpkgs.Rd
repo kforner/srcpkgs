@@ -4,7 +4,10 @@
 \alias{get_srcpkgs}
 \title{get the current source packages list}
 \usage{
-get_srcpkgs()
+get_srcpkgs(filter = NULL)
+}
+\arguments{
+\item{filter}{a pattern to filter the source packages}
 }
 \value{
 the source packages as a "scrpkgs" object, cf \code{\link[=find_srcpkgs]{find_srcpkgs()}}, or NULL if none

@@ -1,4 +1,4 @@
-
+.get_srcpkgs <- 
 test_that("get_srcpkgs", { 
   setup_temp_dir()
   OLD <- settings()
@@ -23,8 +23,29 @@ test_that("get_srcpkgs", {
   pkg_create('.', 'AA', imports = 'roxygen2')
 
   expect_identical(get_srcpkgs()$AA$imports, 'roxygen2')
+
+  ### add two packages
+  pkg_create('.', 'AB')
+  pkg_create('.', 'BB')
+  reset()
+  src_pkgs <- find_srcpkgs(".")
+  expect_identical(get_srcpkgs(), src_pkgs)
+  
+  expect_identical(get_srcpkgs("AA"), subset_s3_list(src_pkgs, "AA"))
+  expect_identical(get_srcpkgs("A"), subset_s3_list(src_pkgs, c("AA", "AB")))
 })
 
+
+.filter_srcpkgs <- 
+test_that("filter_srcpkgs", { 
+  src_pkgs <- examples_srcpkgs_star()
+
+  expect_identical(filter_srcpkgs(src_pkgs), src_pkgs)
+  expect_identical(filter_srcpkgs(src_pkgs, ""), src_pkgs)
+
+  expect_identical(filter_srcpkgs(src_pkgs, "A"), subset_s3_list(src_pkgs, "AA"))
+  expect_identical(filter_srcpkgs(src_pkgs, "A|B"), subset_s3_list(src_pkgs, c("AA", "BB")))
+})
 
 
 .prune_paths <- function() {
@@ -47,6 +68,7 @@ test_that("get_srcpkgs", {
 test_that("prune_paths", {.prune_paths()})
 
 
+.find_srcpkgs_paths <- 
 test_that("find_srcpkgs_paths", { 
   find_srcpkgs_paths <- srcpkgs:::find_srcpkgs_paths
 

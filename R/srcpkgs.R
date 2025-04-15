@@ -25,6 +25,26 @@ srcpkgs <- function(
   pkgs
 }
 
+# makes sure the input x is a srcpkgs or can be converted to
+# accepted: pkgs names, paths, srcpkgs, srcpkg
+as_srcpkgs <- function(x, src_pkgs = get_srcpkgs()) {
+  if (!length(x)) stop('bad input')
+  
+  if (inherits(x, "srcpkgs")) return(x)
+  if (inherits(x, "srcpkg")) return(srcpkgs(list(x)))
+
+  stop_unless(is.character(x), 'bad arg: not a srcpkg(s) nor character')
+
+  ## pkg names??
+  if (all(x %in% names(src_pkgs))) {
+    return(subset_s3_list(src_pkgs, x))
+  }
+
+  ### assume there are paths
+  srcpkgs(paths = x)
+}
+
+
 graph_from_srcpkgs <- function(src_pkgs, imports = TRUE, depends = TRUE, suggests = FALSE) {
   nb <- length(src_pkgs)
   if (nb == 0) return(NULL)

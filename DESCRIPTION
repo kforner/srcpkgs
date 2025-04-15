@@ -1,6 +1,6 @@
 Package: srcpkgs
 Title: R Source Packages Manager
-Version: 0.1.1
+Version: 0.2
 Authors@R: 
     person("Karl", "Forner", , "karl.forner@gmail.com", role = c("aut", "cre", "cph"))
 Description: Manage a collection/library of R source packages. Discover, document, load, test 
@@ -15,11 +15,15 @@ BugReports: https://github.com/kforner/srcpkgs/issues
 Imports:
   cli,
   devtools,
-  pkgload
+  pkgload,
+  testthat,
+  stats,
+  utils
 Suggests: 
+    huxtable,
     knitr,
     rmarkdown,
-    testthat (>= 3.0.0),
+    scales,
     withr
 Config/testthat/edition: 3
 VignetteBuilder: knitr

@@ -23,7 +23,7 @@ enhanced_sprintf <- function(fmt, ..., collapse = ',') {
 # for building error messages, we must not crash on bad input
 safe_enhanced_sprintf <- function(fmt, ...) {
   msg <- try(enhanced_sprintf(fmt, ...))
-  if (inherits(msg, 'try-error')) {
+  if (is_error(msg)) {
     msg <- paste0('could not build error message: "', extract_error_message(msg), '"')
   }
 
@@ -40,6 +40,11 @@ is_condition_true <- function(cond) {
 
   as.logical(cond)
 }
+
+is_string <- function(x) length(x) == 1 && is.character(x)
+is_nz_string <- function(x)  length(x) == 1 && is.character(x) && nzchar(x)
+
+is_error <- function(x) inherits(x, "try-error")
 
 stop_unless <- function(cond, format, ...) {
 	if (missing(format)) {
@@ -121,4 +126,11 @@ set_option <- function(option, value) {
   args <- list(value)
   names(args) <- option
   do.call(options, args)
+}
+
+# subset a list with a s3 class without losing the class attribute
+subset_s3_list <- function(lst, idx) {
+  subset_lst <- lst[idx]
+  class(subset_lst) <- class(lst)
+  subset_lst
 }

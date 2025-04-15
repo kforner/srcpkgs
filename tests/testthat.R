@@ -7,6 +7,6 @@
 # * https://testthat.r-lib.org/articles/special-files.html
 
 library(testthat)
-library(srcpkgs)
+suppressPackageStartupMessages(library(srcpkgs))
 
 test_check("srcpkgs")

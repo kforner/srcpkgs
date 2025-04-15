@@ -7,7 +7,7 @@ build: rox
 	Rscript --no-save -e 'devtools::build()'
 
 check: rox
-	Rscript --no-save -e 'devtools::check(".", check_dir = ".checks")'
+	_R_CHECK_SYSTEM_CLOCK_=0 Rscript --no-save -e 'devtools::check(".", check_dir = ".checks")'
 
 run_examples: rox
 	Rscript --no-save -e 'devtools::run_examples(run_donttest = TRUE)'

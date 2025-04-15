@@ -7,6 +7,8 @@
 pkg_roxygenise(pkg_path, force = FALSE, quiet = FALSE, ...)
 }
 \arguments{
+\item{pkg_path}{the package path, as a character}
+
 \item{force}{if force(d), do not use the md5-based system to detect package changes}
 
 \item{quiet}{whether to be quiet/silent}
@@ -18,7 +20,7 @@ if the roxygenation has been performed
 }
 \description{
 \itemize{
-\item if the package has not changed (based on the md5sum file), does noting
+\item if the package has not changed (based on the md5sum file), does nothing
 \item otherwise roxygenise the package using roxygen2::roxygenise
 \item and update and save the new md5sum file
 }
@@ -28,4 +30,3 @@ if the roxygenation has been performed
 \item N.B: has the side-effect of loading the package
 }
 }
-\keyword{internal}

@@ -8,9 +8,11 @@
 
 test_that("fetch_srcpkgs_meta", {
   setup_temp_dir()
+  cleanup_dangling_srcpkgs()
+  
   pkg1 <- pkg_create('.', 'pkg1')
   pkg2 <- pkg_create('.', 'pkg2')
-  cleanup_dangling_srcpkgs()
+
   on.exit(cleanup_dangling_srcpkgs(), add = TRUE)
 
   ### no dev meta --> no srcpkg meta data

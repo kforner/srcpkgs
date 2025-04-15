@@ -1,6 +1,6 @@
 #' roxygenize a source package if needed 
 #' 
-#' - if the package has not changed (based on the md5sum file), does noting
+#' - if the package has not changed (based on the md5sum file), does nothing
 #' - otherwise roxygenise the package using roxygen2::roxygenise
 #' - and update and save the new md5sum file
 #' 
@@ -11,10 +11,11 @@
 #' @param ...         passed to  [devtools::document()]
 #'
 #' @return if the roxygenation has been performed
-#' @keywords internal
+#' @export
 pkg_roxygenise <- function(pkg_path, force = FALSE, quiet = FALSE,  ...) {
   if (!force && !pkg_needs_roxygen(pkg_path, quiet = quiet)) 
     return(invisible(FALSE))
+
   pkg_roxygenise_wrapper(pkg_path, quiet = quiet, ...)
   invisible(TRUE)
 }

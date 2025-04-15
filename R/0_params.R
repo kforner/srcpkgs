@@ -7,11 +7,13 @@
 #' @param pkgs					packages as a "srcpkgs" object
 #' @param pkg_name			the package name, as a character
 #' @param pkg_or_name   a package name or object ("package" or "srcpkg")
-#' @param pkgid         a package name, path or object
+#' @param pkg_path			the package path, as a character
+#' @param pkgid         a package name, path or package object
 #' @param pkgids        a list of package ids (names, paths or object), or a
 #' 											srcpkgs object. Also accept a singleton package object
 #' @param md5         	the MD5 hash of the source package
 #' @param progress 			whether to display a progress bar
+#' @param roxygen       whether to roxygenize
 #' @param src_pkgs      a collection of source packages as a `srckgs` object.
 #' @param srcpkgs_paths paths to the source packages folders
 #' @param root		      directory from where to search for source packages

@@ -3,19 +3,20 @@ R <- list(roxygen = TRUE)
 RA <- list(roxygen = TRUE, attach = TRUE)
 A <- list(attach = TRUE)
 
+.pkg_load <- 
 test_that("pkg_load", {
+  cleanup_test_packages()
+
   ### trivial example A->B
-  setup_temp_dir()
   src_pkgs <- examples_srcpkgs_basic()
-  cleanup_dangling_srcpkgs()
-  on.exit(cleanup_dangling_srcpkgs, add = TRUE)
+
   NONE <- character()
   ALL <- names(src_pkgs)
   unloadNamespace('AA')
   ###
   plan <- pkg_load('AA', src_pkgs, quiet = TRUE)
 
-  expect_equal(nrow(plan), 2)
+  expect_gt(nrow(plan), 1) # may be > 2 if BB already loaded for instance (by another test)
   expect_true(pkg_is_loaded('AA'))
   expect_true(pkg_is_attached('AA'))
   expect_true(pkg_is_loaded('BB'))
@@ -31,7 +32,7 @@ test_that("pkg_load", {
   expect_equal(nrow(plan), 4)
 })
 
-
+.load_plan <- 
 test_that("load_plan", {
   ### A->C->D, B->D
   mat <- graph_from_strings('A->C->D', 'B->D')
@@ -48,12 +49,30 @@ test_that("load_plan", {
   expect_identical(load_plan('D', mat)$package, 'D')
 })
 
+# fix regression: we need to attach the package it is already loaded and up to date but not
+# attached
+.pkg_load__attach <- 
+test_that("pkg_load() - attach", {
+  cleanup_test_packages()
+  ### trivial example A->B
+  src_pkgs <- examples_srcpkgs_basic()
 
+  pkg_load('AA', src_pkgs, quiet = TRUE)
+
+
+  expect_true(pkg_is_attached('AA'))
+  pkg_detach('AA')
+  expect_false(pkg_is_attached('AA'))
+
+  pkg_load('AA', src_pkgs, quiet = TRUE)
+  expect_true(pkg_is_attached('AA'))
+})
+
+
+.pkg_load_full_plan__complex_deps <- 
 test_that("pkg_load_full_plan() - examples_srcpkgs_complex_deps", {
-  setup_temp_dir()
   src_pkgs <- examples_srcpkgs_complex_deps()
-  cleanup_dangling_srcpkgs()
-  on.exit(cleanup_dangling_srcpkgs, add = TRUE)
+
   NONE <- character()
   ALL <- names(src_pkgs)
 
@@ -109,11 +128,10 @@ test_that("pkg_load_full_plan() - examples_srcpkgs_complex_deps", {
   expect_identical(plan, expected)
 })
 
+.pkg_load_full_plan__star <- 
 test_that("pkg_load_full_plan() - star example ", {
-  setup_temp_dir()
   src_pkgs <- examples_srcpkgs_star()
-  cleanup_dangling_srcpkgs()
-  on.exit(cleanup_dangling_srcpkgs, add = TRUE)
+
   NONE <- character()
   ALL <- names(src_pkgs)
   ###############################################################################################
@@ -171,6 +189,7 @@ test_that("pkg_load_full_plan() - star example ", {
   expect_null(plan)
 })
 
+.pkg_load_full_plan__transitivity <- 
 test_that("pkg_load_full_plan() - transitivity ", {
   # the deps graph is A-->B--C
   setup_temp_dir()
@@ -179,7 +198,7 @@ test_that("pkg_load_full_plan() - transitivity ", {
   pkg_create('.', 'pkgB', imports  = 'pkgC')
   pkg_create('.','pkgC', suggests = 'roxygen2')
   cleanup_dangling_srcpkgs()
-  on.exit(cleanup_dangling_srcpkgs, add = TRUE)
+  on.exit(cleanup_dangling_srcpkgs(), add = TRUE)
   src_pkgs <- find_srcpkgs('.')
   NONE <- character()
   ALL <- names(src_pkgs)
@@ -256,12 +275,12 @@ test_that("pkg_load_full_plan() - transitivity ", {
 })
 
 
-
+.pkg_is_outdated <- 
 test_that("pkg_is_outdated", {
   setup_temp_dir()
   pkg_create('.', 'AA')
   cleanup_dangling_srcpkgs()
-  on.exit(cleanup_dangling_srcpkgs, add = TRUE)
+  on.exit(cleanup_dangling_srcpkgs(), add = TRUE)
   PKG <- srcpkg(path = 'AA')
 
   ### no doc

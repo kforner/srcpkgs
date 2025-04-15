@@ -13,7 +13,7 @@ a named list of:
 \item root: the project root
 \item srcpkgs_paths: the paths of the source packages to manage
 \item hack_r_loaders_installed: whether the R loaders are hacked
-\item hack_r_loaders_enabled: whether the R loaded hack is in action (internal use0
+\item hack_r_loaders_enabled: whether the R loaded hack is in action (internal use)
 }
 }
 \description{

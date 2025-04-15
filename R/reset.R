@@ -51,7 +51,7 @@ reset <- function(
 #'   - root: the project root
 #'   - srcpkgs_paths: the paths of the source packages to manage
 #'   - hack_r_loaders_installed: whether the R loaders are hacked
-#'   - hack_r_loaders_enabled: whether the R loaded hack is in action (internal use0
+#'   - hack_r_loaders_enabled: whether the R loaded hack is in action (internal use)
 #' @export 
 settings <- function() {
   list(

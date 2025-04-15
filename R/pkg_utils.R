@@ -12,11 +12,13 @@
 #' @param namespace whether to write the namespace file (currently only applicable to the imports.
 #'        N.B: if the namespace file is generated, roxygen will refuse to update it
 #' @param roxygen_imports whether to write the roxygen statements to defined the imports
-#'
+#' @param ignore_hidden_files whether to create a `.Rbuildignore` file to ignore hidden files.
+#' 
 #' @return the srcpkg instance, invisibly
 #' @keywords internal
 pkg_create <- function(dir, name, functions = list(dummy = function() 'DUMMY'),
-   imports = NULL, depends = NULL, suggests = NULL, namespace = FALSE, roxygen_imports = FALSE)
+   imports = NULL, depends = NULL, suggests = NULL, namespace = FALSE, roxygen_imports = FALSE,
+   ignore_hidden_files = TRUE)
 {
 
   dir.create(dir, recursive = TRUE, showWarnings = FALSE)
@@ -24,37 +26,55 @@ pkg_create <- function(dir, name, functions = list(dummy = function() 'DUMMY'),
   env <- list2env((functions))
   mute(utils::package.skeleton(name = name, path = dir, environment = env, encoding = 'UTF-8'))
 
-  desc_path <- file.path(dir, name, 'DESCRIPTION')
+  pkg_path <- file.path(dir, name)
+
+  desc_path <- file.path(pkg_path, 'DESCRIPTION')
   stop_unless(file.exists(desc_path),  'can not find DESCRIPTION file at "%s"', desc_path)
-  ns_path <- file.path(dir, name, 'NAMESPACE')
+
+  fix_description(desc_path, list(License = "GPL-3"))
+
+  ns_path <- file.path(pkg_path, 'NAMESPACE')
   if (!namespace) {
     unlink(ns_path)
   }
 
-  .update_description_file <- function(section, contents) {
+  .add_section_to_description <- function(section, contents) {
     section <- paste0(section, ': ')
     line <- paste0(section, paste0(contents, collapse = ","), '\n')
     cat(line, file = desc_path, append = TRUE)
   }
 
   if (!is.null(imports)) {
-    .update_description_file('Imports', imports)
+    .add_section_to_description('Imports', imports)
 
     if (namespace) {
       cat(sprintf('import(%s)', imports), file = ns_path, sep = '\n', append = TRUE)
     }
     if (roxygen_imports) {
-      roxygen_import_file <- file.path(dir, name, 'R/imports.R')
+      roxygen_import_file <- file.path(pkg_path, 'R/imports.R')
       lines = c(sprintf("#' @import %s", imports), 'NULL')
       cat(lines, file = roxygen_import_file, sep = '\n')
     }
   }
-  if (!is.null(depends)) .update_description_file('Depends', depends)
-  if (!is.null(suggests)) .update_description_file('Suggests', suggests)
+  if (!is.null(depends)) .add_section_to_description('Depends', depends)
+  if (!is.null(suggests)) .add_section_to_description('Suggests', suggests)
 
-  invisible(srcpkg(path = file.path(dir, name)))
+  if (ignore_hidden_files) {
+    cat("^[.].*$\n^.*/[.].*$\n", file = file.path(pkg_path, ".Rbuildignore"))
+  }
+
+  ### man
+  unlink(file.path(pkg_path, "man"), recursive = TRUE)
+
+  invisible(srcpkg(path = pkg_path))
 }
 
+
+fix_description <- function(path, lst) {
+  df <- read.dcf(path, all = TRUE)
+  df2 <- utils::modifyList(df, lst)
+  write.dcf(df2, path)
+}
 
 # tests if a package is loaded (but maybe not attached)
 pkg_is_loaded <- function(pkg_or_name) {
@@ -66,7 +86,8 @@ pkg_is_attached <- function(pkg_or_name) {
   as_pkg_name(pkg_or_name) %in% pkg_list_attached()
 }
 
-# list the packages that are attached, i.e. present in the R search() path
+#' lists the packages that are attached, i.e. present in the R search() path
+#' @export
 pkg_list_attached <- function() {
   pattern <- '^package:'
   sub(pattern, '', grep(pattern, search(), value = TRUE))

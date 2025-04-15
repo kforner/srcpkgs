@@ -1,12 +1,25 @@
 
-examples_srcpkgs_basic <- function() {
-  pkg_create('.', 'AA', imports = 'BB')
-  pkg_create('.', 'BB', suggests = 'stats')
+examples_srcpkgs_basic <- function(.local_envir = parent.frame()) {
+  # CRITICAL: must be BEFORE setup_temp_dir(), so that loaded packages are actually dangling
+  withr::defer({
+    # message("examples_srcpkgs_basic --> cleanup")
+    cleanup_dangling_srcpkgs()
+  }, .local_envir)
+  setup_temp_dir(.local_envir = .local_envir)
+
+
+  pkg_create('.', 'AA', imports = 'BB', suggests = 'testthat')
+  pkg_create('.', 'BB', suggests = c('stats', 'testthat'))
 
   find_srcpkgs('.')
 }
 
-examples_srcpkgs_star <- function() {
+examples_srcpkgs_star <- function(.local_envir = parent.frame()) {
+  # CRITICAL: must be BEFORE setup_temp_dir(), so that loaded packages are actually dangling
+  withr::defer({cleanup_dangling_srcpkgs()}, .local_envir)
+  setup_temp_dir(.local_envir = .local_envir)
+
+
   pkg_create('.', 'AA', suggests = 'roxygen2')
   pkg_create('.', 'BB', suggests = 'stats')
   pkg_create('.', 'CC')
@@ -19,8 +32,12 @@ examples_srcpkgs_star <- function() {
   find_srcpkgs('.')
 }
 
-examples_srcpkgs_complex_imports <- function() {
-  # C-->B-->A, F-->D-->B, E-->A, Z
+examples_srcpkgs_complex_imports <- function(.local_envir = parent.frame()) {
+  # CRITICAL: must be BEFORE setup_temp_dir(), so that loaded packages are actually dangling
+  withr::defer({cleanup_dangling_srcpkgs()}, .local_envir)
+  setup_temp_dir(.local_envir = .local_envir)
+
+  # G-->C-->B-->A--->stats, F-->D-->B, E-->A, Z, G--->utils
   # N.B: we use namespace = TRUE because for unloading, only the ns-imports are considered
   pkg_create('.', 'AA', imports = 'stats', namespace = TRUE)
   pkg_create('.', 'BB', imports = 'AA', namespace = TRUE)
@@ -28,12 +45,22 @@ examples_srcpkgs_complex_imports <- function() {
   pkg_create('.', 'DD', imports = 'BB', namespace = TRUE)
   pkg_create('.', 'FF', imports = 'DD', namespace = TRUE)
   pkg_create('.', 'EE', imports = 'AA', namespace = TRUE)
+  pkg_create('.', 'GG', imports = 'CC', depends = "utils", namespace = TRUE)
   pkg_create('.', 'ZZ')
 
   find_srcpkgs('.')
 }
 
-examples_srcpkgs_complex_deps <- function() {
+examples_srcpkgs_complex_deps <- function(.local_envir = parent.frame()) {
+  # CRITICAL: must be BEFORE setup_temp_dir(), so that loaded packages are actually dangling
+  withr::defer({
+    # message("examples_srcpkgs_complex_deps --> cleanup")
+    cleanup_dangling_srcpkgs()
+  }, .local_envir)
+
+  setup_temp_dir(.local_envir = .local_envir)
+
+
   # A->B->C->D, B->D->E, Z
   # N.B: we use namespace = TRUE because for unloading, only the ns-imports are considered
   pkg_create('.', 'AA', imports = c('stats', 'BB'), depends = 'CC')
