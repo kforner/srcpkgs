@@ -1,66 +1,32 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url>
-    <loc>/404.html</loc>
-  </url>
-  <url>
-    <loc>/LICENSE.html</loc>
-  </url>
-  <url>
-    <loc>/articles/demo.html</loc>
-  </url>
-  <url>
-    <loc>/articles/getting_started.html</loc>
-  </url>
-  <url>
-    <loc>/articles/index.html</loc>
-  </url>
-  <url>
-    <loc>/authors.html</loc>
-  </url>
-  <url>
-    <loc>/index.html</loc>
-  </url>
-  <url>
-    <loc>/news/index.html</loc>
-  </url>
-  <url>
-    <loc>/reference/find_srcpkgs.html</loc>
-  </url>
-  <url>
-    <loc>/reference/get_srcpkgs.html</loc>
-  </url>
-  <url>
-    <loc>/reference/hack_r_loaders.html</loc>
-  </url>
-  <url>
-    <loc>/reference/index.html</loc>
-  </url>
-  <url>
-    <loc>/reference/params.html</loc>
-  </url>
-  <url>
-    <loc>/reference/pkg_create.html</loc>
-  </url>
-  <url>
-    <loc>/reference/pkg_load.html</loc>
-  </url>
-  <url>
-    <loc>/reference/pkg_roxygenise.html</loc>
-  </url>
-  <url>
-    <loc>/reference/pkg_unload.html</loc>
-  </url>
-  <url>
-    <loc>/reference/reset.html</loc>
-  </url>
-  <url>
-    <loc>/reference/settings.html</loc>
-  </url>
-  <url>
-    <loc>/reference/srcpkgs-package.html</loc>
-  </url>
-  <url>
-    <loc>/reference/unhack_r_loaders.html</loc>
-  </url>
+<urlset xmlns = 'http://www.sitemaps.org/schemas/sitemap/0.9'>
+<url><loc>/404.html</loc></url>
+<url><loc>/LICENSE.html</loc></url>
+<url><loc>/TODO.html</loc></url>
+<url><loc>/articles/demo.html</loc></url>
+<url><loc>/articles/getting_started.html</loc></url>
+<url><loc>/articles/index.html</loc></url>
+<url><loc>/authors.html</loc></url>
+<url><loc>/index.html</loc></url>
+<url><loc>/news/index.html</loc></url>
+<url><loc>/reference/find_srcpkgs.html</loc></url>
+<url><loc>/reference/get_srcpkgs.html</loc></url>
+<url><loc>/reference/hack_r_loaders.html</loc></url>
+<url><loc>/reference/index.html</loc></url>
+<url><loc>/reference/params.html</loc></url>
+<url><loc>/reference/pkg_check.html</loc></url>
+<url><loc>/reference/pkg_create.html</loc></url>
+<url><loc>/reference/pkg_list_attached.html</loc></url>
+<url><loc>/reference/pkg_load.html</loc></url>
+<url><loc>/reference/pkg_roxygenise.html</loc></url>
+<url><loc>/reference/pkg_test.html</loc></url>
+<url><loc>/reference/pkg_unload.html</loc></url>
+<url><loc>/reference/pkgs_check.html</loc></url>
+<url><loc>/reference/pkgs_deps.html</loc></url>
+<url><loc>/reference/pkgs_install.html</loc></url>
+<url><loc>/reference/pkgs_test.html</loc></url>
+<url><loc>/reference/reset.html</loc></url>
+<url><loc>/reference/settings.html</loc></url>
+<url><loc>/reference/srcpkgs-package.html</loc></url>
+<url><loc>/reference/unhack_r_loaders.html</loc></url>
 </urlset>
+
