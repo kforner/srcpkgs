@@ -18,8 +18,8 @@ test_that("pkg_check", {
   expect_identical(summary(chk), data.frame(package = "BB", errors = 1L, warnings = 0L, notes = 0L))
 
   # BB should error if e.g. error_on=="error"
-  expect_error(chk <- pkg_check("BB", src_pkgs = src_pkgs, error_on = "error", quiet = TRUE)
-    , "R CMD check found ERRORs")
+  capture_output(expect_error(chk <- pkg_check("BB", src_pkgs = src_pkgs, error_on = "error", quiet = TRUE)
+    , "R CMD check found ERRORs"))
 })
 
 
