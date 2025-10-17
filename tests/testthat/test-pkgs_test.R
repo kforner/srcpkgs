@@ -3,6 +3,9 @@
 test_that("pkgs_test_when_no_tests", {
   src_pkgs <- examples_srcpkgs_basic()
 
+  ### edge cases
+  expect_error(pkgs_test(NULL), 'No package to test')
+
   ### no tests at all
   res <- pkgs_test(src_pkgs = src_pkgs, reporter = "silent", quiet = TRUE)
 

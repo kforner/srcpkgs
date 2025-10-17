@@ -40,7 +40,7 @@ test_that("pkg_test", {
   add_dummy_test_to_srcpkgs(src_pkgs)
   ### one package with a dep
 
-  res <- pkg_test('AA', src_pkgs = src_pkgs, reporter = "silent")
+  resAA <- res <- pkg_test('AA', src_pkgs = src_pkgs, reporter = "silent")
 
   expect_s3_class(res, "pkg_test")
   df <- as.data.frame(res)
@@ -60,6 +60,14 @@ test_that("pkg_test", {
   res <- pkg_test('AA', filter = "failure", src_pkgs = src_pkgs, reporter = "silent")
   df <- as.data.frame(res)
   expect_true(all(df$failed > 0))
+
+  ### if loaders_hack_enabled
+  if (! is_loaders_hack_enabled()) {
+    hack_r_loaders()
+    on.exit(unhack_r_loaders(), add = TRUE)
+  }
+  res <- pkg_test('AA', src_pkgs = src_pkgs, reporter = "silent")
+  expect_identical(as.data.frame(fix_test_result_timings(res)), as.data.frame(fix_test_result_timings(resAA)))
 })
 
 

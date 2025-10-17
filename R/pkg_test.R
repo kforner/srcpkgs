@@ -173,7 +173,9 @@ summary.pkg_test <- function(object, col = 'file', ...) {
   }
 
   # aggregation function
-  .col_stats <- function(x) { if (is.logical(x)) any(x) else sum(x) }
+  .col_stats <- function(x) { 
+    if (is.logical(x)) any(x) else sum(x) 
+  }
   sdf <- stats::aggregate(df[, data_cols], by = by, .col_stats)
   if (length(col)) sdf <- sdf[order(sdf[[col]]), , drop = FALSE] else sdf$rows <- NULL
   rownames(sdf) <- NULL

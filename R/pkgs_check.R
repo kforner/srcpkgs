@@ -25,7 +25,9 @@ pkgs_check <- function(pkgids = names(filter_srcpkgs(src_pkgs, filter)), src_pkg
   filter = NULL, lib = ".check",  quiet = FALSE, fail_on_error = FALSE,  ...) 
 {  
   force(src_pkgs)
-  if (!length(pkgids)) stop('No package to test')
+  if (!length(pkgids)) { 
+    stop('No package to test')
+  }
   pkgs <- as_srcpkgs(pkgids, src_pkgs)
   if (!dir.exists(lib))  dir.create(lib, recursive = TRUE)
 
@@ -45,9 +47,9 @@ pkgs_check <- function(pkgids = names(filter_srcpkgs(src_pkgs, filter)), src_pkg
 
   summ <- summary(chks)
 
-  if (fail_on_error && (any(summ$errors > 0) || any(summ$warnings > 0))) 
+  if (fail_on_error && (any(summ$errors > 0) || any(summ$warnings > 0))) {
     cli::cli_abort("checks failed")   
+  }
   
-
   invisible(chks)
 }

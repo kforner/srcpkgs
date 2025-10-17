@@ -40,15 +40,7 @@ parent_dir <- function(dir) {
 
 find_git_dir <- function(here = getwd()) {
   if (!length(here)) return(NULL)
-  git <- find_file_upwards('.git', here)
-  if (!length(git)) return(NULL)
-  if (!file.exists(git)) {
-  # if (!dir.exists(git)) {
-    # not a directory, e.g. could be a git submodule symlink. retry from the parent dir if any
-    return(find_git_dir(parent_dir(here)))
-  }
-
-  git
+  find_file_upwards('.git', here)
 }
 
 find_file_upwards <- function(filename, folder = getwd()) {

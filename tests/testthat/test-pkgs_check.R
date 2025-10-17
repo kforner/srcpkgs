@@ -5,13 +5,16 @@ test_that("pkgs_check", {
   src_pkgs <- examples_srcpkgs_basic()
   setup_temp_dir()
 
+  ###################################### edge cases ###############################
+  expect_error(pkgs_check(NULL), 'No package to test')
+
   ###### with tests
   add_dummy_test_to_srcpkgs(src_pkgs)
   # make BB to fail
   writeLines(r"{ stop("aie aie aie") }", file.path(src_pkgs$BB$path, "tests/testthat/setup.R"))
 
   ### 
-  chks <- pkgs_check(src_pkgs = src_pkgs, quiet = TRUE)
+  mute(chks <- pkgs_check(src_pkgs = src_pkgs, quiet = FALSE))
 
   expect_s3_class(chks, "pkgs_check")
   expect_true(is.list(chks))
@@ -32,12 +35,11 @@ test_that("pkgs_check", {
     expect_identical(sdf[i,], expected)
   }
 
-  ### print
-  expect_snapshot(print(chks))
-
   #### fail_on_error
   expect_error(chks <- pkgs_check(src_pkgs = src_pkgs, quiet = TRUE, fail_on_error = TRUE), "checks failed")
 
+  ### print
+  expect_snapshot(print(chks))
 })
 
 

@@ -22,7 +22,6 @@ test_that("find_project_root", {
   # # dir1 by default
   # expect_identical(basename(find_project_root('dir1/')), 'dir1')
   # root because of .git file
- 
   expect_identical(basename(find_project_root('dir1/')), basename(getwd()))
 
   root3 <- file.path(getwd(), 'dir1/dir2/dir3')
@@ -37,6 +36,16 @@ test_that("find_project_root", {
   ### edge cases
   expect_null(find_project_root(NULL))
 })
+
+.find_git_dir <- 
+test_that("find_git_dir", {
+  setup_temp_dir()
+
+  expect_null(find_git_dir(NULL))
+
+
+})
+
 
 
 test_that("parent_dir", {

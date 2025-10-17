@@ -37,7 +37,7 @@ test_that("srcpkgs", {
   expect_error(srcpkgs(list(list(1))), 'package')
 })
 
-
+.as_srcpkgs <- 
 test_that("as_srcpkgs", {
   src_pkgs <- examples_srcpkgs_basic()
 
@@ -61,6 +61,7 @@ test_that("as_srcpkgs", {
   expect_identical(res, subset_s3_list(src_pkgs, "BB"))
 
   ### edge cases
+  expect_error(as_srcpkgs(NULL), "bad input")
   expect_error(as_srcpkgs(1), "bad arg")
   expect_error(as_srcpkgs("/toto"), "not a directory")
 })
