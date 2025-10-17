@@ -28,7 +28,7 @@ functions. Caveat: If the pkg is already loaded and up-to-date with export_all=F
 \item{...}{passed to \code{testthat::test_dir()}}
 }
 \value{
-the results as a \code{pkg_test} object, or NULL if no tests found
+the results as a \code{pkg_test} object, which is an empty listL if no tests were found
 }
 \description{
 This function will test a source package using \code{testthat},

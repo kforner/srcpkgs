@@ -1,9 +1,13 @@
 library(devtools)
 
-
 check_man()
 
 test()
-test(filter = "pkg_load")
+test(filter = "config")
 test(filter = "pkg_check")
+test(filter = "pkg_load")
+test(filter = "pkg_test")
+test(filter = "pkgs_test")
 check()
+
+options(width = Sys.getenv("COLUMNS", 80))

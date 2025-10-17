@@ -1,4 +1,64 @@
 
+.pkgs_test_when_no_tests <- 
+test_that("pkgs_test_when_no_tests", {
+  src_pkgs <- examples_srcpkgs_basic()
+
+  ### no tests at all
+  res <- pkgs_test(src_pkgs = src_pkgs, reporter = "silent", quiet = TRUE)
+
+  expect_s3_class(res, "pkgs_test")
+  expect_identical(names(res), c("AA", "BB"))
+
+  ## all empty since no tests
+  expect_s3_class(res$AA, "pkg_test")
+  expect_s3_class(res$BB, "pkg_test")
+  expect_length(res$AA, 0)
+  expect_length(res$BB, 0)
+
+  # as.data.frame
+  df <- as.data.frame(res)
+
+  expect_identical(df$package, c("AA", "BB"))
+  expect_true(all(df[, -1] == 0))
+
+  # as.logical
+  expect_true(as.logical(res))
+
+  # summary
+  sdf <- summary(res)
+  expect_equal(sdf$package, 2)
+  expect_true(all(sdf[, -1] == 0))
+
+  # print
+  local_reproducible_output(crayon = TRUE, unicode = TRUE)
+  expect_snapshot(print(res))
+
+  ### only BB has tests
+  add_dummy_test_to_srcpkg(src_pkgs$BB)
+  
+  res <- pkgs_test(src_pkgs = src_pkgs, reporter = "silent", quiet = TRUE)
+  expect_s3_class(res, "pkgs_test")
+
+  # as.data.frame
+  df <- as.data.frame(res)
+
+  expect_identical(df$package, c("AA", "BB"))
+  expect_true(all(df[1, -1] == 0))
+  expect_equal(df["BB", "nb"], 17)
+
+  # as.logical
+  expect_false(as.logical(res))
+
+  # summary
+  sdf <- summary(res)
+  expect_equal(sdf$package, 2)
+  expect_equal(sdf[, -1], df[2, -1], ignore_attr = TRUE)
+
+  # print
+  local_reproducible_output(crayon = TRUE, unicode = TRUE)
+  expect_snapshot(print(fix_pkg_tests_results_timings(res)))
+})
+
 
 .pkgs_test <- 
 test_that("pkgs_test", {
@@ -100,7 +160,8 @@ test_that("pkgs_test", {
   expect_identical(sdf, expected)
 
   ### print
-  expect_snapshot(print(fix_pkg_tests_results__timings(res)))
+  local_reproducible_output(crayon = TRUE, unicode = TRUE)
+  expect_snapshot(print(fix_pkg_tests_results_timings(res)))
 })
 
 

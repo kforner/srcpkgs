@@ -8,7 +8,7 @@
 #' @param export_all  passed to [pkg_load()]. Enables the test functions to easily access to non-exported
 #'                    functions. Caveat: If the pkg is already loaded and up-to-date with export_all=FALSE, it will not work.
 #' @param ...   passed to `testthat::test_dir()`
-#' @return the results as a `pkg_test` object, or NULL if no tests found
+#' @return the results as a `pkg_test` object, which is an empty listL if no tests were found
 #' @importFrom testthat   test_dir
 #' @export
 #' @examples
@@ -32,16 +32,22 @@ pkg_test <- function(pkgid, filter = NULL, src_pkgs = get_srcpkgs(), export_all 
   pkg_load(pkg, src_pkgs, quiet = quiet, export_all = export_all)
 
   test_path <- file.path(pkg$path, "tests/testthat")
-  if (!dir.exists(test_path) || length(dir(test_path)) == 0) return(invisible())
+
+  if (!dir.exists(test_path) || length(dir(test_path)) == 0) {
+    # no tests found, return an empty  pkg_test
+    return(invisible(new_pkg_test(pkg)))
+  }
 
   res <- testthat::test_dir(test_path, filter = filter, stop_on_failure = FALSE, ...)
 
-  attr(res, 'pkg') <- pkg
-  class(res) <- c('pkg_test', class(res))
-
-  invisible(res)
+  invisible(new_pkg_test(pkg, res))
 }
 
+new_pkg_test <- function(pkg_name, test_results = list()) {
+  attr(test_results, 'pkg') <- pkg_name
+  class(test_results) <- c('pkg_test', class(test_results))
+  test_results
+}
 
 # tells if the test is successful
 # N.B: this is not a roxygen comment ON PURPOSE
@@ -80,14 +86,32 @@ fortify_pkg_test <- function(df) {
 
 #' @export
 as.data.frame.pkg_test <- function(x, ...) {
+  if (!length(x)) {
+    return(data.frame(
+      file = character(0), 
+      test = character(0), 
+      nb = integer(0), 
+      failed = integer(0), 
+      passed = integer(0), 
+      skipped = logical(0), 
+      error = logical(0), 
+      warning = integer(0), 
+      time = numeric(0))
+    )
+  }
   fortify_pkg_test(NextMethod())
 }
 
 #' @export
 print.pkg_test <- function(x, ...) {
   pkg <- attr(x, 'pkg')
-  df <- as.data.frame(x)
 
+  if (!length(x)) {
+    cli::cli_h1(paste0("package ", pkg$package, " has no tests"))
+    return(invisible())
+  }
+
+  df <- as.data.frame(x)
   results <- df$result
 
   ### by test
@@ -115,6 +139,19 @@ print.pkg_test <- function(x, ...) {
 # N.B: this is not a roxygen comment ON PURPOSE
 #' @export
 summary.pkg_test <- function(object, col = 'file', ...) {
+  if (!length(object)) {
+    return(data.frame(
+      file = character(0), 
+      nb = integer(0), 
+      failed = integer(0), 
+      passed = integer(0), 
+      skipped = logical(0), 
+      error = logical(0), 
+      warning = integer(0), 
+      time = numeric(0))
+    )
+  }
+
   df <- as.data.frame(object)
 
   stop_unless(length(col) <= 1, "col must be a column name or NULL")
