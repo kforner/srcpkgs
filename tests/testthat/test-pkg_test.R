@@ -16,8 +16,25 @@ test_that("pkg_test", {
   src_pkgs <- examples_srcpkgs_basic()
 
   ### pkg with no tests
-  expect_null(pkg_test('AA', src_pkgs = src_pkgs, reporter = "silent"))
-  expect_null(pkg_test('BB', src_pkgs = src_pkgs, reporter = "silent"))
+  is_empty_pkg_test <- function(x) inherits(x, "pkg_test") && is.list(x) && length(x) == 0
+
+  res <- pkg_test('AA', src_pkgs = src_pkgs, reporter = "silent")
+  expect_true(is_empty_pkg_test(res))
+  expect_true(is_empty_pkg_test(pkg_test('BB', src_pkgs = src_pkgs, reporter = "silent")))
+
+  # as.data.frame
+  df <- as.data.frame(res)
+
+  expect_identical(names(df), c("file", "test", "nb", "failed", "passed", "skipped", "error", "warning", "time"))
+  expect_equal(nrow(df) ,0)
+
+  # no tests --> no failure
+  expect_true(as.logical(res))
+  expect_match(capture.output(print(res), type = "message"), "package AA has no tests", fixed = TRUE, all = FALSE)
+
+  sdf <- summary(res)
+  expect_identical(names(sdf), c("file", "nb", "failed", "passed", "skipped", "error", "warning", "time"))
+  expect_equal(nrow(sdf) ,0)
 
   ###### with tests
   add_dummy_test_to_srcpkgs(src_pkgs)
@@ -49,7 +66,7 @@ test_that("pkg_test", {
 
 .pkg_test_s3_methods <- 
 test_that("pkg_test_s3_methods", {
-  local_reproducible_output(crayon = TRUE)
+  local_reproducible_output(crayon = TRUE, unicode = TRUE)
 
   src_pkgs <- examples_srcpkgs_complex_deps()
   add_dummy_test_to_srcpkgs(src_pkgs)

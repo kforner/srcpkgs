@@ -66,7 +66,7 @@ restore_init <- function(previous) {
   }
 }
 
-fix_pkg_tests_results__timings <- function(res, time = 0) {
+fix_pkg_tests_results_timings <- function(res, time = 0) {
   for (i in seq_along(res)) {
     if (is_error(res[[i]])) next
     res[[i]] <- fix_test_result_timings(res[[i]], time)

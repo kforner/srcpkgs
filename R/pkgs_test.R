@@ -24,6 +24,10 @@ pkgs_test <- function(pkgids = names(filter_srcpkgs(src_pkgs, filter)), src_pkgs
 #' @export
 as.data.frame.pkgs_test <- function(x, ...) {
   .row <- function(test_res) {
+    if (!length(test_res)) {
+      return(data.frame(nb = 0L, failed = 0L, passed = 0L, skipped = 0L, error = 0L, warning = 0L, time = 0))
+    }
+
     if (is_error(test_res)) {
       # trick to create an empty data frame like test_results
 
