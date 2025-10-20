@@ -279,17 +279,17 @@ another package:</p>
 <span><span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">options</a></span><span class="op">(</span>width <span class="op">=</span> <span class="fl">200</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="fu"><a href="../reference/get_srcpkgs.html">get_srcpkgs</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">##             package version                                                         path                     imports depends suggests</span></span>
-<span><span class="co">## aragorn     aragorn     0.1   /tmp/RtmpEAzmm9/file1fa02e2bea2d/srcpkgs_lotr_demo/aragorn                                             </span></span>
-<span><span class="co">## bilbo         bilbo     0.1     /tmp/RtmpEAzmm9/file1fa02e2bea2d/srcpkgs_lotr_demo/bilbo                                             </span></span>
-<span><span class="co">## elrond       elrond     0.1    /tmp/RtmpEAzmm9/file1fa02e2bea2d/srcpkgs_lotr_demo/elrond                                             </span></span>
-<span><span class="co">## elves         elves     0.1     /tmp/RtmpEAzmm9/file1fa02e2bea2d/srcpkgs_lotr_demo/elves         galadriel,\nlegolas                 </span></span>
-<span><span class="co">## frodo         frodo     0.1     /tmp/RtmpEAzmm9/file1fa02e2bea2d/srcpkgs_lotr_demo/frodo                                             </span></span>
-<span><span class="co">## galadriel galadriel     0.1 /tmp/RtmpEAzmm9/file1fa02e2bea2d/srcpkgs_lotr_demo/galadriel                                             </span></span>
-<span><span class="co">## gandalf     gandalf     0.1   /tmp/RtmpEAzmm9/file1fa02e2bea2d/srcpkgs_lotr_demo/gandalf                                             </span></span>
-<span><span class="co">## gimli         gimli     0.1     /tmp/RtmpEAzmm9/file1fa02e2bea2d/srcpkgs_lotr_demo/gimli                                             </span></span>
-<span><span class="co">## hobbits     hobbits     0.1   /tmp/RtmpEAzmm9/file1fa02e2bea2d/srcpkgs_lotr_demo/hobbits                       frodo   bilbo         </span></span>
-<span><span class="co">## legolas     legolas     0.1   /tmp/RtmpEAzmm9/file1fa02e2bea2d/srcpkgs_lotr_demo/legolas                                             </span></span>
-<span><span class="co">## lotr           lotr     0.1      /tmp/RtmpEAzmm9/file1fa02e2bea2d/srcpkgs_lotr_demo/lotr elves,gimli,aragorn,gandalf hobbits</span></span></code></pre>
+<span><span class="co">## aragorn     aragorn     0.1   /tmp/RtmpMQOIuz/file1f722c871c4a/srcpkgs_lotr_demo/aragorn                                             </span></span>
+<span><span class="co">## bilbo         bilbo     0.1     /tmp/RtmpMQOIuz/file1f722c871c4a/srcpkgs_lotr_demo/bilbo                                             </span></span>
+<span><span class="co">## elrond       elrond     0.1    /tmp/RtmpMQOIuz/file1f722c871c4a/srcpkgs_lotr_demo/elrond                                             </span></span>
+<span><span class="co">## elves         elves     0.1     /tmp/RtmpMQOIuz/file1f722c871c4a/srcpkgs_lotr_demo/elves         galadriel,\nlegolas                 </span></span>
+<span><span class="co">## frodo         frodo     0.1     /tmp/RtmpMQOIuz/file1f722c871c4a/srcpkgs_lotr_demo/frodo                                             </span></span>
+<span><span class="co">## galadriel galadriel     0.1 /tmp/RtmpMQOIuz/file1f722c871c4a/srcpkgs_lotr_demo/galadriel                                             </span></span>
+<span><span class="co">## gandalf     gandalf     0.1   /tmp/RtmpMQOIuz/file1f722c871c4a/srcpkgs_lotr_demo/gandalf                                             </span></span>
+<span><span class="co">## gimli         gimli     0.1     /tmp/RtmpMQOIuz/file1f722c871c4a/srcpkgs_lotr_demo/gimli                                             </span></span>
+<span><span class="co">## hobbits     hobbits     0.1   /tmp/RtmpMQOIuz/file1f722c871c4a/srcpkgs_lotr_demo/hobbits                       frodo   bilbo         </span></span>
+<span><span class="co">## legolas     legolas     0.1   /tmp/RtmpMQOIuz/file1f722c871c4a/srcpkgs_lotr_demo/legolas                                             </span></span>
+<span><span class="co">## lotr           lotr     0.1      /tmp/RtmpMQOIuz/file1f722c871c4a/srcpkgs_lotr_demo/lotr elves,gimli,aragorn,gandalf hobbits</span></span></code></pre>
 <div class="section level3">
 <h3 id="unloading">unloading<a class="anchor" aria-label="anchor" href="#unloading"></a>
 </h3>
@@ -430,7 +430,7 @@ order:</p>
 package is up-to-date:</p>
 <div class="sourceCode" id="cb65"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">plan</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/pkg_load.html">pkg_load</a></span><span class="op">(</span><span class="st">'lotr'</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## package <span style="color: #0000BB;">/tmp/RtmpEAzmm9/file1fa02e2bea2d/srcpkgs_lotr_demo/frodo</span> has changed: <span style="color: #0000BB;">R/main.R</span> was "modified"</span></span></code></pre>
+<pre><code><span><span class="co">## package <span style="color: #0000BB;">/tmp/RtmpMQOIuz/file1f722c871c4a/srcpkgs_lotr_demo/frodo</span> has changed: <span style="color: #0000BB;">R/main.R</span> was "modified"</span></span></code></pre>
 <pre><code><span><span class="co">## executing <span style="font-weight: bold;">unload on </span><span style="color: #0000BB; font-weight: bold;">lotr</span></span></span></code></pre>
 <pre><code><span><span class="co">## executing <span style="font-weight: bold;">unload on </span><span style="color: #0000BB; font-weight: bold;">hobbits</span></span></span></code></pre>
 <pre><code><span><span class="co">## executing <span style="font-weight: bold;">unload on </span><span style="color: #0000BB; font-weight: bold;">frodo</span></span></span></code></pre>
