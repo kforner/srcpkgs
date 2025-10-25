@@ -1,11 +1,25 @@
 
 #' @export
 summary.pkg_check <- function(object, ...) {
-  df <- data.frame(package = object$package)  
-  for (col in c("errors", "warnings", "notes")) {    
-    df[[col]] <- length(object[[col]])  
-  }  
+  df <- data.frame(package = object$package)
+
+  cols <- c("errors", "warnings", "notes")
+  df[cols] <- lengths(object[cols])
+
+  df$time <- object$duration
+
   df
+}
+
+#' @export
+as.logical.pkg_check <- function(x, ...) {
+   df <- summary(x)
+   df$error == 0
+}
+
+#' @export
+as.data.frame.pkg_check <- function(object, ...) {
+  summary.pkg_check(object)
 }
 
 #' tests a package - runs R CMD check 
