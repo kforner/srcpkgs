@@ -194,7 +194,7 @@ print(as.logical(check_results))
 print(check_results$bilbo)
 print(as.data.frame(check_results$lotr))
 print(summary(check_results$lotr))
-print(as.logical(tcheck_results$aragorn))
+print(as.logical(check_results$aragorn))
 ```
 
 ```{r cleanup, include = FALSE}
