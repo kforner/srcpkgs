@@ -4,4 +4,5 @@ pkgdown_sha: ~
 articles:
   demo: demo.html
   getting_started: getting_started.html
-last_built: 2025-10-20T09:35Z
+  testing_and_checking: testing_and_checking.html
+last_built: 2025-10-25T17:21Z

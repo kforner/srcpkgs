@@ -35,6 +35,7 @@
   <ul class="dropdown-menu" aria-labelledby="dropdown-articles">
 <li><a class="dropdown-item" href="../articles/demo.html">why would you need srcpkgs?</a></li>
     <li><a class="dropdown-item" href="../articles/getting_started.html">Getting started</a></li>
+    <li><a class="dropdown-item" href="../articles/testing_and_checking.html">Testing and checking packages with srcpkgs</a></li>
   </ul>
 </li>
 <li class="nav-item"><a class="nav-link" href="../news/index.html">Changelog</a></li>
@@ -276,20 +277,20 @@ another package:</p>
 </h2>
 <div class="sourceCode" id="cb37"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/kforner/srcpkgs" class="external-link">srcpkgs</a></span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">options</a></span><span class="op">(</span>width <span class="op">=</span> <span class="fl">200</span><span class="op">)</span></span>
+<span><span class="va">old</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">options</a></span><span class="op">(</span>width <span class="op">=</span> <span class="fl">200</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="fu"><a href="../reference/get_srcpkgs.html">get_srcpkgs</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">##             package version                                                         path                     imports depends suggests</span></span>
-<span><span class="co">## aragorn     aragorn     0.1   /tmp/RtmpMQOIuz/file1f722c871c4a/srcpkgs_lotr_demo/aragorn                                             </span></span>
-<span><span class="co">## bilbo         bilbo     0.1     /tmp/RtmpMQOIuz/file1f722c871c4a/srcpkgs_lotr_demo/bilbo                                             </span></span>
-<span><span class="co">## elrond       elrond     0.1    /tmp/RtmpMQOIuz/file1f722c871c4a/srcpkgs_lotr_demo/elrond                                             </span></span>
-<span><span class="co">## elves         elves     0.1     /tmp/RtmpMQOIuz/file1f722c871c4a/srcpkgs_lotr_demo/elves         galadriel,\nlegolas                 </span></span>
-<span><span class="co">## frodo         frodo     0.1     /tmp/RtmpMQOIuz/file1f722c871c4a/srcpkgs_lotr_demo/frodo                                             </span></span>
-<span><span class="co">## galadriel galadriel     0.1 /tmp/RtmpMQOIuz/file1f722c871c4a/srcpkgs_lotr_demo/galadriel                                             </span></span>
-<span><span class="co">## gandalf     gandalf     0.1   /tmp/RtmpMQOIuz/file1f722c871c4a/srcpkgs_lotr_demo/gandalf                                             </span></span>
-<span><span class="co">## gimli         gimli     0.1     /tmp/RtmpMQOIuz/file1f722c871c4a/srcpkgs_lotr_demo/gimli                                             </span></span>
-<span><span class="co">## hobbits     hobbits     0.1   /tmp/RtmpMQOIuz/file1f722c871c4a/srcpkgs_lotr_demo/hobbits                       frodo   bilbo         </span></span>
-<span><span class="co">## legolas     legolas     0.1   /tmp/RtmpMQOIuz/file1f722c871c4a/srcpkgs_lotr_demo/legolas                                             </span></span>
-<span><span class="co">## lotr           lotr     0.1      /tmp/RtmpMQOIuz/file1f722c871c4a/srcpkgs_lotr_demo/lotr elves,gimli,aragorn,gandalf hobbits</span></span></code></pre>
+<span><span class="co">## aragorn     aragorn     0.1   /tmp/RtmpHGmSgV/file207128f703da/srcpkgs_lotr_demo/aragorn                                             </span></span>
+<span><span class="co">## bilbo         bilbo     0.1     /tmp/RtmpHGmSgV/file207128f703da/srcpkgs_lotr_demo/bilbo                                             </span></span>
+<span><span class="co">## elrond       elrond     0.1    /tmp/RtmpHGmSgV/file207128f703da/srcpkgs_lotr_demo/elrond                                             </span></span>
+<span><span class="co">## elves         elves     0.1     /tmp/RtmpHGmSgV/file207128f703da/srcpkgs_lotr_demo/elves           galadriel,legolas                 </span></span>
+<span><span class="co">## frodo         frodo     0.1     /tmp/RtmpHGmSgV/file207128f703da/srcpkgs_lotr_demo/frodo                                             </span></span>
+<span><span class="co">## galadriel galadriel     0.1 /tmp/RtmpHGmSgV/file207128f703da/srcpkgs_lotr_demo/galadriel                                             </span></span>
+<span><span class="co">## gandalf     gandalf     0.1   /tmp/RtmpHGmSgV/file207128f703da/srcpkgs_lotr_demo/gandalf                                             </span></span>
+<span><span class="co">## gimli         gimli     0.1     /tmp/RtmpHGmSgV/file207128f703da/srcpkgs_lotr_demo/gimli                                             </span></span>
+<span><span class="co">## hobbits     hobbits     0.1   /tmp/RtmpHGmSgV/file207128f703da/srcpkgs_lotr_demo/hobbits                       frodo   bilbo         </span></span>
+<span><span class="co">## legolas     legolas     0.1   /tmp/RtmpHGmSgV/file207128f703da/srcpkgs_lotr_demo/legolas                                             </span></span>
+<span><span class="co">## lotr           lotr     0.1      /tmp/RtmpHGmSgV/file207128f703da/srcpkgs_lotr_demo/lotr elves,gimli,aragorn,gandalf hobbits</span></span></code></pre>
 <div class="section level3">
 <h3 id="unloading">unloading<a class="anchor" aria-label="anchor" href="#unloading"></a>
 </h3>
@@ -430,7 +431,7 @@ order:</p>
 package is up-to-date:</p>
 <div class="sourceCode" id="cb65"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">plan</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/pkg_load.html">pkg_load</a></span><span class="op">(</span><span class="st">'lotr'</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## package <span style="color: #0000BB;">/tmp/RtmpMQOIuz/file1f722c871c4a/srcpkgs_lotr_demo/frodo</span> has changed: <span style="color: #0000BB;">R/main.R</span> was "modified"</span></span></code></pre>
+<pre><code><span><span class="co">## package <span style="color: #0000BB;">/tmp/RtmpHGmSgV/file207128f703da/srcpkgs_lotr_demo/frodo</span> has changed: <span style="color: #0000BB;">R/main.R</span> was "modified"</span></span></code></pre>
 <pre><code><span><span class="co">## executing <span style="font-weight: bold;">unload on </span><span style="color: #0000BB; font-weight: bold;">lotr</span></span></span></code></pre>
 <pre><code><span><span class="co">## executing <span style="font-weight: bold;">unload on </span><span style="color: #0000BB; font-weight: bold;">hobbits</span></span></span></code></pre>
 <pre><code><span><span class="co">## executing <span style="font-weight: bold;">unload on </span><span style="color: #0000BB; font-weight: bold;">frodo</span></span></span></code></pre>

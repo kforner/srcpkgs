@@ -37,6 +37,7 @@
   <ul class="dropdown-menu" aria-labelledby="dropdown-articles">
 <li><a class="dropdown-item" href="articles/demo.html">why would you need srcpkgs?</a></li>
     <li><a class="dropdown-item" href="articles/getting_started.html">Getting started</a></li>
+    <li><a class="dropdown-item" href="articles/testing_and_checking.html">Testing and checking packages with srcpkgs</a></li>
   </ul>
 </li>
 <li class="nav-item"><a class="nav-link" href="news/index.html">Changelog</a></li>
@@ -61,7 +62,7 @@
 </h2>
 <p>Developing a library of packages can be really tedious, especially if there are dependencies between those packages. Each time you change a package, you have to <strong>install</strong> it before being able to use it.</p>
 <p>The advent of <a href="https://devtools.r-lib.org/" class="external-link">devtools</a> enabled the use of source packages directly, bypassing the installation step, which considerably streamlined the development of ONE package, also making it possible to reload a package within a R session.</p>
-<p><code>srcpkgs</code> <em>extends</em> devtools to manage the development and use of a collection or library of source packages as easily and efficiently as possible. In particular, it understands the dependencies between those packages and upon changes, determine and apply the optimal course of action to apply those changes.</p>
+<p><code>srcpkgs</code> <em>extends</em> devtools to manage the development and use of a collection or library of source packages as easily and efficiently as possible. In particular, it understands the dependencies between those packages and upon changes, determines the optimal course of action to implement them.</p>
 <p>See the vignettes:</p>
 <ul>
 <li><a href="https://kforner.github.io/srcpkgs/articles/demo.html" class="external-link">Why would you need srcpkgs?</a></li>
