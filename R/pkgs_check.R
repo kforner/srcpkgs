@@ -34,8 +34,8 @@ as.logical.pkgs_check <- function(x, ...) {
 
 
 #' @export
-as.data.frame.pkgs_check <- function(object, ...) { 
-  do.call(rbind, lapply(object, summary.pkg_check)  )
+as.data.frame.pkgs_check <- function(x, ...) { 
+  do.call(rbind, lapply(x, summary.pkg_check)  )
 }
 
 #' @export

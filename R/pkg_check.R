@@ -18,8 +18,8 @@ as.logical.pkg_check <- function(x, ...) {
 }
 
 #' @export
-as.data.frame.pkg_check <- function(object, ...) {
-  summary.pkg_check(object)
+as.data.frame.pkg_check <- function(x, ...) {
+  summary.pkg_check(x)
 }
 
 #' tests a package - runs R CMD check 
