@@ -1,16 +1,53 @@
 
 #' @export
 print.pkgs_check <- function(x, ...) {
-  df <- summary(x)  
-  d <- cli::cli_div(theme = list(rule = list(color = "red", "line-type" = "double")))  
-  cli::cli_rule("Checks Summary", right = "{df$pkgs} package{?s}")  
-  cli::cli_end(d)
-  print(df)
+  ### by package
+  df <- as.data.frame(x)
+  # only keep ms
+  df$time <- format(df$time, digits = 3)
+  bad <- which(df$errors > 0)
+  print_text_table(df, title = "Check results by package", hilite_rows = bad, heatmap_columns = 'time')
+
+  ### overview
+  sdf <- summary(x)
+  sdf$time <- format(sdf$time, digits = 3)
+
+  print_text_table(sdf, title = "Check results overview")
+
+  ### overall result (parsable)
+  cat('\n')
+  ok <- as.logical(x)
+  if (ok) {
+    cat("SUCCESS\n") 
+  } else {
+    cat("FAILED\n")
+  }
+
+  invisible()
 }
 
 #' @export
-summary.pkgs_check <- function(object, ...) { 
+as.logical.pkgs_check <- function(x, ...) {
+   df <- summary(x)
+   df$error == 0
+}
+
+
+#' @export
+as.data.frame.pkgs_check <- function(object, ...) { 
   do.call(rbind, lapply(object, summary.pkg_check)  )
+}
+
+#' @export
+summary.pkgs_check <- function(object, ...) {
+  df <- as.data.frame(object)
+
+  .sum_rm_na <- function(...) sum(..., na.rm = TRUE)
+  df$package <- 1 # N.B: package column is converted to counts
+  sdf <- stats::aggregate(df, by = list(.dummy = rep(TRUE, nrow(df))), .sum_rm_na)
+  sdf$.dummy <- NULL
+ 
+  sdf
 }
 
 #' checks a list of source packages
@@ -41,9 +78,9 @@ pkgs_check <- function(pkgids = names(filter_srcpkgs(src_pkgs, filter)), src_pkg
     pkg_check(pkg, src_pkgs = src_pkgs, lib = lib, roxygen = FALSE, error_on = "never", 
       quiet = quiet, ...)
   }
-  tt <- system.time(chks <- withr::with_libpaths(libpath, lapply(pkgs, .check_one_pkg)))  
-  names(chks) <- names(pkgs)
-  class(chks) <- 'pkgs_check'
+  tt <- system.time(chks <- withr::with_libpaths(libpath, lapply(pkgs, .check_one_pkg)))
+
+  chks <- new_pkgs_check(chks, names(pkgs))
 
   summ <- summary(chks)
 
@@ -52,4 +89,10 @@ pkgs_check <- function(pkgids = names(filter_srcpkgs(src_pkgs, filter)), src_pkg
   }
   
   invisible(chks)
+}
+
+new_pkgs_check <- function(chks, pkgids) {
+  names(chks) <- pkgids
+  class(chks) <- 'pkgs_check'
+  chks
 }

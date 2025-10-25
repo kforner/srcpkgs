@@ -24,7 +24,9 @@ pkg_create <- function(dir, name, functions = list(dummy = function() 'DUMMY'),
   dir.create(dir, recursive = TRUE, showWarnings = FALSE)
 
   env <- list2env((functions))
-  mute(utils::package.skeleton(name = name, path = dir, environment = env, encoding = 'UTF-8'))
+  mute(utils::package.skeleton(name = name, path = dir, environment = env, encoding = 'UTF-8'), 
+    warnings = FALSE, output = FALSE)
+  
 
   pkg_path <- file.path(dir, name)
 
@@ -39,8 +41,8 @@ pkg_create <- function(dir, name, functions = list(dummy = function() 'DUMMY'),
   }
 
   .add_section_to_description <- function(section, contents) {
-    section <- paste0(section, ': ')
-    line <- paste0(section, paste0(contents, collapse = ","), '\n')
+    spacer <- '  '
+    line <- paste0(paste0(section, ': \n', spacer), paste0(contents, collapse = paste0(",\n", spacer)), '\n')
     cat(line, file = desc_path, append = TRUE)
   }
 

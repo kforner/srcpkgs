@@ -69,12 +69,6 @@ graph_from_srcpkgs <- function(src_pkgs, imports = TRUE, depends = TRUE, suggest
 
 #' @export
 as.data.frame.srcpkgs <- function(x, ...) {
-  # fill in missing columns if needed
-  for (i in seq_along(x)) {
-    for (dep in c('imports', 'depends', 'suggests'))
-      x[[i]][[dep]] <- x[[i]][[dep]] %||% ''
-  }
-
   # convert the package lists to data frame
   rows <- lapply(x, as.data.frame.list, stringsAsFactors = FALSE)
   # keep columns of interest

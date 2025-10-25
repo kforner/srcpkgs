@@ -145,8 +145,8 @@ summary.pkg_test <- function(object, col = 'file', ...) {
       nb = integer(0), 
       failed = integer(0), 
       passed = integer(0), 
-      skipped = logical(0), 
-      error = logical(0), 
+      skipped = integer(0), 
+      error = integer(0), 
       warning = integer(0), 
       time = numeric(0))
     )
@@ -172,11 +172,11 @@ summary.pkg_test <- function(object, col = 'file', ...) {
     names(by) <- col
   }
 
-  # aggregation function
-  .col_stats <- function(x) { 
-    if (is.logical(x)) any(x) else sum(x) 
-  }
-  sdf <- stats::aggregate(df[, data_cols], by = by, .col_stats)
+  # # aggregation function
+  # .col_stats <- function(x) { 
+  #   if (is.logical(x)) any(x) else sum(x) 
+  # }
+  sdf <- stats::aggregate(df[, data_cols], by = by, sum)
   if (length(col)) sdf <- sdf[order(sdf[[col]]), , drop = FALSE] else sdf$rows <- NULL
   rownames(sdf) <- NULL
 

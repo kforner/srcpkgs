@@ -97,9 +97,7 @@ test_that("pkg_test_s3_methods", {
   extra_cols <- setdiff(names(df), names(df0))
   expect_true("time" %in% extra_cols)
 
-  ### print
-  withr::local_options(list(cli.num_colors = 256))
-  expect_snapshot(print(fix_test_result_timings(res)))
+
   
   ### summary
   df <- as.data.frame(res)
@@ -127,6 +125,10 @@ test_that("pkg_test_s3_methods", {
   class(good) <- class(res)
 
   expect_true(as.logical(good))
+
+  ### print
+  withr::local_options(list(cli.num_colors = 256))
+  expect_snapshot(print(fix_test_result_timings(res)))
 })
 
 

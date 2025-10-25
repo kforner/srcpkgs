@@ -70,7 +70,7 @@ test_that("pkgs_test", {
 
   ###### with tests
   add_dummy_test_to_srcpkgs(src_pkgs)
-  # make BB to fail
+  # make BB to fail in the tests setup
   writeLines(r"{ stop("aie aie aie") }", file.path(src_pkgs$BB$path, "tests/testthat/setup.R"))
 
   ### 

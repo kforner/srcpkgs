@@ -61,9 +61,8 @@ as.logical.pkgs_test <- function(x, ...) {
 #' @export
 summary.pkgs_test <- function(object, ...) {
   df <- as.data.frame(object)
-
   .sum_rm_na <- function(...) sum(..., na.rm = TRUE)
-  df$package <- 1
+  df$package <- 1 # N.B: package column is converted to counts
   sdf <- stats::aggregate(df, by = list(.dummy = rep(TRUE, nrow(df))), .sum_rm_na)
   sdf$.dummy <- NULL
  
@@ -72,10 +71,15 @@ summary.pkgs_test <- function(object, ...) {
 
 #' @export
 print.pkgs_test <- function(x, ...) {
-  # TODO: what to do with errors?
-  # TODO: add praise
   df <- as.data.frame(x)
- 
+
+  # remove NAs to avoid warning in print_text_table(): replace them by 0
+  df$time[is.na(df$time)] <- 0
+
+  # only keep ms
+  df$time <- format(df$time, digits = 3)
+
+
   ### by package
   bad <- which(df$failed > 0 | df$error > 0)
 
@@ -85,9 +89,9 @@ print.pkgs_test <- function(x, ...) {
 
   ### overview
   sdf <- summary(x)
+  sdf$time <- format(sdf$time, digits = 3)
+
   print_text_table(sdf, title = "Test results overview")
-
-
 
   ### overall result (parsable)
   cat('\n')

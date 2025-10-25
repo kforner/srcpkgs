@@ -8,6 +8,12 @@ srcpkg <- function(pkg = devtools::as.package(path), path = NULL) {
   if (inherits(pkg, 'srcpkg')) return(pkg) 
   stop_unless(devtools::is.package(pkg), 'pkg is not a devtools package object')
 
+  # fix deps: either NULL, or with EOL and spaces/tabs
+  for (dep in c('imports', 'depends', 'suggests')) {
+    pkg[[dep]] <- gsub("\\s*\\s*", "", pkg[[dep]]  %||% '')  
+  }
+
+
   class(pkg) <- c("srcpkg", "package")
 
   pkg

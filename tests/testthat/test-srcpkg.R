@@ -12,6 +12,16 @@ test_that("srcpkg", {
   # with a path
   srcpkg2 <- srcpkg(path = srcpkg$path)
   expect_identical(srcpkg2, srcpkg)
+
+  ### with dependencies
+  pkg <- pkg_create('.', 'withdeps', imports = c("i1", "i2"), depends = "d1", suggests = c("s1", "s2"))
+
+  srcpkg <- srcpkg(pkg)
+
+  .comma <- function(x) paste0(x, collapse = ",")
+  expect_identical(srcpkg$imports, .comma(c("i1", "i2")))
+  expect_identical(srcpkg$depends, .comma("d1"))
+  expect_identical(srcpkg$suggests, .comma(c("s1", "s2")))
 })
 
 
