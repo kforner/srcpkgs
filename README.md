@@ -1,10 +1,11 @@
-  # srcpkgs
+srcpkgs
+=======
 
-  <!-- badges: start -->
-  [![R-CMD-check](https://github.com/kforner/srcpkgs/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/kforner/srcpkgs/actions/workflows/R-CMD-check.yaml)
-  [![Codecov test coverage](https://codecov.io/gh/kforner/srcpkgs/branch/main/graph/badge.svg)](https://app.codecov.io/gh/kforner/srcpkgs?branch=main)
-  [![CRAN status](https://www.r-pkg.org/badges/version/srcpkgs)](https://CRAN.R-project.org/package=srcpkgs)
-  <!-- badges: end -->
+<!-- badges: start -->
+[![R-CMD-check](https://github.com/kforner/srcpkgs/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/kforner/srcpkgs/actions/workflows/R-CMD-check.yaml)
+[![Codecov test coverage](https://codecov.io/gh/kforner/srcpkgs/branch/main/graph/badge.svg)](https://app.codecov.io/gh/kforner/srcpkgs?branch=main)
+[![CRAN status](https://www.r-pkg.org/badges/version/srcpkgs)](https://CRAN.R-project.org/package=srcpkgs)
+<!-- badges: end -->
 
 The aim of `srcpkgs` is to make development and use of source packages easy, and thus encourage to  continuously develop a shared library of reusable code. 
 
@@ -22,10 +23,11 @@ See the vignettes:
 
 -  [Why would you need srcpkgs?](https://kforner.github.io/srcpkgs/articles/demo.html)
 - [Getting Started](https://kforner.github.io/srcpkgs/articles/getting_started.html)
+- [Testing and checking packages with srcpkgs](https://kforner.github.io/srcpkgs/articles/testing_and_checking.html))
 
 ## intended target
 
-The main use case for `srcpkgs` is for an organization with many R users, that want to share and reuse code across projects and users. This reusable code will be implemented as a collection of R source packages. The project code itself should also be implemented as a source package. 
+The main use case for `srcpkgs` is for an organization with many R users, that wants to share and reuses code across projects and users. This reusable code will be implemented as a collection of R source packages. The project code itself should also be implemented as a source package. 
 This way: 
 - each project has it own version of the collection
 - the project devs can easily adapt the collection for their project (add features, fix bugs) in the same R session used for the project
@@ -33,10 +35,11 @@ This way:
 
 
 The recommended setup is:
-- one git repository for the (interdependent) collection of source packages
-  * of course you could have a git repo per source package, but if you have dozends of them it's cumbersome to add them as git sub modules to all your projects. Moreover it's harder to select compatible versions.
-- one git repository for a project
-   * with the collection add the the project as a **git submodule**
+
+  - one git repository for the (interdependent) collection of source packages
+    * of course you could have a git repo per source package, but if you have dozends of them it's cumbersome to add them as git sub modules to all your projects. Moreover it's harder to select compatible versions.
+  - one git repository for a project
+    * with the collection add the the project as a **git submodule**
 
 
 This can also be useful for a single developer. This will allow to easily reuse code across projects, avoiding the duplication of code. 
@@ -51,13 +54,14 @@ This can also be useful for a single developer. This will allow to easily reuse 
 - apply roxygen ([cf roxygen2](https://roxygen2.r-lib.org/)) automatically and only when needed
 - can **hack** the R loaders (`library()` and `loadNamespace()`) to use `srcpkgs` in development, 
   so that your scripts still work if you install your packages (e.g. in *Production* mode)
+- **testing** the whole collection at once, and output an aggregated report (using [testthat](https://testthat.r-lib.org/) of course).
+- same for `R CMD check`ing the collection
 - extensively tested (~ 450 tests) and 100% test coverage
 
 ### forthcoming
 
-- **testing** the collection at once, in parallel, and output an aggregated report (using [testthat](https://testthat.r-lib.org/) of course).
-- same for `R CMD check`ing the collection
-- same for test coverage (using [covr](https://covr.r-lib.org/)).
+- testing and checking the collection in **parallel**
+- test coverage of the collection
 
 
 ## Installation
