@@ -165,7 +165,7 @@ names(lotr())
 
 ```{r srcpkgs_setup}
 library(srcpkgs)
-options(width = 200)
+old <- options(width = 200)
 print(get_srcpkgs())
 ```
 
@@ -221,5 +221,9 @@ all its dependents needed to be also properly unloaded and re-loaded.
 
 ```{r srcpkgs_edit3}
 lotr()$hobbits$frodo$weapons
+```
+
+```{r cleanup, include = FALSE}
+options(old)
 ```
 

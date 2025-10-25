@@ -15,8 +15,8 @@ Developing a library of packages can be really tedious, especially if there are 
 The advent of [devtools](https://devtools.r-lib.org/) enabled the use of source packages directly, bypassing the installation step, which considerably streamlined the development of ONE package, also making it possible to reload a package within a R session.
 
 `srcpkgs` *extends* devtools to manage the development and use of a  collection or library of source packages as easily and efficiently as possible.
-In particular, it understands the dependencies between those packages and upon changes, determine and apply the optimal
-course of action to apply those changes.
+In particular, it understands the dependencies between those packages and upon changes, determines the optimal
+course of action to implement them.
 
 See the vignettes:
 
