@@ -136,6 +136,22 @@
 <span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">'pak'</span><span class="op">)</span></span>
 <span><span class="fu">pak</span><span class="fu">::</span><span class="fu"><a href="https://pak.r-lib.org/reference/pak.html" class="external-link">pak</a></span><span class="op">(</span><span class="st">"kforner/srcpkgs"</span><span class="op">)</span></span></code></pre>
 </div>
+<div class="section level2">
+<h2 id="developer-notes">developer notes<a class="anchor" aria-label="anchor" href="#developer-notes"></a>
+</h2>
+<div class="section level3">
+<h3 id="how-to-quickly-test-on-r-devel">how to quickly test on R-devel<a class="anchor" aria-label="anchor" href="#how-to-quickly-test-on-r-devel"></a>
+</h3>
+<pre><code>docker run --rm -ti -v $(pwd):/$(pwd) -w $(pwd) rocker/tidyverse:devel bash
+
+R
+
+library(devtools)
+load_all()
+check()
+</code></pre>
+</div>
+</div>
 </div>
   </main><aside class="col-md-3"><div class="links">
 <h2 data-toc-skip>Links</h2>
