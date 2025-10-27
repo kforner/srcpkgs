@@ -87,3 +87,17 @@ install.packages('pak')
 pak::pak("kforner/srcpkgs")
 ```
 
+## developer notes
+
+### how to quickly test on R-devel
+
+```
+docker run --rm -ti -v $(pwd):/$(pwd) -w $(pwd) rocker/tidyverse:devel bash
+
+R
+
+library(devtools)
+load_all()
+check()
+
+```
