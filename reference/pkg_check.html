@@ -101,9 +101,155 @@ sometimes fail because of firewalls...</p></dd>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span> <span class="co"># \dontrun{</span></span></span>
-<span class="r-in"><span> <span class="fu"><a href="pkg_test.html">pkg_test</a></span><span class="op">(</span><span class="st">"mypkg"</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="op">}</span> <span class="co"># }</span></span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># \donttest{</span></span></span>
+<span class="r-in"><span> <span class="va">pkg</span> <span class="op">&lt;-</span> <span class="fu"><a href="setup_and_get_dummy_srcpkg.html">setup_and_get_dummy_srcpkg</a></span><span class="op">(</span><span class="op">)</span></span></span>
+<span class="r-in"><span> <span class="va">res</span> <span class="op">&lt;-</span> <span class="fu">pkg_check</span><span class="op">(</span><span class="va">pkg</span>, error_on <span class="op">=</span> <span class="st">"never"</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">══</span> <span style="color: #00BBBB;">Building</span> <span style="color: #00BBBB;">════════════════════════════════════════════════════════════════════</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #9E9E9E;">Setting env vars:</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> • <span style="color: #9E9E9E;">CFLAGS    : -Wall -pedantic -fdiagnostics-color=always</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> • <span style="color: #9E9E9E;">CXXFLAGS  : -Wall -pedantic -fdiagnostics-color=always</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> • <span style="color: #9E9E9E;">CXX11FLAGS: -Wall -pedantic -fdiagnostics-color=always</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> • <span style="color: #9E9E9E;">CXX14FLAGS: -Wall -pedantic -fdiagnostics-color=always</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> • <span style="color: #9E9E9E;">CXX17FLAGS: -Wall -pedantic -fdiagnostics-color=always</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> • <span style="color: #9E9E9E;">CXX20FLAGS: -Wall -pedantic -fdiagnostics-color=always</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">──</span> <span style="color: #00BBBB;">R CMD build</span> <span style="color: #00BBBB;">─────────────────────────────────────────────────────────────────</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> * checking for file ‘/tmp/RtmpxPid9z/file1ee612485b76/dummy_srcpkg/DESCRIPTION’ ... OK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> * preparing ‘dummy.srcpkg’:</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> * checking DESCRIPTION meta-information ... OK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> * checking for LF line-endings in source and make files and shell scripts</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> * checking for empty or unneeded directories</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Removed empty directory ‘dummy.srcpkg/man’</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> * building ‘dummy.srcpkg_3.1416.tar.gz’</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">══</span> <span style="color: #00BBBB;">Checking</span> <span style="color: #00BBBB;">════════════════════════════════════════════════════════════════════</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #9E9E9E;">Setting env vars:</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> • <span style="color: #9E9E9E;">_R_CHECK_CRAN_INCOMING_REMOTE_               : FALSE</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> • <span style="color: #9E9E9E;">_R_CHECK_CRAN_INCOMING_                      : FALSE</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> • <span style="color: #9E9E9E;">_R_CHECK_FORCE_SUGGESTS_                     : FALSE</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> • <span style="color: #9E9E9E;">_R_CHECK_PACKAGES_USED_IGNORE_UNUSED_IMPORTS_: FALSE</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> • <span style="color: #9E9E9E;">NOT_CRAN                                     : true</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">── R CMD check ─────────────────────────────────────────────────────────────────</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> * using log directory ‘/home/runner/work/srcpkgs/srcpkgs/docs/reference/.check/dummy.srcpkg.Rcheck’</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> * using R version 4.5.1 (2025-06-13)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> * using platform: x86_64-pc-linux-gnu</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> * R was compiled by</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     gcc (Ubuntu 13.3.0-6ubuntu2~24.04) 13.3.0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     GNU Fortran (Ubuntu 13.3.0-6ubuntu2~24.04) 13.3.0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> * running under: Ubuntu 24.04.3 LTS</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> * using session charset: UTF-8</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> * using options ‘--no-manual --as-cran’</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> * checking for file ‘dummy.srcpkg/DESCRIPTION’ ... OK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> * this is package ‘dummy.srcpkg’ version ‘3.1416’</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> * package encoding: UTF-8</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> * checking package namespace information ... OK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> * checking package dependencies ... OK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> * checking if this is a source package ... OK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> * checking if there is a namespace ... OK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> * checking for executable files ... OK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> * checking for hidden files and directories ... NOTE</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Found the following hidden files and directories:</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   .SRCPKGS_MD5</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> These were most likely included in error. See section ‘Package</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> structure’ in the ‘Writing R Extensions’ manual.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> * checking for portable file names ... OK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> * checking for sufficient/correct file permissions ... OK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> * checking serialization versions ... OK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> * checking whether package ‘dummy.srcpkg’ can be installed ... OK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> * checking installed package size ... OK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> * checking package directory ... OK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> * checking for future file timestamps ... OK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> * checking DESCRIPTION meta-information ... OK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> * checking top-level files ... OK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> * checking for left-over files ... OK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> * checking index information ... OK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> * checking package subdirectories ... OK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> * checking code files for non-ASCII characters ... OK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> * checking R files for syntax errors ... OK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> * checking whether the package can be loaded ... OK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> * checking whether the package can be loaded with stated dependencies ... OK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> * checking whether the package can be unloaded cleanly ... OK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> * checking whether the namespace can be loaded with stated dependencies ... OK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> * checking whether the namespace can be unloaded cleanly ... OK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> * checking loading without being on the library search path ... OK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> * checking dependencies in R code ... OK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> * checking S3 generic/method consistency ... OK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> * checking replacement functions ... OK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> * checking foreign function calls ... OK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> * checking R code for possible problems ... OK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> * checking for missing documentation entries ... OK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> * checking examples ... NONE</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> * checking for unstated dependencies in ‘tests’ ... OK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> * checking tests ...</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   Running ‘testthat.R’</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  ERROR</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Running the tests in ‘tests/testthat.R’ failed.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Last 13 lines of output:</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   &gt; library(testthat)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   &gt; suppressPackageStartupMessages(library(dummy.srcpkg))</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   &gt; </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   &gt; test_check("dummy.srcpkg")</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   [ FAIL 1 | WARN 0 | SKIP 0 | PASS 1 ]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   ══ Failed tests ════════════════════════════════════════════════════════════════</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   ── Failure ('test_failure.R:3:3'): does_nothing_special - failure ──────────────</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   does_nothing_special() not equal to 0.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   1/1 mismatches</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   [1] 42 - 0 == 42</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   [ FAIL 1 | WARN 0 | SKIP 0 | PASS 1 ]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   Error: Test failures</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   Execution halted</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> * checking for non-standard things in the check directory ... OK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> * checking for detritus in the temp directory ... OK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> * DONE</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Status: 1 ERROR, 1 NOTE</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> See</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   ‘/home/runner/work/srcpkgs/srcpkgs/docs/reference/.check/dummy.srcpkg.Rcheck/00check.log’</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> for details.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-in"><span> <span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">res</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">── R CMD check results ──────────────────────────────── dummy.srcpkg 3.1416 ────</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Duration: 7.5s</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BB0000;">❯ checking tests ...</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   See below...</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">❯ checking for hidden files and directories ... NOTE</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   Found the following hidden files and directories:</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     .SRCPKGS_MD5</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   These were most likely included in error. See section ‘Package</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   structure’ in the ‘Writing R Extensions’ manual.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">── Test failures ───────────────────────────────────────────────── testthat ────</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &gt; # This file is part of the standard setup for testthat.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &gt; # It is recommended that you do not modify it.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &gt; #</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &gt; # Where should you do additional test configuration?</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &gt; # Learn more about the roles of various files in:</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &gt; # * https://r-pkgs.org/testing-design.html#sec-tests-files-overview</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &gt; # * https://testthat.r-lib.org/articles/special-files.html</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &gt; </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &gt; library(testthat)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &gt; suppressPackageStartupMessages(library(dummy.srcpkg))</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &gt; </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &gt; test_check("dummy.srcpkg")</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [ FAIL 1 | WARN 0 | SKIP 0 | PASS 1 ]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ══ Failed tests ════════════════════════════════════════════════════════════════</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ── Failure ('test_failure.R:3:3'): does_nothing_special - failure ──────────────</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> does_nothing_special() not equal to 0.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1/1 mismatches</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 42 - 0 == 42</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [ FAIL 1 | WARN 0 | SKIP 0 | PASS 1 ]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Error: Test failures</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Execution halted</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>        package errors warnings notes     time</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1 dummy.srcpkg      1        0     1 7.480458</span>
+<span class="r-in"><span><span class="co"># }</span></span></span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>

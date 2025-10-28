@@ -276,39 +276,41 @@ another package:</p>
 <h2 id="using-srcpkgs">using srcpkgs<a class="anchor" aria-label="anchor" href="#using-srcpkgs"></a>
 </h2>
 <div class="sourceCode" id="cb37"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/kforner/srcpkgs" class="external-link">srcpkgs</a></span><span class="op">)</span></span>
-<span><span class="va">old</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">options</a></span><span class="op">(</span>width <span class="op">=</span> <span class="fl">200</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/kforner/srcpkgs" class="external-link">srcpkgs</a></span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## hacked R loaders (cf srcpkgs::hack_r_loaders()).</span></span></code></pre>
+<div class="sourceCode" id="cb39"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">old</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">options</a></span><span class="op">(</span>width <span class="op">=</span> <span class="fl">200</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="fu"><a href="../reference/get_srcpkgs.html">get_srcpkgs</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">##             package version                                                         path                     imports depends suggests</span></span>
-<span><span class="co">## aragorn     aragorn     0.1   /tmp/RtmpeaubKN/file20ba74914ee9/srcpkgs_lotr_demo/aragorn                                             </span></span>
-<span><span class="co">## bilbo         bilbo     0.1     /tmp/RtmpeaubKN/file20ba74914ee9/srcpkgs_lotr_demo/bilbo                                             </span></span>
-<span><span class="co">## elrond       elrond     0.1    /tmp/RtmpeaubKN/file20ba74914ee9/srcpkgs_lotr_demo/elrond                                             </span></span>
-<span><span class="co">## elves         elves     0.1     /tmp/RtmpeaubKN/file20ba74914ee9/srcpkgs_lotr_demo/elves           galadriel,legolas                 </span></span>
-<span><span class="co">## frodo         frodo     0.1     /tmp/RtmpeaubKN/file20ba74914ee9/srcpkgs_lotr_demo/frodo                                             </span></span>
-<span><span class="co">## galadriel galadriel     0.1 /tmp/RtmpeaubKN/file20ba74914ee9/srcpkgs_lotr_demo/galadriel                                             </span></span>
-<span><span class="co">## gandalf     gandalf     0.1   /tmp/RtmpeaubKN/file20ba74914ee9/srcpkgs_lotr_demo/gandalf                                             </span></span>
-<span><span class="co">## gimli         gimli     0.1     /tmp/RtmpeaubKN/file20ba74914ee9/srcpkgs_lotr_demo/gimli                                             </span></span>
-<span><span class="co">## hobbits     hobbits     0.1   /tmp/RtmpeaubKN/file20ba74914ee9/srcpkgs_lotr_demo/hobbits                       frodo   bilbo         </span></span>
-<span><span class="co">## legolas     legolas     0.1   /tmp/RtmpeaubKN/file20ba74914ee9/srcpkgs_lotr_demo/legolas                                             </span></span>
-<span><span class="co">## lotr           lotr     0.1      /tmp/RtmpeaubKN/file20ba74914ee9/srcpkgs_lotr_demo/lotr elves,gimli,aragorn,gandalf hobbits</span></span></code></pre>
+<span><span class="co">## aragorn     aragorn     0.1   /tmp/RtmpUFXBD4/file2585658de797/srcpkgs_lotr_demo/aragorn                                             </span></span>
+<span><span class="co">## bilbo         bilbo     0.1     /tmp/RtmpUFXBD4/file2585658de797/srcpkgs_lotr_demo/bilbo                                             </span></span>
+<span><span class="co">## elrond       elrond     0.1    /tmp/RtmpUFXBD4/file2585658de797/srcpkgs_lotr_demo/elrond                                             </span></span>
+<span><span class="co">## elves         elves     0.1     /tmp/RtmpUFXBD4/file2585658de797/srcpkgs_lotr_demo/elves           galadriel,legolas                 </span></span>
+<span><span class="co">## frodo         frodo     0.1     /tmp/RtmpUFXBD4/file2585658de797/srcpkgs_lotr_demo/frodo                                             </span></span>
+<span><span class="co">## galadriel galadriel     0.1 /tmp/RtmpUFXBD4/file2585658de797/srcpkgs_lotr_demo/galadriel                                             </span></span>
+<span><span class="co">## gandalf     gandalf     0.1   /tmp/RtmpUFXBD4/file2585658de797/srcpkgs_lotr_demo/gandalf                                             </span></span>
+<span><span class="co">## gimli         gimli     0.1     /tmp/RtmpUFXBD4/file2585658de797/srcpkgs_lotr_demo/gimli                                             </span></span>
+<span><span class="co">## hobbits     hobbits     0.1   /tmp/RtmpUFXBD4/file2585658de797/srcpkgs_lotr_demo/hobbits                       frodo   bilbo         </span></span>
+<span><span class="co">## legolas     legolas     0.1   /tmp/RtmpUFXBD4/file2585658de797/srcpkgs_lotr_demo/legolas                                             </span></span>
+<span><span class="co">## lotr           lotr     0.1      /tmp/RtmpUFXBD4/file2585658de797/srcpkgs_lotr_demo/lotr elves,gimli,aragorn,gandalf hobbits</span></span></code></pre>
 <div class="section level3">
 <h3 id="unloading">unloading<a class="anchor" aria-label="anchor" href="#unloading"></a>
 </h3>
 <p>the <code><a href="../reference/pkg_unload.html">srcpkgs::pkg_unload()</a></code> takes into account the
 dependencies between the source packages.</p>
-<div class="sourceCode" id="cb39"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb41"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">plan</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/pkg_unload.html">pkg_unload</a></span><span class="op">(</span><span class="st">'bilbo'</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## executing <span style="font-weight: bold;">unload on </span><span style="color: #0000BB; font-weight: bold;">lotr</span></span></span></code></pre>
 <pre><code><span><span class="co">## executing <span style="font-weight: bold;">unload on </span><span style="color: #0000BB; font-weight: bold;">hobbits</span></span></span></code></pre>
 <pre><code><span><span class="co">## executing <span style="font-weight: bold;">unload on </span><span style="color: #0000BB; font-weight: bold;">bilbo</span></span></span></code></pre>
-<div class="sourceCode" id="cb43"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb45"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">plan</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">##   package action</span></span>
 <span><span class="co">## 1    lotr unload</span></span>
 <span><span class="co">## 2 hobbits unload</span></span>
 <span><span class="co">## 3   bilbo unload</span></span></code></pre>
 <p>unload all our packages to start from a clean state. We will also</p>
-<div class="sourceCode" id="cb45"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb47"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw">for</span> <span class="op">(</span><span class="va">pkg</span> <span class="kw">in</span> <span class="fu"><a href="../reference/get_srcpkgs.html">get_srcpkgs</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span> <span class="fu"><a href="../reference/pkg_unload.html">pkg_unload</a></span><span class="op">(</span><span class="va">pkg</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## executing <span style="font-weight: bold;">unload on </span><span style="color: #0000BB; font-weight: bold;">aragorn</span></span></span></code></pre>
 <pre><code><span><span class="co">## executing <span style="font-weight: bold;">unload on </span><span style="color: #0000BB; font-weight: bold;">elves</span></span></span></code></pre>
@@ -324,7 +326,7 @@ dependencies between the source packages.</p>
 <p><code><a href="../reference/pkg_load.html">srcpkgs::pkg_load()</a></code> takes care of everything: it
 roxygenizes the packages if needed, and load them in the appropriate
 order:</p>
-<div class="sourceCode" id="cb53"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb55"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">plan</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/pkg_load.html">pkg_load</a></span><span class="op">(</span><span class="st">'lotr'</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## executing <span style="font-weight: bold;">load on </span><span style="color: #0000BB; font-weight: bold;">aragorn</span></span></span></code></pre>
 <pre><code><span><span class="co">## <span style="color: #00BBBB;">ℹ</span> Updating <span style="color: #0000BB;">aragorn</span> documentation</span></span>
@@ -375,7 +377,7 @@ order:</p>
 <span><span class="co">## <span style="color: #00BBBB;">ℹ</span> Updating <span style="color: #0000BB;">lotr</span> documentation</span></span>
 <span><span class="co">## <span style="color: #00BBBB;">ℹ</span> Loading <span style="color: #0000BB;">lotr</span></span></span>
 <span><span class="co">## <span style="color: #00BBBB;">ℹ</span> Loading <span style="color: #0000BB;">lotr</span></span></span></code></pre>
-<div class="sourceCode" id="cb56"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb58"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">plan</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">##      package action     params</span></span>
 <span><span class="co">## 1    aragorn   load       TRUE</span></span>
@@ -388,7 +390,7 @@ order:</p>
 <span><span class="co">## 8      elves   load       TRUE</span></span>
 <span><span class="co">## 9    hobbits   load TRUE, TRUE</span></span>
 <span><span class="co">## 10      lotr   load TRUE, TRUE</span></span></code></pre>
-<div class="sourceCode" id="cb58"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb60"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="fu">lotr</span><span class="op">(</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## [1] "hobbits" "elves"   "dwarves" "humans"  "ainur"</span></span></code></pre>
 </div>
@@ -397,7 +399,7 @@ order:</p>
 </h3>
 <p>Let’s edit the <code>frodo</code> package, and change the weapon from
 <code>sting</code> to <code>sword</code>:</p>
-<div class="sourceCode" id="cb60"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb62"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">lotr</span><span class="op">(</span><span class="op">)</span><span class="op">$</span><span class="va">hobbits</span><span class="op">$</span><span class="va">frodo</span></span></code></pre></div>
 <pre><code><span><span class="co">## $first</span></span>
 <span><span class="co">## [1] "Frodo"</span></span>
@@ -410,7 +412,7 @@ order:</p>
 <span><span class="co">## </span></span>
 <span><span class="co">## $race</span></span>
 <span><span class="co">## [1] "hobbit"</span></span></code></pre>
-<div class="sourceCode" id="cb62"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb64"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">lines</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/readLines.html" class="external-link">readLines</a></span><span class="op">(</span><span class="st">'frodo/R/main.R'</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/cat.html" class="external-link">cat</a></span><span class="op">(</span><span class="va">lines</span>, sep <span class="op">=</span> <span class="st">'\n'</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## #' provides frodo</span></span>
@@ -424,14 +426,14 @@ order:</p>
 <span><span class="co">##     race = 'hobbit'</span></span>
 <span><span class="co">##   )</span></span>
 <span><span class="co">## }</span></span></code></pre>
-<div class="sourceCode" id="cb64"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb66"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">edited_lines</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/grep.html" class="external-link">sub</a></span><span class="op">(</span><span class="st">'sting'</span>, <span class="st">'sword'</span>, <span class="va">lines</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/writeLines.html" class="external-link">writeLines</a></span><span class="op">(</span><span class="va">edited_lines</span>, <span class="st">'frodo/R/main.R'</span><span class="op">)</span></span></code></pre></div>
 <p>Now let’s ask <code>srcpkgs</code> to make sure the <code>lotr</code>
 package is up-to-date:</p>
-<div class="sourceCode" id="cb65"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb67"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">plan</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/pkg_load.html">pkg_load</a></span><span class="op">(</span><span class="st">'lotr'</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## package <span style="color: #0000BB;">/tmp/RtmpeaubKN/file20ba74914ee9/srcpkgs_lotr_demo/frodo</span> has changed: <span style="color: #0000BB;">R/main.R</span> was "modified"</span></span></code></pre>
+<pre><code><span><span class="co">## package <span style="color: #0000BB;">/tmp/RtmpUFXBD4/file2585658de797/srcpkgs_lotr_demo/frodo</span> has changed: <span style="color: #0000BB;">R/main.R</span> was "modified"</span></span></code></pre>
 <pre><code><span><span class="co">## executing <span style="font-weight: bold;">unload on </span><span style="color: #0000BB; font-weight: bold;">lotr</span></span></span></code></pre>
 <pre><code><span><span class="co">## executing <span style="font-weight: bold;">unload on </span><span style="color: #0000BB; font-weight: bold;">hobbits</span></span></span></code></pre>
 <pre><code><span><span class="co">## executing <span style="font-weight: bold;">unload on </span><span style="color: #0000BB; font-weight: bold;">frodo</span></span></span></code></pre>
@@ -445,7 +447,7 @@ package is up-to-date:</p>
 <span><span class="co">## executing <span style="font-weight: bold;">load on </span><span style="color: #0000BB; font-weight: bold;">lotr</span></span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## <span style="color: #00BBBB;">ℹ</span> Loading <span style="color: #0000BB;">lotr</span></span></span></code></pre>
-<div class="sourceCode" id="cb72"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb74"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">plan</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">##   package action params</span></span>
 <span><span class="co">## 1    lotr unload   NULL</span></span>
@@ -457,7 +459,7 @@ package is up-to-date:</p>
 <p>–&gt; It figured out that <code>frodo</code> was modified, and needed
 to be reloaded, and for that all its dependents needed to be also
 properly unloaded and re-loaded.</p>
-<div class="sourceCode" id="cb74"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb76"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">lotr</span><span class="op">(</span><span class="op">)</span><span class="op">$</span><span class="va">hobbits</span><span class="op">$</span><span class="va">frodo</span><span class="op">$</span><span class="va">weapons</span></span></code></pre></div>
 <pre><code><span><span class="co">## [1] "sword"        "barrow-blade"</span></span></code></pre>
 </div>

@@ -76,11 +76,13 @@ imports and Depends.</p>
 <h2 id="listing-the-lotr-collection-of-packages-with-srcpkgs">listing the LOTR collection of packages with srcpkgs<a class="anchor" aria-label="anchor" href="#listing-the-lotr-collection-of-packages-with-srcpkgs"></a>
 </h2>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/kforner/srcpkgs" class="external-link">srcpkgs</a></span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="fu"><a href="../reference/get_srcpkgs.html">get_srcpkgs</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/kforner/srcpkgs" class="external-link">srcpkgs</a></span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## hacked R loaders (cf srcpkgs::hack_r_loaders()).</span></span></code></pre>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="fu"><a href="../reference/get_srcpkgs.html">get_srcpkgs</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">##  [1] "aragorn"   "bilbo"     "elrond"    "elves"     "frodo"     "galadriel"</span></span>
 <span><span class="co">##  [7] "gandalf"   "gimli"     "hobbits"   "legolas"   "lotr"</span></span></code></pre>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># cat(clitable::cli_table(as.data.frame(get_srcpkgs())), sep = "\n")</span></span></code></pre></div>
 </div>
 <div class="section level2">
@@ -91,7 +93,7 @@ imports and Depends.</p>
 </h3>
 <p>The LOTR collection does not come with any test. Let’s see what
 happens then…</p>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="fu"><a href="../reference/pkgs_test.html">pkgs_test</a></span><span class="op">(</span>reporter <span class="op">=</span> <span class="st">"silent"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## </span></span></code></pre>
 <pre><code><span><span class="co">## <span style="color: #00BBBB;">──</span> <span style="font-weight: bold;">Test results by package</span> <span style="color: #00BBBB;">─────────────────────────────────────────────────────</span></span></span></code></pre>
@@ -126,7 +128,7 @@ since no test failed…</p>
 <h3 id="adding-dummy-tests-to-the-packages">adding dummy tests to the packages<a class="anchor" aria-label="anchor" href="#adding-dummy-tests-to-the-packages"></a>
 </h3>
 <p>Let’s add programmatically some dummy tests to our packages.</p>
-<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">add_dummy_test_to_srcpkg</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">srcpkg</span>, <span class="va">with_failures</span> <span class="op">=</span> <span class="cn">TRUE</span>, <span class="va">with_errors</span> <span class="op">=</span> <span class="cn">TRUE</span>, <span class="va">with_warnings</span> <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> <span class="op">{</span></span>
 <span>  <span class="fu">withr</span><span class="fu">::</span><span class="fu"><a href="https://withr.r-lib.org/reference/with_dir.html" class="external-link">local_dir</a></span><span class="op">(</span><span class="va">srcpkg</span><span class="op">$</span><span class="va">path</span><span class="op">)</span></span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/base/files2.html" class="external-link">dir.create</a></span><span class="op">(</span><span class="st">"tests/testthat"</span>, recursive <span class="op">=</span> <span class="cn">TRUE</span>, showWarnings <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
@@ -186,7 +188,7 @@ since no test failed…</p>
 <h3 id="testing">testing<a class="anchor" aria-label="anchor" href="#testing"></a>
 </h3>
 <p>Now let’s test again.</p>
-<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># N.B: we use the silent testthat reporter because we only want to get the results as tables</span></span>
 <span><span class="va">test_results</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/pkgs_test.html">pkgs_test</a></span><span class="op">(</span>reporter <span class="op">=</span> <span class="st">"silent"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">test_results</span><span class="op">)</span></span></code></pre></div>
@@ -195,24 +197,24 @@ since no test failed…</p>
 <pre><code><span><span class="co">## ╒═════════╤══╤══════╤══════╤═══════╤═════╤═══════╤═════╕</span></span>
 <span><span class="co">## <span style="font-weight: bold;">│ package │nb│failed│passed│skipped│error│warning│ time│</span></span></span>
 <span><span class="co">## ╞═════════╪══╪══════╪══════╪═══════╪═════╪═══════╪═════╡</span></span>
-<span><span class="co">## │ aragorn │ 2│ 0    │ 1    │ 1     │ 0   │ 0     │<span style="background-color: #00FF00;">0.021</span>│</span></span>
-<span><span class="co">## <span style="background-color: #BB0000;">│ bilbo   │17│ 6    │ 7    │ 2     │ 2   │ 2     │</span><span style="background-color: #FF0000;">0.429</span><span style="background-color: #BB0000;">│</span></span></span>
-<span><span class="co">## │ elrond  │ 2│ 0    │ 1    │ 1     │ 0   │ 0     │<span style="background-color: #00FF00;">0.008</span>│</span></span>
-<span><span class="co">## │ elves   │ 2│ 0    │ 1    │ 1     │ 0   │ 0     │<span style="background-color: #00FF00;">0.007</span>│</span></span>
+<span><span class="co">## │ aragorn │ 2│ 0    │ 1    │ 1     │ 0   │ 0     │<span style="background-color: #00FF00;">0.024</span>│</span></span>
+<span><span class="co">## <span style="background-color: #BB0000;">│ bilbo   │17│ 6    │ 7    │ 2     │ 2   │ 2     │</span><span style="background-color: #FF0000;">0.307</span><span style="background-color: #BB0000;">│</span></span></span>
+<span><span class="co">## │ elrond  │ 2│ 0    │ 1    │ 1     │ 0   │ 0     │<span style="background-color: #00FF00;">0.007</span>│</span></span>
+<span><span class="co">## │ elves   │ 2│ 0    │ 1    │ 1     │ 0   │ 0     │<span style="background-color: #00FF00;">0.008</span>│</span></span>
 <span><span class="co">## <span style="background-color: #BB0000;">│ frodo   │ 5│ 2    │ 2    │ 1     │ 0   │ 0     │ </span><span style="background-color: #00FF00;">0.05</span><span style="background-color: #BB0000;">│</span></span></span>
 <span><span class="co">## │galadriel│ 2│ 0    │ 1    │ 1     │ 0   │ 0     │<span style="background-color: #00FF00;">0.007</span>│</span></span>
-<span><span class="co">## <span style="background-color: #BB0000;">│ gandalf │ 5│ 2    │ 1    │ 1     │ 0   │ 1     │</span><span style="background-color: #00FF00;">0.063</span><span style="background-color: #BB0000;">│</span></span></span>
-<span><span class="co">## <span style="background-color: #BB0000;">│ gimli   │ 5│ 2    │ 2    │ 1     │ 0   │ 0     │</span><span style="background-color: #00FF00;">0.051</span><span style="background-color: #BB0000;">│</span></span></span>
+<span><span class="co">## <span style="background-color: #BB0000;">│ gandalf │ 5│ 2    │ 1    │ 1     │ 0   │ 1     │</span><span style="background-color: #5FD700;">0.058</span><span style="background-color: #BB0000;">│</span></span></span>
+<span><span class="co">## <span style="background-color: #BB0000;">│ gimli   │ 5│ 2    │ 2    │ 1     │ 0   │ 0     │</span><span style="background-color: #00FF00;">0.055</span><span style="background-color: #BB0000;">│</span></span></span>
 <span><span class="co">## <span style="background-color: #BB0000;">│ hobbits │ 3│ 0    │ 2    │ 1     │ 1   │ 0     │</span><span style="background-color: #00FF00;">0.023</span><span style="background-color: #BB0000;">│</span></span></span>
 <span><span class="co">## │ legolas │ 2│ 0    │ 1    │ 1     │ 0   │ 0     │<span style="background-color: #00FF00;">0.007</span>│</span></span>
-<span><span class="co">## <span style="background-color: #BB0000;">│ lotr    │ 5│ 2    │ 2    │ 1     │ 0   │ 0     │</span><span style="background-color: #00FF00;">0.049</span><span style="background-color: #BB0000;">│</span></span></span>
+<span><span class="co">## <span style="background-color: #BB0000;">│ lotr    │ 5│ 2    │ 2    │ 1     │ 0   │ 0     │</span><span style="background-color: #00D700;">0.057</span><span style="background-color: #BB0000;">│</span></span></span>
 <span><span class="co">## ╘═════════╧══╧══════╧══════╧═══════╧═════╧═══════╧═════╛</span></span></code></pre>
 <pre><code><span><span class="co">## </span></span></code></pre>
 <pre><code><span><span class="co">## <span style="color: #00BBBB;">──</span> <span style="font-weight: bold;">Test results overview</span> <span style="color: #00BBBB;">───────────────────────────────────────────────────────</span></span></span></code></pre>
 <pre><code><span><span class="co">## ╒═══════╤══╤══════╤══════╤═══════╤═════╤═══════╤═════╕</span></span>
 <span><span class="co">## <span style="font-weight: bold;">│package│nb│failed│passed│skipped│error│warning│ time│</span></span></span>
 <span><span class="co">## ╞═══════╪══╪══════╪══════╪═══════╪═════╪═══════╪═════╡</span></span>
-<span><span class="co">## │ 11    │50│ 14   │ 21   │ 12    │ 3   │ 3     │0.715│</span></span>
+<span><span class="co">## │ 11    │50│ 14   │ 21   │ 12    │ 3   │ 3     │0.603│</span></span>
 <span><span class="co">## ╘═══════╧══╧══════╧══════╧═══════╧═════╧═══════╧═════╛</span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## FAILED</span></span></code></pre>
@@ -241,80 +243,80 @@ collection was successful</li>
 </ul>
 <p>These S3 methods are also implemented for <code>pkg_test</code>
 objects.</p>
-<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html" class="external-link">as.data.frame</a></span><span class="op">(</span><span class="va">test_results</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">##             package nb failed passed skipped error warning  time</span></span>
-<span><span class="co">## aragorn     aragorn  2      0      1       1     0       0 0.021</span></span>
-<span><span class="co">## bilbo         bilbo 17      6      7       2     2       2 0.429</span></span>
-<span><span class="co">## elrond       elrond  2      0      1       1     0       0 0.008</span></span>
-<span><span class="co">## elves         elves  2      0      1       1     0       0 0.007</span></span>
+<span><span class="co">## aragorn     aragorn  2      0      1       1     0       0 0.024</span></span>
+<span><span class="co">## bilbo         bilbo 17      6      7       2     2       2 0.307</span></span>
+<span><span class="co">## elrond       elrond  2      0      1       1     0       0 0.007</span></span>
+<span><span class="co">## elves         elves  2      0      1       1     0       0 0.008</span></span>
 <span><span class="co">## frodo         frodo  5      2      2       1     0       0 0.050</span></span>
 <span><span class="co">## galadriel galadriel  2      0      1       1     0       0 0.007</span></span>
-<span><span class="co">## gandalf     gandalf  5      2      1       1     0       1 0.063</span></span>
-<span><span class="co">## gimli         gimli  5      2      2       1     0       0 0.051</span></span>
+<span><span class="co">## gandalf     gandalf  5      2      1       1     0       1 0.058</span></span>
+<span><span class="co">## gimli         gimli  5      2      2       1     0       0 0.055</span></span>
 <span><span class="co">## hobbits     hobbits  3      0      2       1     1       0 0.023</span></span>
 <span><span class="co">## legolas     legolas  2      0      1       1     0       0 0.007</span></span>
-<span><span class="co">## lotr           lotr  5      2      2       1     0       0 0.049</span></span></code></pre>
-<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
+<span><span class="co">## lotr           lotr  5      2      2       1     0       0 0.057</span></span></code></pre>
+<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">test_results</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">##   package nb failed passed skipped error warning  time</span></span>
-<span><span class="co">## 1      11 50     14     21      12     3       3 0.715</span></span></code></pre>
-<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
+<span><span class="co">## 1      11 50     14     21      12     3       3 0.603</span></span></code></pre>
+<div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/logical.html" class="external-link">as.logical</a></span><span class="op">(</span><span class="va">test_results</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## [1] FALSE</span></span></code></pre>
-<div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">test_results</span><span class="op">$</span><span class="va">bilbo</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## </span></span></code></pre>
 <pre><code><span><span class="co">## <span style="color: #00BBBB;">──</span> <span style="font-weight: bold;">Test results by test for package bilbo</span> <span style="color: #00BBBB;">──────────────────────────────────────</span></span></span></code></pre>
 <pre><code><span><span class="co">## ╒═══════╤═══════╤══╤══════╤══════╤═══════╤═════╤═══════╤═══════════════════╕</span></span>
 <span><span class="co">## <span style="font-weight: bold;">│ file  │ test  │nb│failed│passed│skipped│error│warning│ time              │</span></span></span>
 <span><span class="co">## ╞═══════╪═══════╪══╪══════╪══════╪═══════╪═════╪═══════╪═══════════════════╡</span></span>
-<span><span class="co">## <span style="background-color: #BB0000;">│ errors│ errors│ 1│ 0    │ 1    │ FALSE │ TRUE│ 0     │ </span><span style="background-color: #00FF00;">0.024</span><span style="background-color: #BB0000;">             │</span></span></span>
-<span><span class="co">## <span style="background-color: #BB0000;">│failure│failure│ 1│ 1    │ 0    │ FALSE │FALSE│ 0     │ </span><span style="background-color: #FF0000;">0.201</span><span style="background-color: #BB0000;">             │</span></span></span>
-<span><span class="co">## <span style="background-color: #BB0000;">│ misc  │ misc1 │ 2│ 1    │ 1    │ FALSE │FALSE│ 0     │ </span><span style="background-color: #00FF00;">0.0270000000000001</span><span style="background-color: #BB0000;">│</span></span></span>
-<span><span class="co">## <span style="background-color: #BB0000;">│ misc  │ misc2 │ 2│ 1    │ 0    │ TRUE  │FALSE│ 0     │ </span><span style="background-color: #00FF00;">0.0259999999999998</span><span style="background-color: #BB0000;">│</span></span></span>
-<span><span class="co">## │ misc  │ misc3 │ 2│ 0    │ 2    │ FALSE │FALSE│ 0     │<span style="background-color: #00FF00;">0.00800000000000001</span>│</span></span>
-<span><span class="co">## <span style="background-color: #BB0000;">│ misc  │ misc4 │ 2│ 0    │ 1    │ FALSE │ TRUE│ 1     │ </span><span style="background-color: #5FD700;">0.0449999999999999</span><span style="background-color: #BB0000;">│</span></span></span>
-<span><span class="co">## <span style="background-color: #BB0000;">│ mixed │ mixed │ 2│ 1    │ 1    │ FALSE │FALSE│ 0     │ </span><span style="background-color: #00FF00;">0.0289999999999999</span><span style="background-color: #BB0000;">│</span></span></span>
+<span><span class="co">## <span style="background-color: #BB0000;">│ errors│ errors│ 1│ 0    │ 1    │ FALSE │ TRUE│ 0     │ </span><span style="background-color: #00FF00;">0.0190000000000001</span><span style="background-color: #BB0000;">│</span></span></span>
+<span><span class="co">## <span style="background-color: #BB0000;">│failure│failure│ 1│ 1    │ 0    │ FALSE │FALSE│ 0     │ </span><span style="background-color: #FF0000;">0.105</span><span style="background-color: #BB0000;">             │</span></span></span>
+<span><span class="co">## <span style="background-color: #BB0000;">│ misc  │ misc1 │ 2│ 1    │ 1    │ FALSE │FALSE│ 0     │ </span><span style="background-color: #5FD700;">0.0360000000000005</span><span style="background-color: #BB0000;">│</span></span></span>
+<span><span class="co">## <span style="background-color: #BB0000;">│ misc  │ misc2 │ 2│ 1    │ 0    │ TRUE  │FALSE│ 0     │ </span><span style="background-color: #5FD700;">0.0209999999999999</span><span style="background-color: #BB0000;">│</span></span></span>
+<span><span class="co">## │ misc  │ misc3 │ 2│ 0    │ 2    │ FALSE │FALSE│ 0     │<span style="background-color: #00FF00;">0.00699999999999967</span>│</span></span>
+<span><span class="co">## <span style="background-color: #BB0000;">│ misc  │ misc4 │ 2│ 0    │ 1    │ FALSE │ TRUE│ 1     │ </span><span style="background-color: #5FD700;">0.0360000000000005</span><span style="background-color: #BB0000;">│</span></span></span>
+<span><span class="co">## <span style="background-color: #BB0000;">│ mixed │ mixed │ 2│ 1    │ 1    │ FALSE │FALSE│ 0     │ </span><span style="background-color: #5FD700;">0.0220000000000002</span><span style="background-color: #BB0000;">│</span></span></span>
 <span><span class="co">## │ skip  │ skip  │ 1│ 0    │ 0    │ TRUE  │FALSE│ 0     │<span style="background-color: #00FF00;">0.00300000000000011</span>│</span></span>
-<span><span class="co">## │success│success│ 1│ 0    │ 1    │ FALSE │FALSE│ 0     │<span style="background-color: #00FF00;">0.00499999999999989</span>│</span></span>
-<span><span class="co">## <span style="background-color: #BB0000;">│warning│warning│ 3│ 2    │ 0    │ FALSE │FALSE│ 1     │ </span><span style="background-color: #5FD700;">0.0609999999999999</span><span style="background-color: #BB0000;">│</span></span></span>
+<span><span class="co">## │success│success│ 1│ 0    │ 1    │ FALSE │FALSE│ 0     │<span style="background-color: #00FF00;">0.00400000000000045</span>│</span></span>
+<span><span class="co">## <span style="background-color: #BB0000;">│warning│warning│ 3│ 2    │ 0    │ FALSE │FALSE│ 1     │ </span><span style="background-color: #878700;">0.0540000000000003</span><span style="background-color: #BB0000;">│</span></span></span>
 <span><span class="co">## ╘═══════╧═══════╧══╧══════╧══════╧═══════╧═════╧═══════╧═══════════════════╛</span></span></code></pre>
 <pre><code><span><span class="co">## </span></span></code></pre>
 <pre><code><span><span class="co">## <span style="color: #00BBBB;">──</span> <span style="font-weight: bold;">Test results by file for package bilbo</span> <span style="color: #00BBBB;">──────────────────────────────────────</span></span></span></code></pre>
 <pre><code><span><span class="co">## ╒═══════╤══╤══════╤══════╤═══════╤═════╤═══════╤═══════════════════╕</span></span>
 <span><span class="co">## <span style="font-weight: bold;">│ file  │nb│failed│passed│skipped│error│warning│ time              │</span></span></span>
 <span><span class="co">## ╞═══════╪══╪══════╪══════╪═══════╪═════╪═══════╪═══════════════════╡</span></span>
-<span><span class="co">## <span style="background-color: #BB0000;">│ errors│ 1│ 0    │ 1    │ 0     │ 1   │ 0     │ </span><span style="background-color: #00FF00;">0.024</span><span style="background-color: #BB0000;">             │</span></span></span>
-<span><span class="co">## <span style="background-color: #BB0000;">│failure│ 1│ 1    │ 0    │ 0     │ 0   │ 0     │ </span><span style="background-color: #FF0000;">0.201</span><span style="background-color: #BB0000;">             │</span></span></span>
-<span><span class="co">## <span style="background-color: #BB0000;">│ misc  │ 8│ 2    │ 4    │ 1     │ 1   │ 1     │ </span><span style="background-color: #AF8700;">0.106</span><span style="background-color: #BB0000;">             │</span></span></span>
-<span><span class="co">## <span style="background-color: #BB0000;">│ mixed │ 2│ 1    │ 1    │ 0     │ 0   │ 0     │ </span><span style="background-color: #00FF00;">0.0289999999999999</span><span style="background-color: #BB0000;">│</span></span></span>
+<span><span class="co">## <span style="background-color: #BB0000;">│ errors│ 1│ 0    │ 1    │ 0     │ 1   │ 0     │ </span><span style="background-color: #00FF00;">0.0190000000000001</span><span style="background-color: #BB0000;">│</span></span></span>
+<span><span class="co">## <span style="background-color: #BB0000;">│failure│ 1│ 1    │ 0    │ 0     │ 0   │ 0     │ </span><span style="background-color: #FF0000;">0.105</span><span style="background-color: #BB0000;">             │</span></span></span>
+<span><span class="co">## <span style="background-color: #BB0000;">│ misc  │ 8│ 2    │ 4    │ 1     │ 1   │ 1     │ </span><span style="background-color: #FF0000;">0.100000000000001</span><span style="background-color: #BB0000;"> │</span></span></span>
+<span><span class="co">## <span style="background-color: #BB0000;">│ mixed │ 2│ 1    │ 1    │ 0     │ 0   │ 0     │ </span><span style="background-color: #5FD700;">0.0220000000000002</span><span style="background-color: #BB0000;">│</span></span></span>
 <span><span class="co">## │ skip  │ 1│ 0    │ 0    │ 1     │ 0   │ 0     │<span style="background-color: #00FF00;">0.00300000000000011</span>│</span></span>
-<span><span class="co">## │success│ 1│ 0    │ 1    │ 0     │ 0   │ 0     │<span style="background-color: #00FF00;">0.00499999999999989</span>│</span></span>
-<span><span class="co">## <span style="background-color: #BB0000;">│warning│ 3│ 2    │ 0    │ 0     │ 0   │ 1     │ </span><span style="background-color: #5FD700;">0.0609999999999999</span><span style="background-color: #BB0000;">│</span></span></span>
+<span><span class="co">## │success│ 1│ 0    │ 1    │ 0     │ 0   │ 0     │<span style="background-color: #00FF00;">0.00400000000000045</span>│</span></span>
+<span><span class="co">## <span style="background-color: #BB0000;">│warning│ 3│ 2    │ 0    │ 0     │ 0   │ 1     │ </span><span style="background-color: #878700;">0.0540000000000003</span><span style="background-color: #BB0000;">│</span></span></span>
 <span><span class="co">## ╘═══════╧══╧══════╧══════╧═══════╧═════╧═══════╧═══════════════════╛</span></span></code></pre>
 <pre><code><span><span class="co">## </span></span></code></pre>
 <pre><code><span><span class="co">## <span style="color: #00BBBB;">──</span> <span style="font-weight: bold;">Test results overview for package bilbo</span> <span style="color: #00BBBB;">─────────────────────────────────────</span></span></span></code></pre>
 <pre><code><span><span class="co">## ╒══╤══════╤══════╤═══════╤═════╤═══════╤═════════════════╕</span></span>
 <span><span class="co">## <span style="font-weight: bold;">│nb│failed│passed│skipped│error│warning│ time            │</span></span></span>
 <span><span class="co">## ╞══╪══════╪══════╪═══════╪═════╪═══════╪═════════════════╡</span></span>
-<span><span class="co">## │17│ 6    │ 7    │ 2     │ 2   │ 2     │0.428999999999999│</span></span>
+<span><span class="co">## │17│ 6    │ 7    │ 2     │ 2   │ 2     │0.307000000000002│</span></span>
 <span><span class="co">## ╘══╧══════╧══════╧═══════╧═════╧═══════╧═════════════════╛</span></span></code></pre>
-<div class="sourceCode" id="cb35"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb37"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html" class="external-link">as.data.frame</a></span><span class="op">(</span><span class="va">test_results</span><span class="op">$</span><span class="va">lotr</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">##      file    test nb failed passed skipped error warning  time</span></span>
-<span><span class="co">## 1 failure failure  1      1      0   FALSE FALSE       0 0.020</span></span>
-<span><span class="co">## 2   mixed   mixed  2      1      1   FALSE FALSE       0 0.022</span></span>
+<span><span class="co">## 1 failure failure  1      1      0   FALSE FALSE       0 0.026</span></span>
+<span><span class="co">## 2   mixed   mixed  2      1      1   FALSE FALSE       0 0.023</span></span>
 <span><span class="co">## 3    skip    skip  1      0      0    TRUE FALSE       0 0.003</span></span>
-<span><span class="co">## 4 success success  1      0      1   FALSE FALSE       0 0.004</span></span></code></pre>
-<div class="sourceCode" id="cb37"><pre class="downlit sourceCode r">
+<span><span class="co">## 4 success success  1      0      1   FALSE FALSE       0 0.005</span></span></code></pre>
+<div class="sourceCode" id="cb39"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">test_results</span><span class="op">$</span><span class="va">lotr</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">##      file nb failed passed skipped error warning  time</span></span>
-<span><span class="co">## 1 failure  1      1      0       0     0       0 0.020</span></span>
-<span><span class="co">## 2   mixed  2      1      1       0     0       0 0.022</span></span>
+<span><span class="co">## 1 failure  1      1      0       0     0       0 0.026</span></span>
+<span><span class="co">## 2   mixed  2      1      1       0     0       0 0.023</span></span>
 <span><span class="co">## 3    skip  1      0      0       1     0       0 0.003</span></span>
-<span><span class="co">## 4 success  1      0      1       0     0       0 0.004</span></span></code></pre>
-<div class="sourceCode" id="cb39"><pre class="downlit sourceCode r">
+<span><span class="co">## 4 success  1      0      1       0     0       0 0.005</span></span></code></pre>
+<div class="sourceCode" id="cb41"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/logical.html" class="external-link">as.logical</a></span><span class="op">(</span><span class="va">test_results</span><span class="op">$</span><span class="va">aragorn</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## [1] TRUE</span></span></code></pre>
 </div>
@@ -327,7 +329,7 @@ longer!</p>
 <div class="section level3">
 <h3 id="fixing-the-collection-declare-testthat-as-dependency">fixing the collection: declare testthat as dependency<a class="anchor" aria-label="anchor" href="#fixing-the-collection-declare-testthat-as-dependency"></a>
 </h3>
-<div class="sourceCode" id="cb41"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb43"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">.fix_description</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">path</span>, <span class="va">lst</span><span class="op">)</span> <span class="op">{</span></span>
 <span>  <span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/dcf.html" class="external-link">read.dcf</a></span><span class="op">(</span><span class="va">path</span>, all <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span>  <span class="va">df2</span> <span class="op">&lt;-</span> <span class="fu">utils</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/utils/modifyList.html" class="external-link">modifyList</a></span><span class="op">(</span><span class="va">df</span>, <span class="va">lst</span><span class="op">)</span></span>
@@ -340,7 +342,7 @@ longer!</p>
 <div class="section level3">
 <h3 id="checking-the-packages">checking the packages<a class="anchor" aria-label="anchor" href="#checking-the-packages"></a>
 </h3>
-<div class="sourceCode" id="cb42"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb44"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">check_results</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/pkgs_check.html">pkgs_check</a></span><span class="op">(</span>quiet <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## <span style="color: #00BBBB;">ℹ</span> Loading <span style="color: #0000BB;">aragorn</span></span></span>
 <span><span class="co">## <span style="color: #00BBBB;">ℹ</span> Loading <span style="color: #0000BB;">bilbo</span></span></span>
@@ -353,31 +355,31 @@ longer!</p>
 <span><span class="co">## <span style="color: #00BBBB;">ℹ</span> Loading <span style="color: #0000BB;">hobbits</span></span></span>
 <span><span class="co">## <span style="color: #00BBBB;">ℹ</span> Loading <span style="color: #0000BB;">legolas</span></span></span>
 <span><span class="co">## <span style="color: #00BBBB;">ℹ</span> Loading <span style="color: #0000BB;">lotr</span></span></span></code></pre>
-<div class="sourceCode" id="cb44"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb46"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">check_results</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## </span></span>
 <span><span class="co">## <span style="color: #00BBBB;">──</span> <span style="font-weight: bold;">Check results by package</span> <span style="color: #00BBBB;">────────────────────────────────────────────────────</span></span></span></code></pre>
 <pre><code><span><span class="co">## ╒═════════╤══════╤════════╤═════╤════╕</span></span>
 <span><span class="co">## <span style="font-weight: bold;">│ package │errors│warnings│notes│time│</span></span></span>
 <span><span class="co">## ╞═════════╪══════╪════════╪═════╪════╡</span></span>
-<span><span class="co">## │ aragorn │ 0    │ 0      │ 2   │<span style="background-color: #87AF00;">8.63</span>│</span></span>
-<span><span class="co">## <span style="background-color: #BB0000;">│ bilbo   │ 1    │ 0      │ 2   │ </span><span style="background-color: #AF8700;">8.8</span><span style="background-color: #BB0000;">│</span></span></span>
-<span><span class="co">## │ elrond  │ 0    │ 0      │ 2   │<span style="background-color: #00FF00;">8.43</span>│</span></span>
-<span><span class="co">## │ elves   │ 0    │ 0      │ 2   │<span style="background-color: #87AF00;">8.62</span>│</span></span>
-<span><span class="co">## <span style="background-color: #BB0000;">│ frodo   │ 1    │ 0      │ 2   │</span><span style="background-color: #87AF00;">8.61</span><span style="background-color: #BB0000;">│</span></span></span>
-<span><span class="co">## │galadriel│ 0    │ 0      │ 2   │ <span style="background-color: #00FF00;">8.4</span>│</span></span>
-<span><span class="co">## <span style="background-color: #BB0000;">│ gandalf │ 1    │ 0      │ 2   │ </span><span style="background-color: #5FD700;">8.5</span><span style="background-color: #BB0000;">│</span></span></span>
-<span><span class="co">## <span style="background-color: #BB0000;">│ gimli   │ 1    │ 0      │ 2   │</span><span style="background-color: #5FD700;">8.51</span><span style="background-color: #BB0000;">│</span></span></span>
-<span><span class="co">## <span style="background-color: #BB0000;">│ hobbits │ 1    │ 0      │ 4   │</span><span style="background-color: #87AF00;">8.69</span><span style="background-color: #BB0000;">│</span></span></span>
-<span><span class="co">## │ legolas │ 0    │ 0      │ 2   │ <span style="background-color: #00FF00;">8.3</span>│</span></span>
-<span><span class="co">## <span style="background-color: #BB0000;">│ lotr    │ 1    │ 0      │ 4   │</span><span style="background-color: #FF0000;">9.21</span><span style="background-color: #BB0000;">│</span></span></span>
+<span><span class="co">## │ aragorn │ 0    │ 0      │ 2   │<span style="background-color: #5FD700;">8.61</span>│</span></span>
+<span><span class="co">## <span style="background-color: #BB0000;">│ bilbo   │ 1    │ 0      │ 2   │</span><span style="background-color: #AF8700;">8.87</span><span style="background-color: #BB0000;">│</span></span></span>
+<span><span class="co">## │ elrond  │ 0    │ 0      │ 2   │<span style="background-color: #00FF00;">8.36</span>│</span></span>
+<span><span class="co">## │ elves   │ 0    │ 0      │ 2   │<span style="background-color: #87AF00;">8.76</span>│</span></span>
+<span><span class="co">## <span style="background-color: #BB0000;">│ frodo   │ 1    │ 0      │ 2   │</span><span style="background-color: #87AF00;">8.77</span><span style="background-color: #BB0000;">│</span></span></span>
+<span><span class="co">## │galadriel│ 0    │ 0      │ 2   │<span style="background-color: #5FD700;">8.54</span>│</span></span>
+<span><span class="co">## <span style="background-color: #BB0000;">│ gandalf │ 1    │ 0      │ 2   │ </span><span style="background-color: #87AF00;">8.8</span><span style="background-color: #BB0000;">│</span></span></span>
+<span><span class="co">## <span style="background-color: #BB0000;">│ gimli   │ 1    │ 0      │ 2   │</span><span style="background-color: #AF8700;">8.87</span><span style="background-color: #BB0000;">│</span></span></span>
+<span><span class="co">## <span style="background-color: #BB0000;">│ hobbits │ 1    │ 0      │ 4   │ </span><span style="background-color: #AF8700;">8.9</span><span style="background-color: #BB0000;">│</span></span></span>
+<span><span class="co">## │ legolas │ 0    │ 0      │ 2   │<span style="background-color: #5FD700;">8.57</span>│</span></span>
+<span><span class="co">## <span style="background-color: #BB0000;">│ lotr    │ 1    │ 0      │ 4   │</span><span style="background-color: #FF0000;">9.29</span><span style="background-color: #BB0000;">│</span></span></span>
 <span><span class="co">## ╘═════════╧══════╧════════╧═════╧════╛</span></span></code></pre>
 <pre><code><span><span class="co">## </span></span>
 <span><span class="co">## <span style="color: #00BBBB;">──</span> <span style="font-weight: bold;">Check results overview</span> <span style="color: #00BBBB;">──────────────────────────────────────────────────────</span></span></span></code></pre>
 <pre><code><span><span class="co">## ╒═══════╤══════╤════════╤═════╤════╕</span></span>
 <span><span class="co">## <span style="font-weight: bold;">│package│errors│warnings│notes│time│</span></span></span>
 <span><span class="co">## ╞═══════╪══════╪════════╪═════╪════╡</span></span>
-<span><span class="co">## │ 11    │ 6    │ 0      │ 26  │94.7│</span></span>
+<span><span class="co">## │ 11    │ 6    │ 0      │ 26  │96.3│</span></span>
 <span><span class="co">## ╘═══════╧══════╧════════╧═════╧════╛</span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## FAILED</span></span></code></pre>
@@ -403,31 +405,31 @@ collection was successful</li>
 <li>
 <code><a href="https://rdrr.io/r/base/print.html" class="external-link">print()</a></code> - prints the results as pretty tables</li>
 </ul>
-<div class="sourceCode" id="cb49"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb51"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html" class="external-link">as.data.frame</a></span><span class="op">(</span><span class="va">check_results</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">##             package errors warnings notes     time</span></span>
-<span><span class="co">## aragorn     aragorn      0        0     2 8.630147</span></span>
-<span><span class="co">## bilbo         bilbo      1        0     2 8.800797</span></span>
-<span><span class="co">## elrond       elrond      0        0     2 8.430192</span></span>
-<span><span class="co">## elves         elves      0        0     2 8.618615</span></span>
-<span><span class="co">## frodo         frodo      1        0     2 8.607013</span></span>
-<span><span class="co">## galadriel galadriel      0        0     2 8.401060</span></span>
-<span><span class="co">## gandalf     gandalf      1        0     2 8.496756</span></span>
-<span><span class="co">## gimli         gimli      1        0     2 8.507365</span></span>
-<span><span class="co">## hobbits     hobbits      1        0     4 8.689744</span></span>
-<span><span class="co">## legolas     legolas      0        0     2 8.304031</span></span>
-<span><span class="co">## lotr           lotr      1        0     4 9.207761</span></span></code></pre>
-<div class="sourceCode" id="cb51"><pre class="downlit sourceCode r">
+<span><span class="co">## aragorn     aragorn      0        0     2 8.609964</span></span>
+<span><span class="co">## bilbo         bilbo      1        0     2 8.867937</span></span>
+<span><span class="co">## elrond       elrond      0        0     2 8.364748</span></span>
+<span><span class="co">## elves         elves      0        0     2 8.756323</span></span>
+<span><span class="co">## frodo         frodo      1        0     2 8.767919</span></span>
+<span><span class="co">## galadriel galadriel      0        0     2 8.544150</span></span>
+<span><span class="co">## gandalf     gandalf      1        0     2 8.799231</span></span>
+<span><span class="co">## gimli         gimli      1        0     2 8.868091</span></span>
+<span><span class="co">## hobbits     hobbits      1        0     4 8.901309</span></span>
+<span><span class="co">## legolas     legolas      0        0     2 8.572514</span></span>
+<span><span class="co">## lotr           lotr      1        0     4 9.286884</span></span></code></pre>
+<div class="sourceCode" id="cb53"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">check_results</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">##   package errors warnings notes     time</span></span>
-<span><span class="co">## 1      11      6        0    26 94.69348</span></span></code></pre>
-<div class="sourceCode" id="cb53"><pre class="downlit sourceCode r">
+<span><span class="co">## 1      11      6        0    26 96.33907</span></span></code></pre>
+<div class="sourceCode" id="cb55"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/logical.html" class="external-link">as.logical</a></span><span class="op">(</span><span class="va">check_results</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## [1] FALSE</span></span></code></pre>
-<div class="sourceCode" id="cb55"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb57"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">check_results</span><span class="op">$</span><span class="va">bilbo</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## <span style="color: #00BBBB;">── R CMD check results ────────────────────────────────────────── bilbo 0.1 ────</span></span></span>
-<span><span class="co">## Duration: 8.8s</span></span>
+<span><span class="co">## Duration: 8.9s</span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## <span style="color: #BB0000;">❯ checking tests ...</span></span></span>
 <span><span class="co">##   See below...</span></span>
@@ -501,16 +503,16 @@ collection was successful</li>
 <span><span class="co">## Execution halted</span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">##   package errors warnings notes     time</span></span>
-<span><span class="co">## 1   bilbo      1        0     2 8.800797</span></span></code></pre>
-<div class="sourceCode" id="cb57"><pre class="downlit sourceCode r">
+<span><span class="co">## 1   bilbo      1        0     2 8.867937</span></span></code></pre>
+<div class="sourceCode" id="cb59"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html" class="external-link">as.data.frame</a></span><span class="op">(</span><span class="va">check_results</span><span class="op">$</span><span class="va">lotr</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">##   package errors warnings notes     time</span></span>
-<span><span class="co">## 1    lotr      1        0     4 9.207761</span></span></code></pre>
-<div class="sourceCode" id="cb59"><pre class="downlit sourceCode r">
+<span><span class="co">## 1    lotr      1        0     4 9.286884</span></span></code></pre>
+<div class="sourceCode" id="cb61"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">check_results</span><span class="op">$</span><span class="va">lotr</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">##   package errors warnings notes     time</span></span>
-<span><span class="co">## 1    lotr      1        0     4 9.207761</span></span></code></pre>
-<div class="sourceCode" id="cb61"><pre class="downlit sourceCode r">
+<span><span class="co">## 1    lotr      1        0     4 9.286884</span></span></code></pre>
+<div class="sourceCode" id="cb63"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/logical.html" class="external-link">as.logical</a></span><span class="op">(</span><span class="va">check_results</span><span class="op">$</span><span class="va">aragorn</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## [1] TRUE</span></span></code></pre>
 </div>

@@ -84,6 +84,77 @@ srcpkgs object. Also accept a singleton package object</p></dd>
     <p>the results as a <code>pkgs_test</code> object</p>
     </div>
 
+    <div class="section level2">
+    <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co">## create a dummy collection of srcpkgs by replicating the dummy srcpkg</span></span></span>
+<span class="r-in"><span> <span class="va">pkg</span> <span class="op">&lt;-</span> <span class="fu"><a href="setup_and_get_dummy_srcpkg.html">setup_and_get_dummy_srcpkg</a></span><span class="op">(</span><span class="op">)</span></span></span>
+<span class="r-in"><span> <span class="va">pkgs</span> <span class="op">&lt;-</span> <span class="fu"><a href="srcpkgs.html">srcpkgs</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">pkg</span>, <span class="va">pkg</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span> <span class="va">res</span> <span class="op">&lt;-</span> <span class="fu">pkgs_test</span><span class="op">(</span><span class="va">pkgs</span>, error_on <span class="op">=</span> <span class="st">"never"</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> | <span style="color: #FFAF00;">F</span> <span style="color: #BB00BB;">W</span> <span style="color: #0000BB;"> S</span> <span style="color: #00BB00;"> OK</span> | Context</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ⠏ |          0 | failure                                                        </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BB0000;">✖</span> | <span style="color: #FFAF00;">1</span>        0 | failure</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ────────────────────────────────────────────────────────────────────────────────</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #FFAF00; font-weight: bold;">Failure</span><span style="font-weight: bold;"> (</span><span style="color: #0000BB; font-weight: bold;">test_failure.R:3:3</span><span style="font-weight: bold;">): does_nothing_special - failure</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> does_nothing_special() not equal to 0.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1/1 mismatches</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 42 - 0 == 42</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ────────────────────────────────────────────────────────────────────────────────</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ⠏ |          0 | success                                                        </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> |          1 | success</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ══ <span style="font-weight: bold;">Results</span> ═════════════════════════════════════════════════════════════════════</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ── Failed tests ────────────────────────────────────────────────────────────────</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #FFAF00; font-weight: bold;">Failure</span><span style="font-weight: bold;"> (</span><span style="color: #0000BB; font-weight: bold;">test_failure.R:3:3</span><span style="font-weight: bold;">): does_nothing_special - failure</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> does_nothing_special() not equal to 0.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1/1 mismatches</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 42 - 0 == 42</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [ <span style="color: #FFAF00;">FAIL</span> 1 | WARN 0 | SKIP 0 | PASS 1 ]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> | <span style="color: #FFAF00;">F</span> <span style="color: #BB00BB;">W</span> <span style="color: #0000BB;"> S</span> <span style="color: #00BB00;"> OK</span> | Context</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ⠏ |          0 | failure                                                        </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BB0000;">✖</span> | <span style="color: #FFAF00;">1</span>        0 | failure</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ────────────────────────────────────────────────────────────────────────────────</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #FFAF00; font-weight: bold;">Failure</span><span style="font-weight: bold;"> (</span><span style="color: #0000BB; font-weight: bold;">test_failure.R:3:3</span><span style="font-weight: bold;">): does_nothing_special - failure</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> does_nothing_special() not equal to 0.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1/1 mismatches</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 42 - 0 == 42</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ────────────────────────────────────────────────────────────────────────────────</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ⠏ |          0 | success                                                        </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> |          1 | success</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ══ <span style="font-weight: bold;">Results</span> ═════════════════════════════════════════════════════════════════════</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ── Failed tests ────────────────────────────────────────────────────────────────</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #FFAF00; font-weight: bold;">Failure</span><span style="font-weight: bold;"> (</span><span style="color: #0000BB; font-weight: bold;">test_failure.R:3:3</span><span style="font-weight: bold;">): does_nothing_special - failure</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> does_nothing_special() not equal to 0.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1/1 mismatches</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 42 - 0 == 42</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [ <span style="color: #FFAF00;">FAIL</span> 1 | WARN 0 | SKIP 0 | PASS 1 ]</span>
+<span class="r-in"><span> <span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">res</span><span class="op">)</span></span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">──</span> <span style="font-weight: bold;">Test results by package</span> <span style="color: #00BBBB;">─────────────────────────────────────────────────────</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ╒════════════╤══╤══════╤══════╤═══════╤═════╤═══════╤═════╕</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="font-weight: bold;">│ package    │nb│failed│passed│skipped│error│warning│ time│</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ╞════════════╪══╪══════╪══════╪═══════╪═════╪═══════╪═════╡</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="background-color: #BB0000;">│dummy.srcpkg│ 2│ 1    │ 1    │ 0     │ 0   │ 0     │</span><span style="background-color: #00FF00;">0.013</span><span style="background-color: #BB0000;">│</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="background-color: #BB0000;">│dummy.srcpkg│ 2│ 1    │ 1    │ 0     │ 0   │ 0     │</span><span style="background-color: #FF0000;">0.014</span><span style="background-color: #BB0000;">│</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ╘════════════╧══╧══════╧══════╧═══════╧═════╧═══════╧═════╛</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">──</span> <span style="font-weight: bold;">Test results overview</span> <span style="color: #00BBBB;">───────────────────────────────────────────────────────</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ╒═══════╤══╤══════╤══════╤═══════╤═════╤═══════╤═════╕</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="font-weight: bold;">│package│nb│failed│passed│skipped│error│warning│ time│</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ╞═══════╪══╪══════╪══════╪═══════╪═════╪═══════╪═════╡</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> │ 2     │ 4│ 2    │ 2    │ 0     │ 0   │ 0     │0.027│</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ╘═══════╧══╧══════╧══════╧═══════╧═════╧═══════╧═════╛</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> FAILED</span>
+</code></pre></div>
+    </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside></div>
 

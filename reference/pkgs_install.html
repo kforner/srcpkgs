@@ -104,6 +104,14 @@ srcpkgs object. Also accept a singleton package object</p></dd>
     <p>the names of the packages actually installed</p>
     </div>
 
+    <div class="section level2">
+    <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">pkg</span> <span class="op">&lt;-</span> <span class="fu"><a href="setup_and_get_dummy_srcpkg.html">setup_and_get_dummy_srcpkg</a></span><span class="op">(</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">dest</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempfile</a></span><span class="op">(</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">pkgs_install</span><span class="op">(</span><span class="va">pkg</span>, <span class="va">dest</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "dummy.srcpkg"</span>
+</code></pre></div>
+    </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside></div>
 

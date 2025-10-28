@@ -83,14 +83,15 @@ and managed by <code>srcpkgs</code></p>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">pkgs</span> <span class="op">&lt;-</span> <span class="fu">get_srcpkgs</span><span class="op">(</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">pkgs</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>         package version                              path</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> srcpkgs srcpkgs     0.2 /home/runner/work/srcpkgs/srcpkgs</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                                                    imports depends</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> srcpkgs cli,clitable,devtools,pkgload,testthat,stats,utils        </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                      suggests</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> srcpkgs knitr,rmarkdown,withr</span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># setup a srcpkg. We need reset because it is not discoverable from the current directory</span></span></span>
+<span class="r-in"><span><span class="va">pkg</span> <span class="op">&lt;-</span> <span class="fu"><a href="setup_and_get_dummy_srcpkg.html">setup_and_get_dummy_srcpkg</a></span><span class="op">(</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="reset.html">reset</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/basename.html" class="external-link">dirname</a></span><span class="op">(</span><span class="va">pkg</span><span class="op">$</span><span class="va">path</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="fu">get_srcpkgs</span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                   package version                                          path</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> dummy.srcpkg dummy.srcpkg  3.1416 /tmp/RtmpxPid9z/file1ee638f02fa0/dummy_srcpkg</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>              imports depends suggests</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> dummy.srcpkg                 testthat</span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>

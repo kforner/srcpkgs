@@ -47,7 +47,7 @@
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">pkgs_deps</span><span class="op">(</span></span>
 <span>  <span class="va">pkgids</span>,</span>
-<span>  src_pkgs <span class="op">=</span> <span class="fu"><a href="find_srcpkgs.html">find_srcpkgs</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>  src_pkgs <span class="op">=</span> <span class="fu"><a href="get_srcpkgs.html">get_srcpkgs</a></span><span class="op">(</span><span class="op">)</span>,</span>
 <span>  source <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  installed <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  imports <span class="op">=</span> <span class="cn">TRUE</span>,</span>
@@ -71,11 +71,11 @@ srcpkgs object. Also accept a singleton package object</p></dd>
 
 
 <dt id="arg-source">source<a class="anchor" aria-label="anchor" href="#arg-source"></a></dt>
-<dd><p>whether to only report source packages</p></dd>
+<dd><p>whether to report source packages</p></dd>
 
 
 <dt id="arg-installed">installed<a class="anchor" aria-label="anchor" href="#arg-installed"></a></dt>
-<dd><p>whether to only report installed (non-source) packages</p></dd>
+<dd><p>whether to report installed (non-source) packages</p></dd>
 
 
 <dt id="arg-imports">imports<a class="anchor" aria-label="anchor" href="#arg-imports"></a></dt>
@@ -99,6 +99,19 @@ srcpkgs object. Also accept a singleton package object</p></dd>
     <p>the dependencies, as a character vector, topologically sorted</p>
     </div>
 
+    <div class="section level2">
+    <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">pkg</span> <span class="op">&lt;-</span> <span class="fu"><a href="setup_and_get_dummy_srcpkg.html">setup_and_get_dummy_srcpkg</a></span><span class="op">(</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">deps_src</span> <span class="op">&lt;-</span> <span class="fu">pkgs_deps</span><span class="op">(</span><span class="va">pkg</span>, installed <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">deps_inst</span> <span class="op">&lt;-</span> <span class="fu">pkgs_deps</span><span class="op">(</span><span class="va">pkg</span>, source <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="fu"><a href="get_srcpkgs.html">get_srcpkgs</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                   package version                                          path</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> dummy.srcpkg dummy.srcpkg  3.1416 /tmp/RtmpxPid9z/file1ee638f02fa0/dummy_srcpkg</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>              imports depends suggests</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> dummy.srcpkg                 testthat</span>
+<span class="r-in"><span><span class="va">deps_rev</span> <span class="op">&lt;-</span> <span class="fu">pkgs_deps</span><span class="op">(</span><span class="va">pkg</span>, reverse <span class="op">=</span> <span class="cn">TRUE</span>, suggests <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></span>
+</code></pre></div>
+    </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside></div>
 
