@@ -36,7 +36,7 @@ as.data.frame.pkg_check <- function(x, ...) {
 #' @examples
 #' \donttest{
 #'  pkg <- setup_and_get_dummy_srcpkg()
-#'  res <- pkg_check(pkg, error_on = "never")
+#'  res <- pkg_check(pkg, lib = tempfile(), error_on = "never")
 #'  print(res)
 #' }
 pkg_check <- function(pkgid, src_pkgs = get_srcpkgs(), lib = ".check",  roxygen = TRUE,

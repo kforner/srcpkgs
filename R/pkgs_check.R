@@ -61,7 +61,7 @@ summary.pkgs_check <- function(object, ...) {
 #' @examples
 #' \donttest{
 #'  pkg <- setup_and_get_dummy_srcpkg()
-#'  res <- pkg_check(pkg, error_on = "never")
+#'  res <- pkgs_check(pkg, lib = tempfile(), fail_on_error = FALSE)
 #'  print(res)
 #' }
 pkgs_check <- function(pkgids = names(filter_srcpkgs(src_pkgs, filter)), src_pkgs = get_srcpkgs(), 

@@ -42,7 +42,7 @@ This function will check a source package.
 \examples{
 \donttest{
  pkg <- setup_and_get_dummy_srcpkg()
- res <- pkg_check(pkg, error_on = "never")
+ res <- pkg_check(pkg, lib = tempfile(), error_on = "never")
  print(res)
 }
 }
