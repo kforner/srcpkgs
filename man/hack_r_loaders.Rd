@@ -26,7 +26,7 @@ environment variable \code{SRCPKGS.INHIBIT_R_LOADERS_HACK}. You may set any valu
 }
 
 \examples{
-\donttest{
+\dontrun{
 # hack library
 hack_r_loaders()
 

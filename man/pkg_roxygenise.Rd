@@ -30,3 +30,7 @@ if the roxygenation has been performed
 \item N.B: has the side-effect of loading the package
 }
 }
+\examples{
+ pkg <- setup_and_get_dummy_srcpkg()
+ pkg_roxygenise(pkg$path)
+}

@@ -12,6 +12,9 @@
 #'
 #' @return if the roxygenation has been performed
 #' @export
+#' @examples
+#'  pkg <- setup_and_get_dummy_srcpkg()
+#'  pkg_roxygenise(pkg$path)
 pkg_roxygenise <- function(pkg_path, force = FALSE, quiet = FALSE,  ...) {
   if (!force && !pkg_needs_roxygen(pkg_path, quiet = quiet)) 
     return(invisible(FALSE))

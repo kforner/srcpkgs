@@ -27,21 +27,18 @@
 #' @return the load plan as a data frame, or NULL if there is nothing to do.
 #' @export
 #' @examples
-#' \dontrun{
-#' # N.B: This example is wrapped in \dontrun as it cannot be executed since it requires 
-#' # a source package to load.
-#' 
+#'  pkg <- setup_and_get_dummy_srcpkg()
 #' # load and attach a package
-#' pkg_load('mypkg')
+#' pkg_load(pkg)
 #' 
 #' # just load, do not attach it (~ loadNamespace())
-#' pkg_load('mypkg', attach = FALSE)
+#' pkg_unload(pkg)
+#' pkg_load(pkg, attach = FALSE)
 #' 
 #' # do some changes, to a source package or any of its depencies or dependents
-#' plan <- pkg_load('mypkg', dry_run = TRUE)
+#' pkg_unload(pkg)
+#' plan <- pkg_load(pkg, dry_run = TRUE)
 #' # then you can inspect the plan actions
-#' 
-#' }
 pkg_load <- function(pkgid,
   src_pkgs = get_srcpkgs(),
   attach = TRUE,

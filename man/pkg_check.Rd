@@ -40,7 +40,9 @@ the results as a \code{pkg_test} object, or NULL if no tests found
 This function will check a source package.
 }
 \examples{
-\dontrun{
- pkg_test("mypkg")
+\donttest{
+ pkg <- setup_and_get_dummy_srcpkg()
+ res <- pkg_check(pkg, error_on = "never")
+ print(res)
 }
 }

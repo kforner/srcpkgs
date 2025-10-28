@@ -26,5 +26,7 @@ N.B: the \emph{hidden} files and directories are ignored.
 In general, this function is not used directly, instead you should use \code{\link[=get_srcpkgs]{get_srcpkgs()}}
 }
 \examples{
-find_srcpkgs('.')
+pkg <- setup_and_get_dummy_srcpkg()
+pkgs <- find_srcpkgs(dirname(pkg$path))
+print(pkgs)
 }

@@ -1,0 +1,9 @@
+Package: dummy.srcpkg
+Title: Dummy Srcpkg To Use in Examples
+Description: A dummy srcpkg to use in examples.
+Version: 3.1416
+Authors@R: person("Karl", "Forner", , "karl.forner@gmail.com", role = c("aut", "cre"))
+License: GPL-2
+Encoding: UTF-8
+Suggests: 
+  testthat

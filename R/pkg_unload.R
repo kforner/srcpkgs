@@ -11,9 +11,10 @@
 #'  attached, invisibly or NULL if the package is not loaded
 #' @export
 #' @examples
-#' \donttest{
-#' plan <- pkg_unload('mypkg')
-#' }
+#' pkg <- setup_and_get_dummy_srcpkg()
+#' pkg_load(pkg)
+#' 
+#' pkg_unload(pkg)
 pkg_unload <- function(pkg_or_name, 
   src_pkgs = get_srcpkgs(), dry_run = FALSE, loaded = loadedNamespaces(), quiet = FALSE)
 {

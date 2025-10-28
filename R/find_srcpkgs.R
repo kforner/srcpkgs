@@ -11,7 +11,9 @@ SRCPKGS_PATHS_KEY <- 'SRCPKGS_PATHS'
 #' devtools "package" objects. The list is named after the package names.
 #' @export
 #' @examples
-#' find_srcpkgs('.')
+#' pkg <- setup_and_get_dummy_srcpkg()
+#' pkgs <- find_srcpkgs(dirname(pkg$path))
+#' print(pkgs)
 find_srcpkgs <- function(root = get_project_root(), 
   srcpkgs_paths = find_srcpkgs_paths(root, prune = prune), prune = TRUE)
 {
@@ -38,8 +40,11 @@ find_srcpkgs <- function(root = get_project_root(),
 #' @return the source packages as a "scrpkgs" object, cf [find_srcpkgs()], or NULL if none
 #' @export
 #' @examples
-#' pkgs <- get_srcpkgs()
-#' print(pkgs)
+#' # setup a srcpkg. We need reset because it is not discoverable from the current directory
+#' pkg <- setup_and_get_dummy_srcpkg()
+#' reset(dirname(pkg$path))
+#' 
+#' print(get_srcpkgs())
 get_srcpkgs <- function(filter = NULL) {
   init_if_needed() # triggers initialization
   paths <- get_srcpkgs_paths() %||% return(NULL)

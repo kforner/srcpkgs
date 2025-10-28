@@ -6,6 +6,12 @@
 \usage{
 pkg_list_attached()
 }
+\value{
+the names of attached package name as a character vector
+}
 \description{
 lists the packages that are attached, i.e. present in the R search() path
+}
+\examples{
+print(sort(pkg_list_attached()))
 }

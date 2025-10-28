@@ -35,7 +35,7 @@ This function will test a source package using \code{testthat},
 making sure the package and its source package dependencies are up-to-date and loaded
 }
 \examples{
-\dontrun{
- pkg_test("mypkg")
-}
+ pkg <- setup_and_get_dummy_srcpkg()
+ res <- pkg_test(pkg)
+ print(res)
 }

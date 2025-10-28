@@ -2,8 +2,8 @@
 #' computes the dependencies of some (source) packages
 #' 
 #' @inheritParams params
-#' @param source      whether to only report source packages
-#' @param installed   whether to only report installed (non-source) packages
+#' @param source      whether to report source packages
+#' @param installed   whether to report installed (non-source) packages
 #' @param imports     whether to only consider `imports` dependencies
 #' @param depends     whether to only consider `depends` dependencies
 #' @param suggests    whether to only consider `suggests` dependencies
@@ -11,7 +11,13 @@
 #' 
 #' @return the dependencies, as a character vector, topologically sorted
 #' @export
-pkgs_deps <- function(pkgids, src_pkgs = find_srcpkgs(), 
+#' @examples
+#' pkg <- setup_and_get_dummy_srcpkg()
+#' deps_src <- pkgs_deps(pkg, installed = FALSE)
+#' deps_inst <- pkgs_deps(pkg, source = FALSE)
+#' print(get_srcpkgs())
+#' deps_rev <- pkgs_deps(pkg, reverse = TRUE, suggests = FALSE)
+pkgs_deps <- function(pkgids, src_pkgs = get_srcpkgs(), 
   source = TRUE, installed = TRUE, 
   imports = TRUE, depends = TRUE, suggests = TRUE, 
   reverse = FALSE) 

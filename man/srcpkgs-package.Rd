@@ -2,7 +2,6 @@
 % Please edit documentation in R/srcpkgs-package.R
 \docType{package}
 \name{srcpkgs-package}
-\alias{srcpkgs}
 \alias{srcpkgs-package}
 \title{srcpkgs: R Source Packages Manager}
 \description{

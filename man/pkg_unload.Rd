@@ -35,7 +35,8 @@ even indirectly on it should be unloaded first.
 N.B: this function also works for non source packages.
 }
 \examples{
-\donttest{
-plan <- pkg_unload('mypkg')
-}
+pkg <- setup_and_get_dummy_srcpkg()
+pkg_load(pkg)
+
+pkg_unload(pkg)
 }

@@ -19,3 +19,6 @@ a named list of:
 \description{
 informs about the settings currently used by \code{srcpkgs}
 }
+\examples{
+print(settings())
+}

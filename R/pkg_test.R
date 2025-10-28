@@ -12,9 +12,9 @@
 #' @importFrom testthat   test_dir
 #' @export
 #' @examples
-#' \dontrun{
-#'  pkg_test("mypkg")
-#' }
+#'  pkg <- setup_and_get_dummy_srcpkg()
+#'  res <- pkg_test(pkg)
+#'  print(res)
 pkg_test <- function(pkgid, filter = NULL, src_pkgs = get_srcpkgs(), export_all = TRUE, quiet = TRUE, ...)
 {
   if (is_loaders_hack_enabled()) {

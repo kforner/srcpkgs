@@ -28,6 +28,9 @@ This function is useful for troubleshooting, to understand what are the source p
 and managed by \code{srcpkgs}
 }
 \examples{
-pkgs <- get_srcpkgs()
-print(pkgs)
+# setup a srcpkg. We need reset because it is not discoverable from the current directory
+pkg <- setup_and_get_dummy_srcpkg()
+reset(dirname(pkg$path))
+
+print(get_srcpkgs())
 }

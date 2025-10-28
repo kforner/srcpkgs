@@ -32,11 +32,12 @@ as.data.frame.pkg_check <- function(x, ...) {
 #'                              sometimes fail because of firewalls...
 #' @param ...                   passed to `devtools::check()`
 #' @return the results as a `pkg_test` object, or NULL if no tests found
-#' @importFrom testthat   test_dir
 #' @export
 #' @examples
-#' \dontrun{
-#'  pkg_test("mypkg")
+#' \donttest{
+#'  pkg <- setup_and_get_dummy_srcpkg()
+#'  res <- pkg_check(pkg, error_on = "never")
+#'  print(res)
 #' }
 pkg_check <- function(pkgid, src_pkgs = get_srcpkgs(), lib = ".check",  roxygen = TRUE,
   quiet = FALSE, error_on = "error",  check_system_clock = FALSE, ...) 

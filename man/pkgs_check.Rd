@@ -36,3 +36,10 @@ the results as a \code{pkgs_test} object
 \description{
 checks a list of source packages
 }
+\examples{
+\donttest{
+ pkg <- setup_and_get_dummy_srcpkg()
+ res <- pkg_check(pkg, error_on = "never")
+ print(res)
+}
+}

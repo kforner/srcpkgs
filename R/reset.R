@@ -21,16 +21,17 @@ init_if_needed <- function() {
 #' @return the settings (cf [settings()]) invisibly
 #' @export
 #' @examples
-#' \donttest{
 #' # reset to appropriate defaults based on your current directory
-#' reset()
+#' old <- reset()
 #' 
 #' # explictly set the project root
 #' reset(root = tempdir())
 #' 
 #' # explictly set the source package paths (very unlikely)
 #' reset(srcpkgs_paths = c('pkgs/mypkg1', 'pkgs/mypkg2'))
-#' }
+#' 
+#' # restore previous settings
+#' reset(root = old$root, srcpkgs_paths = old$srcpkgs_paths)
 reset <- function(
   root = find_project_root(), 
   srcpkgs_paths = find_srcpkgs_paths(root)
@@ -52,7 +53,9 @@ reset <- function(
 #'   - srcpkgs_paths: the paths of the source packages to manage
 #'   - hack_r_loaders_installed: whether the R loaders are hacked
 #'   - hack_r_loaders_enabled: whether the R loaded hack is in action (internal use)
-#' @export 
+#' @export
+#' @examples
+#' print(settings())
 settings <- function() {
   list(
     initialized = is_initialized(),

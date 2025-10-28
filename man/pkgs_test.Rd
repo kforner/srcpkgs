@@ -30,3 +30,11 @@ the results as a \code{pkgs_test} object
 \description{
 tests a list of source packages
 }
+\examples{
+## create a dummy collection of srcpkgs by replicating the dummy srcpkg
+ pkg <- setup_and_get_dummy_srcpkg()
+ pkgs <- srcpkgs(list(pkg, pkg))
+
+ res <- pkgs_test(pkgs, error_on = "never")
+ print(res)
+}

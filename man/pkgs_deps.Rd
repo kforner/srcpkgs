@@ -6,7 +6,7 @@
 \usage{
 pkgs_deps(
   pkgids,
-  src_pkgs = find_srcpkgs(),
+  src_pkgs = get_srcpkgs(),
   source = TRUE,
   installed = TRUE,
   imports = TRUE,
@@ -21,9 +21,9 @@ srcpkgs object. Also accept a singleton package object}
 
 \item{src_pkgs}{a collection of source packages as a \code{srckgs} object.}
 
-\item{source}{whether to only report source packages}
+\item{source}{whether to report source packages}
 
-\item{installed}{whether to only report installed (non-source) packages}
+\item{installed}{whether to report installed (non-source) packages}
 
 \item{imports}{whether to only consider \code{imports} dependencies}
 
@@ -38,4 +38,11 @@ the dependencies, as a character vector, topologically sorted
 }
 \description{
 computes the dependencies of some (source) packages
+}
+\examples{
+pkg <- setup_and_get_dummy_srcpkg()
+deps_src <- pkgs_deps(pkg, installed = FALSE)
+deps_inst <- pkgs_deps(pkg, source = FALSE)
+print(get_srcpkgs())
+deps_rev <- pkgs_deps(pkg, reverse = TRUE, suggests = FALSE)
 }

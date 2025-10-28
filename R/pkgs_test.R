@@ -7,6 +7,13 @@
 #' @param ...   passed to `pkg_test`
 #' @return the results as a `pkgs_test` object
 #' @export
+#' @examples
+#' ## create a dummy collection of srcpkgs by replicating the dummy srcpkg
+#'  pkg <- setup_and_get_dummy_srcpkg()
+#'  pkgs <- srcpkgs(list(pkg, pkg))
+#' 
+#'  res <- pkgs_test(pkgs, error_on = "never")
+#'  print(res)
 pkgs_test <- function(pkgids = names(filter_srcpkgs(src_pkgs, filter)), src_pkgs = get_srcpkgs(), filter = NULL, quiet = TRUE, ...)
 {
   force(src_pkgs)

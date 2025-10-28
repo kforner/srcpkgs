@@ -50,7 +50,7 @@ test_that("graph_from_strings", {
   expect_identical(mat, graph_from_deps(list(A = 'B', B = 'C', D = NULL)))
 })
 
-
+.graph_topo_sort <- 
 test_that("graph_topo_sort", {
   mat <- matrix(0, 1, 1, dimnames = list('A', 'A'))
   expect_identical(graph_topo_sort(mat), 'A')
@@ -70,6 +70,10 @@ test_that("graph_topo_sort", {
   ## cycle
   mat <- graph_from_strings('A->B', 'B->A')
   expect_error(graph_topo_sort(mat), 'not a DAG')
+
+  # empty matrix
+  mat <- matrix(0, 0, 0)
+  expect_identical(graph_topo_sort(mat), mat)
 })
 
 

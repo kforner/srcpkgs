@@ -33,6 +33,7 @@ graph_from_deps <- function(deps_lst) {
 
 graph_topo_sort <- function(mat) {
   nb <- nrow(mat)
+  if (nb == 0) return(mat)
 
   is_root <- .colSums(mat, nb, nb) == 0
   roots <- colnames(mat)[is_root]

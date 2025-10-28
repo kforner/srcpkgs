@@ -40,7 +40,7 @@ test_that("pkg_check", {
   # we can not expect_snapshot()
   # anyway the print method is provided by the rcmdcheck package/object
   
-  expect_error(print(chk), NA)
+  mute(expect_error(print(chk), NA))
 #   # fix time to get a reproducible output
 #   chk$duration <- 1.5
 #   # fix non deterministic path to get a reproducible output

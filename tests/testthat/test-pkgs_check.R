@@ -62,8 +62,8 @@ test_that("pkgs_check", {
   expect_true(as.logical(chks_ok))
 
   # call the print method since there seems to be a bug with expect_snapshot() and covr
-  expect_error(print(chks), NA)
-  expect_error(print(chks_ok), NA)
+  mute(expect_error(print(chks), NA))
+  mute(expect_error(print(chks_ok), NA))
 
   local_reproducible_output(crayon = TRUE, unicode = TRUE)
   expect_snapshot(print(chks))

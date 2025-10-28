@@ -58,6 +58,12 @@ summary.pkgs_check <- function(object, ...) {
 #' @param ...   passed to `pkg_check`
 #' @return the results as a `pkgs_test` object
 #' @export
+#' @examples
+#' \donttest{
+#'  pkg <- setup_and_get_dummy_srcpkg()
+#'  res <- pkg_check(pkg, error_on = "never")
+#'  print(res)
+#' }
 pkgs_check <- function(pkgids = names(filter_srcpkgs(src_pkgs, filter)), src_pkgs = get_srcpkgs(), 
   filter = NULL, lib = ".check",  quiet = FALSE, fail_on_error = FALSE,  ...) 
 {  

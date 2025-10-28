@@ -12,6 +12,11 @@ no return value, called for side-effects
 \description{
 The function is reentrant.
 }
+\examples{
+\dontrun{
+unhack_r_loaders()
+}
+}
 \seealso{
 \code{\link[=hack_r_loaders]{hack_r_loaders()}}
 }

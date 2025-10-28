@@ -89,7 +89,11 @@ pkg_is_attached <- function(pkg_or_name) {
 }
 
 #' lists the packages that are attached, i.e. present in the R search() path
+#' 
+#' @return the names of attached package name as a character vector
 #' @export
+#' @examples
+#' print(sort(pkg_list_attached()))
 pkg_list_attached <- function() {
   pattern <- '^package:'
   sub(pattern, '', grep(pattern, search(), value = TRUE))

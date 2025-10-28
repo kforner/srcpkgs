@@ -2,8 +2,21 @@
 # wraps a list of source package objects (srcpkg/package) as a S3 class
 ########################################################################
 
-# creates a new "srcpkgs" object from an existing srcpkgs(nonop), or a list of 
-# source package-like objects, or a list of source package paths
+#' creates a new "srcpkgs" object
+#' 
+#' @param pkgs    an existing srcpkgs object (no op), or a list of 
+#'  source package-like objects
+#' @param paths   a list of source package paths as a character vector or list
+#' @return a `srcpkgs` object (a list named after the package names)
+#' @export
+#' @examples
+#' # build dummy source packages
+#' pkg1 <- setup_and_get_dummy_srcpkg()
+#' pkg2 <- pkg1
+#' pkg2$package <- "dummy.srcpkg2"
+#' 
+#' print(srcpkgs(list(pkg1, pkg2)))
+#' print(srcpkgs(paths = pkg1$path))
 srcpkgs <- function(
   pkgs = lapply(paths, devtools::as.package), 
   paths = NULL) 
