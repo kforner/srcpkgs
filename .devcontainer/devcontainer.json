@@ -22,7 +22,7 @@
 
     // search for APT R packages with: `apt-cache search "^r-.*" | sort`
     ,"ghcr.io/rocker-org/devcontainer-features/apt-packages:1.0.2": {
-      "packages": "bash-completion,pandoc,qpdf,r-cran-assertthat,r-cran-debugme,r-cran-cli,r-cran-clitable,r-cran-covr,r-cran-dt,r-cran-htmltools,r-cran-igraph,r-cran-rhub"
+      "packages": "bash-completion,pandoc,qpdf,r-cran-assertthat,r-cran-debugme,r-cran-cli,r-cran-clitable,r-cran-covr,r-cran-devtools,r-cran-dt,r-cran-htmltools,r-cran-igraph,r-cran-pkgload,r-cran-rhub,r-cran-usethis"
     }
 
 	},
@@ -45,7 +45,7 @@
 				"ritwickdey.LiveServer"
 			],
 			"settings": {
-				"r.rterm.linux": "/usr/local/bin/radian",
+				// "r.rterm.linux": "/usr/local/bin/radian",
 				"r.bracketedPaste": true,
 				"r.plot.useHttpgd": true
 			}
