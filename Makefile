@@ -9,6 +9,15 @@ build: rox
 check: rox
 	_R_CHECK_SYSTEM_CLOCK_=0 Rscript --no-save -e 'devtools::check(".", check_dir = ".checks")'
 
+check/quick/nocran: rox
+	_R_CHECK_SYSTEM_CLOCK_=0 Rscript --no-save -e 'devtools::check(".", check_dir = ".checks", vignettes = FALSE, env_vars = NULL)'
+
+check/nocran: rox
+	_R_CHECK_SYSTEM_CLOCK_=0 Rscript --no-save -e 'devtools::check(".", check_dir = ".checks", env_vars = NULL)'
+
+check/quick: rox
+	_R_CHECK_SYSTEM_CLOCK_=0 Rscript --no-save -e 'devtools::check(".", check_dir = ".checks", vignettes = FALSE)'
+
 run_examples: rox
 	Rscript --no-save -e 'devtools::run_examples(run_donttest = TRUE)'
 
@@ -30,7 +39,7 @@ zero-coverage:
 	Rscript -e 'library(covr); zero_coverage(package_coverage())'
 
 covr:
-	Rscript -e 'library(covr); print(package_coverage())'
+	NOT_CRAN=true Rscript -e 'library(covr); print(package_coverage())'
 
 
 COVR_REPORT=.tmp/cov.html

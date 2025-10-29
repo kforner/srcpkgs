@@ -28,8 +28,8 @@ test_that("setup_and_get_dummy_srcpkg", {
 
   expect_setequal(df$failed, c(1, 0))
 
-  ## checking
-  chk <- pkg_check(pkg, src_pkgs = srcpkgs, error_on = "never", quiet = TRUE)
+  # ## checking
+  # chk <- pkg_check(pkg, src_pkgs = srcpkgs, error_on = "never", quiet = TRUE)
 
-  expect_s3_class(chk, "pkg_check")
+  # expect_s3_class(chk, "pkg_check")
 })

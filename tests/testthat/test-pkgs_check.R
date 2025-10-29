@@ -2,6 +2,8 @@
 
 .pkgs_check <- 
 test_that("pkgs_check", {
+  testthat::skip_on_cran()
+
   src_pkgs <- examples_srcpkgs_basic()
   setup_temp_dir()
 
@@ -51,7 +53,7 @@ test_that("pkgs_check", {
   expect_false(as.logical(chks))
 
   #### fail_on_error
-  expect_error(chks <- pkgs_check(src_pkgs = src_pkgs, quiet = TRUE, fail_on_error = TRUE), "checks failed")
+  expect_error(pkgs_check(src_pkgs = src_pkgs, quiet = TRUE, fail_on_error = TRUE), "checks failed")
 
   ### print
   # fix durations for reproducible output

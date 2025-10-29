@@ -2,6 +2,8 @@
 
 .pkg_check <- 
 test_that("pkg_check", {
+  testthat::skip_on_cran()
+
   src_pkgs <- examples_srcpkgs_basic()
   setup_temp_dir()
 
@@ -34,8 +36,7 @@ test_that("pkg_check", {
     "R CMD check found ERRORs"))
 
   ### print
-  local_reproducible_output(crayon = TRUE, unicode = TRUE)
-
+  # local_reproducible_output(crayon = TRUE, unicode = TRUE)
   # N.B: since the print output includes a stacktrace, which depends on testthat/rlang versions
   # we can not expect_snapshot()
   # anyway the print method is provided by the rcmdcheck package/object

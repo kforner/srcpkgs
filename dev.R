@@ -21,7 +21,14 @@ check()
 
 options(width = Sys.getenv("COLUMNS", 80))
 
-rmarkdown::render("testing_and_checking.Rmd")
-build_vignettes()
+
+
+system.time(withr::with_dir("vignettes", rmarkdown::render("testing_and_checking.Rmd")))
+system.time(withr::with_dir("vignettes", rmarkdown::render("getting_started.Rmd")))
+system.time(withr::with_dir("vignettes", rmarkdown::render("demo.Rmd")))
+
+build_vignettes(install = F)
 run_examples()
 run_examples(run_donttest = TRUE)
+
+rhub::rhub_check(platforms="windows")
