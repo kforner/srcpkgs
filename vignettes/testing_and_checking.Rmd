@@ -10,7 +10,7 @@ vignette: >
 
 ```{r setup, include = FALSE}
 ## N.B: we need to setup and make available the demo collection of packages "srcpkgs_lotr_demo"
-
+library(srcpkgs)
 # setup a temp dir
 root_dir <- tempfile()
 dir.create(root_dir)
@@ -18,7 +18,6 @@ file.copy('srcpkgs_lotr_demo', root_dir, recursive = TRUE)
 workdir <- file.path(root_dir, 'srcpkgs_lotr_demo')
 knitr::opts_knit$set(root.dir = workdir) # set directory for other chunks
 
-# old <- options(width = 200)
 ```
 
 I will demonstrate srcpkgs using a dummy collection of source packages: https://github.com/kforner/srcpkgs_lotr_demo
@@ -29,7 +28,8 @@ The dependencies are implemented by a mix of Imports, Imports with namespace imp
 ## listing the LOTR collection of packages with srcpkgs
 
 ```{r srcpkgs_setup, results = "markup"}
-library(srcpkgs)
+
+reset(".")
 print(names(get_srcpkgs()))
 # cat(clitable::cli_table(as.data.frame(get_srcpkgs())), sep = "\n")
 ```
@@ -153,6 +153,11 @@ print(as.logical(test_results$aragorn))
 ## checking the collection 
 
 Checking is very similar to testing except that it takes much longer!
+So we'll use a small subset of the collection.
+
+```{r subset}
+small_collection <- get_srcpkgs(filter = "elves|galadriel|legolas")
+```
 
 ### fixing the collection: declare testthat as dependency
 ```{r fixing}
@@ -161,7 +166,7 @@ Checking is very similar to testing except that it takes much longer!
   df2 <- utils::modifyList(df, lst)
   write.dcf(df2, path)
 }
-for (pkg in get_srcpkgs()) {
+for (pkg in small_collection) {
   .fix_description(file.path(pkg$path, "DESCRIPTION"), list(Suggests = "testthat"))
 }
 ```
@@ -170,7 +175,7 @@ for (pkg in get_srcpkgs()) {
 ### checking the packages
 
 ```{r checking, results = "markup"}
-check_results <- pkgs_check(quiet = TRUE)
+check_results <- pkgs_check(small_collection, quiet = TRUE)
 print(check_results)
 ```
 
@@ -195,9 +200,5 @@ print(check_results$bilbo)
 print(as.data.frame(check_results$lotr))
 print(summary(check_results$lotr))
 print(as.logical(check_results$aragorn))
-```
-
-```{r cleanup, include = FALSE}
-# options(old)
 ```
 
