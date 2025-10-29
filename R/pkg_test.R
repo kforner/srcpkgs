@@ -112,6 +112,8 @@ print.pkg_test <- function(x, ...) {
   }
 
   df <- as.data.frame(x)
+  df$time <- format(df$time, digits = 3) # only keep ms
+
   results <- df$result
 
   ### by test
@@ -122,6 +124,7 @@ print.pkg_test <- function(x, ...) {
 
   ### by file
   sdf <- summary(x)
+  sdf$time <- format(sdf$time, digits = 3) # only keep ms
   bad <- which(sdf$failed > 0 | sdf$error)
   print_text_table(sdf, 
     title = paste0("Test results by file for package ", pkg$package),

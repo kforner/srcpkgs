@@ -86,7 +86,6 @@ print.pkgs_test <- function(x, ...) {
   # only keep ms
   df$time <- format(df$time, digits = 3)
 
-
   ### by package
   bad <- which(df$failed > 0 | df$error > 0)
 
