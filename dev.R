@@ -27,7 +27,7 @@ system.time(withr::with_dir("vignettes", rmarkdown::render("testing_and_checking
 system.time(withr::with_dir("vignettes", rmarkdown::render("getting_started.Rmd")))
 system.time(withr::with_dir("vignettes", rmarkdown::render("demo.Rmd")))
 
-build_vignettes(install = F)
+build_vignettes()
 run_examples()
 run_examples(run_donttest = TRUE)
 

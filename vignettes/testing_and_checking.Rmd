@@ -10,7 +10,6 @@ vignette: >
 
 ```{r setup, include = FALSE}
 ## N.B: we need to setup and make available the demo collection of packages "srcpkgs_lotr_demo"
-library(srcpkgs)
 # setup a temp dir
 root_dir <- tempfile()
 dir.create(root_dir)
@@ -29,7 +28,7 @@ The dependencies are implemented by a mix of Imports, Imports with namespace imp
 
 ```{r srcpkgs_setup, results = "markup"}
 
-reset(".")
+library(srcpkgs)
 print(names(get_srcpkgs()))
 # cat(clitable::cli_table(as.data.frame(get_srcpkgs())), sep = "\n")
 ```
