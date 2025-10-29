@@ -47,11 +47,9 @@ pkg_check <- function(pkgid, src_pkgs = get_srcpkgs(), lib = ".check",  roxygen 
 
   if (roxygen) pkg_roxygenise(pkg$path, quiet = TRUE)
 
-  tt <- system.time(
-    res <- withr::with_envvar(c(`_R_CHECK_SYSTEM_CLOCK_` = as.integer(check_system_clock)), 
-      devtools::check(pkg, error_on = error_on, check_dir = lib, quiet = quiet, ...))
-  )
-
+  res <- withr::with_envvar(c(`_R_CHECK_SYSTEM_CLOCK_` = as.integer(check_system_clock)), 
+    devtools::check(pkg, error_on = error_on, check_dir = lib, quiet = quiet, ...))
+  
   class(res) <- c('pkg_check', class(res)) 
   invisible(res)
 }

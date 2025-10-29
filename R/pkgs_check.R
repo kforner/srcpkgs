@@ -84,7 +84,7 @@ pkgs_check <- function(pkgids = names(filter_srcpkgs(src_pkgs, filter)), src_pkg
     pkg_check(pkg, src_pkgs = src_pkgs, lib = lib, roxygen = FALSE, error_on = "never", 
       quiet = quiet, ...)
   }
-  tt <- system.time(chks <- withr::with_libpaths(libpath, lapply(pkgs, .check_one_pkg)))
+  chks <- withr::with_libpaths(libpath, lapply(pkgs, .check_one_pkg))
 
   chks <- new_pkgs_check(chks, names(pkgs))
 
