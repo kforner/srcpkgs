@@ -1,0 +1,20 @@
+# Changelog
+
+## srcpkgs 0.2
+
+CRAN release: 2025-10-29
+
+- added vignette *Testing and checking packages with srcpkgs*
+- exported pkg_attach() and pkg_list_attached()
+- exported pkg_roxygenise()
+- added pkg_check() and pkgs_check()
+- now pkgs_test() accepts more types of input as first main param (via
+  `as_srpkgs()`)
+- fixed [`pkg_load()`](../reference/pkg_load.md) when a package is
+  already loaded and up to date but not attached
+
+## srcpkgs 0.1
+
+CRAN release: 2024-05-15
+
+- added two vignettes, getting ready for initial CRAN submission

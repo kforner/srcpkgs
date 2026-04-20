@@ -97,7 +97,8 @@ srcpkgs object. Also accept a singleton package object</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BB0000;">✖</span> | <span style="color: #FFAF00;">1</span>        0 | failure</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ────────────────────────────────────────────────────────────────────────────────</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #FFAF00; font-weight: bold;">Failure</span><span style="font-weight: bold;"> (</span><span style="color: #0000BB; font-weight: bold;">test_failure.R:3:3</span><span style="font-weight: bold;">): does_nothing_special - failure</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> does_nothing_special() not equal to 0.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Expected `dummy.srcpkg:::does_nothing_special()` to equal 0.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Differences:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1/1 mismatches</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 42 - 0 == 42</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ────────────────────────────────────────────────────────────────────────────────</span>
@@ -108,7 +109,8 @@ srcpkgs object. Also accept a singleton package object</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ══ <span style="font-weight: bold;">Results</span> ═════════════════════════════════════════════════════════════════════</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ── Failed tests ────────────────────────────────────────────────────────────────</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #FFAF00; font-weight: bold;">Failure</span><span style="font-weight: bold;"> (</span><span style="color: #0000BB; font-weight: bold;">test_failure.R:3:3</span><span style="font-weight: bold;">): does_nothing_special - failure</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> does_nothing_special() not equal to 0.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Expected `dummy.srcpkg:::does_nothing_special()` to equal 0.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Differences:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1/1 mismatches</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 42 - 0 == 42</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
@@ -119,7 +121,8 @@ srcpkgs object. Also accept a singleton package object</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BB0000;">✖</span> | <span style="color: #FFAF00;">1</span>        0 | failure</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ────────────────────────────────────────────────────────────────────────────────</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #FFAF00; font-weight: bold;">Failure</span><span style="font-weight: bold;"> (</span><span style="color: #0000BB; font-weight: bold;">test_failure.R:3:3</span><span style="font-weight: bold;">): does_nothing_special - failure</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> does_nothing_special() not equal to 0.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Expected `dummy.srcpkg:::does_nothing_special()` to equal 0.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Differences:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1/1 mismatches</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 42 - 0 == 42</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ────────────────────────────────────────────────────────────────────────────────</span>
@@ -130,18 +133,21 @@ srcpkgs object. Also accept a singleton package object</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ══ <span style="font-weight: bold;">Results</span> ═════════════════════════════════════════════════════════════════════</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ── Failed tests ────────────────────────────────────────────────────────────────</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #FFAF00; font-weight: bold;">Failure</span><span style="font-weight: bold;"> (</span><span style="color: #0000BB; font-weight: bold;">test_failure.R:3:3</span><span style="font-weight: bold;">): does_nothing_special - failure</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> does_nothing_special() not equal to 0.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Expected `dummy.srcpkg:::does_nothing_special()` to equal 0.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Differences:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1/1 mismatches</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 42 - 0 == 42</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [ <span style="color: #FFAF00;">FAIL</span> 1 | WARN 0 | SKIP 0 | PASS 1 ]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #FFAF00;">I believe in you!</span></span>
 <span class="r-in"><span> <span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">res</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">──</span> <span style="font-weight: bold;">Test results by package</span> <span style="color: #00BBBB;">─────────────────────────────────────────────────────</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ╒════════════╤══╤══════╤══════╤═══════╤═════╤═══════╤═════╕</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="font-weight: bold;">│ package    │nb│failed│passed│skipped│error│warning│ time│</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ╞════════════╪══╪══════╪══════╪═══════╪═════╪═══════╪═════╡</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="background-color: #BB0000;">│dummy.srcpkg│ 2│ 1    │ 1    │ 0     │ 0   │ 0     │</span><span style="background-color: #FF0000;">0.014</span><span style="background-color: #BB0000;">│</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="background-color: #BB0000;">│dummy.srcpkg│ 2│ 1    │ 1    │ 0     │ 0   │ 0     │</span><span style="background-color: #FF0000;">0.028</span><span style="background-color: #BB0000;">│</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="background-color: #BB0000;">│dummy.srcpkg│ 2│ 1    │ 1    │ 0     │ 0   │ 0     │</span><span style="background-color: #00FF00;">0.013</span><span style="background-color: #BB0000;">│</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ╘════════════╧══╧══════╧══════╧═══════╧═════╧═══════╧═════╛</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
@@ -149,7 +155,7 @@ srcpkgs object. Also accept a singleton package object</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ╒═══════╤══╤══════╤══════╤═══════╤═════╤═══════╤═════╕</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="font-weight: bold;">│package│nb│failed│passed│skipped│error│warning│ time│</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ╞═══════╪══╪══════╪══════╪═══════╪═════╪═══════╪═════╡</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> │ 2     │ 4│ 2    │ 2    │ 0     │ 0   │ 0     │0.027│</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> │ 2     │ 4│ 2    │ 2    │ 0     │ 0   │ 0     │0.041│</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ╘═══════╧══╧══════╧══════╧═══════╧═════╧═══════╧═════╛</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> FAILED</span>
@@ -164,7 +170,7 @@ srcpkgs object. Also accept a singleton package object</p></dd>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.3.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
 </div>
 
     </footer></div>
