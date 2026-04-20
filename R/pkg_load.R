@@ -27,7 +27,9 @@
 #' @return the load plan as a data frame, or NULL if there is nothing to do.
 #' @export
 #' @examples
-#'  pkg <- setup_and_get_dummy_srcpkg()
+#' root <- tempfile()
+#' pkg <- setup_and_get_dummy_srcpkg(root)
+#' reset(root)
 #' # load and attach a package
 #' pkg_load(pkg)
 #' 
