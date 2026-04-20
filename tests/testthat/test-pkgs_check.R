@@ -19,7 +19,7 @@ test_that("pkgs_check", {
   writeLines(r"{ stop("aie aie aie") }", file.path(src_pkgs$BB$path, "tests/testthat/setup.R"))
 
   ### 
-  mute(chks <- pkgs_check(src_pkgs = src_pkgs, quiet = FALSE))
+  chks <- pkgs_check(src_pkgs = src_pkgs, quiet = TRUE)
 
   expect_s3_class(chks, "pkgs_check")
   expect_true(is.list(chks))
