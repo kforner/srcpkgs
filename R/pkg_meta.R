@@ -20,7 +20,7 @@ fetch_srcpkgs_meta <- function() {
 # devtools::dev_packages() does not work any longer in devtools >= 2.5
 dev_packages_fixed <- function() {
   loaded <- loadedNamespaces()
-  have_meta <- sapply(loaded, \(x) !is.null(pkgload::dev_meta(x)))
+  have_meta <- sapply(loaded, function(x) !is.null(pkgload::dev_meta(x)))
   loaded[have_meta]
 }
 
