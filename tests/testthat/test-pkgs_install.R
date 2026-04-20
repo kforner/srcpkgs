@@ -3,7 +3,6 @@
 test_that(".pkgs_install", {
   # G-->C-->B-->A--->stats, F-->D-->B, E-->A, Z, G--->utils
   src_pkgs <- examples_srcpkgs_complex_imports()
-  setup_temp_dir()
   LIB <- 'lib'
 
   ### a package with deps
@@ -32,7 +31,6 @@ test_that(".pkgs_install", {
 test_that("pkg_install_nodeps", {
   # A->B->C->D, B->D->E, Z
   src_pkgs <- examples_srcpkgs_complex_deps()
-  setup_temp_dir()
   LIB <- 'toto'
 
   expect_error(pkg_install_nodeps(src_pkgs[[1]]$path, LIB), "does not exist")
@@ -44,7 +42,7 @@ test_that("pkg_install_nodeps", {
   ## pkg_roxygenise --> generate the NAMESPACE
   pkg_roxygenise(src_pkgs$ZZ$path, quiet = TRUE)
   pkg_unload(src_pkgs$ZZ, quiet = TRUE)
-  
+
   md5 <- pkg_install_nodeps(src_pkgs$ZZ$path, LIB, quiet = TRUE)
   
   expect_identical(installed.packages(LIB)[, "Package"], "ZZ")

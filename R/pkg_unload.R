@@ -11,7 +11,9 @@
 #'  attached, invisibly or NULL if the package is not loaded
 #' @export
 #' @examples
-#' pkg <- setup_and_get_dummy_srcpkg()
+#' root <- tempfile()
+#' pkg <- setup_and_get_dummy_srcpkg(root)
+#' reset(root)
 #' pkg_load(pkg)
 #' 
 #' pkg_unload(pkg)

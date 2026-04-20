@@ -9,10 +9,6 @@
 #' @param ...   passed to `devtools::install()`
 #' @return the names of the packages actually installed
 #' @export
-#' @examples 
-#' pkg <- setup_and_get_dummy_srcpkg()
-#' dest <- tempfile()
-#' pkgs_install(pkg, dest)
 pkgs_install <- function(pkgids, lib, src_pkgs = get_srcpkgs(), only_deps = FALSE,  quiet = TRUE, ...)
 {
   stop_unless(length(pkgids), "No package to test")
@@ -29,7 +25,8 @@ pkgs_install <- function(pkgids, lib, src_pkgs = get_srcpkgs(), only_deps = FALS
     pkg <- src_pkgs[[pkg_name]]
 
     # is_loaded <- pkg_is_loaded(pkg_name)
-    pkg_roxygenise(pkg$path, quiet = quiet)
+    # pkg_roxygenise(pkg$path, quiet = quiet)
+    pkg_load(pkg, src_pkgs, attach = FALSE, roxygen = TRUE, quiet = quiet)
     # if (!is_loaded) unloadNamespace(pkg_name)
     
     if (!pkg_needs_install(pkg$path, lib)) return(NULL)

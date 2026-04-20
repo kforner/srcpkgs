@@ -6,3 +6,7 @@ if (is_loaders_hack_enabled()) {
   withr::defer(hack_r_loaders(), teardown_env())
 }
 
+withr::local_envvar(
+  R_USER_CACHE_DIR = tempfile(),
+  .local_envir = teardown_env()
+)

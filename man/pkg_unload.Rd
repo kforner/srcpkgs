@@ -35,7 +35,9 @@ even indirectly on it should be unloaded first.
 N.B: this function also works for non source packages.
 }
 \examples{
-pkg <- setup_and_get_dummy_srcpkg()
+root <- tempfile()
+pkg <- setup_and_get_dummy_srcpkg(root)
+reset(root)
 pkg_load(pkg)
 
 pkg_unload(pkg)

@@ -12,7 +12,9 @@
 #' @importFrom testthat   test_dir
 #' @export
 #' @examples
-#'  pkg <- setup_and_get_dummy_srcpkg()
+#'  root <- tempfile()
+#'  pkg <- setup_and_get_dummy_srcpkg(root)
+#'  reset(root)
 #'  res <- pkg_test(pkg)
 #'  print(res)
 pkg_test <- function(pkgid, filter = NULL, src_pkgs = get_srcpkgs(), export_all = TRUE, quiet = TRUE, ...)

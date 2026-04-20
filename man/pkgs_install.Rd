@@ -37,8 +37,3 @@ the names of the packages actually installed
 \item will roxygenise packages if needed
 }
 }
-\examples{
-pkg <- setup_and_get_dummy_srcpkg()
-dest <- tempfile()
-pkgs_install(pkg, dest)
-}

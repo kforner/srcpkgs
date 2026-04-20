@@ -5,11 +5,11 @@
 # fetches meta data about loaded source packages as a data frame, or NULL if no info
 #  N.B: use the devtools meta data, and stores the package hash inside it
 fetch_srcpkgs_meta <- function() {
-  pkgs_names <- sort(devtools::dev_packages())
+  pkgs_names <- sort(dev_packages_fixed())
   pkgs <- lapply(pkgs_names, fetch_srcpkg_meta)
   pkgs <- pkgs[lengths(pkgs) > 0] %||% return(NULL)
   pkgs <- srcpkgs(pkgs)
-  
+
   df <- as.data.frame(pkgs)
 
   df$attached <- !is.na(match(rownames(df), sub('package:', '', search())))
@@ -17,6 +17,12 @@ fetch_srcpkgs_meta <- function() {
   df
 }
 
+# devtools::dev_packages() does not work any longer in devtools >= 2.5
+dev_packages_fixed <- function() {
+  loaded <- loadedNamespaces()
+  have_meta <- sapply(loaded, function(x) !is.null(pkgload::dev_meta(x)))
+  loaded[have_meta]
+}
 
 get_or_set_meta <- function(meta_env, value) {
   key <- 'SRCPKGS_META_KEY'
