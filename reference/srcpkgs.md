@@ -36,14 +36,14 @@ print(srcpkgs(list(pkg1, pkg2)))
 #> dummy.srcpkg   dummy.srcpkg  3.1416
 #> dummy.srcpkg2 dummy.srcpkg2  3.1416
 #>                                                        path imports depends
-#> dummy.srcpkg  /tmp/Rtmp7TeFwM/file1bba3345ab1e/dummy_srcpkg                
-#> dummy.srcpkg2 /tmp/Rtmp7TeFwM/file1bba3345ab1e/dummy_srcpkg                
+#> dummy.srcpkg  /tmp/Rtmp2CbWDw/file1ac06e808204/dummy_srcpkg                
+#> dummy.srcpkg2 /tmp/Rtmp2CbWDw/file1ac06e808204/dummy_srcpkg                
 #>               suggests
 #> dummy.srcpkg  testthat
 #> dummy.srcpkg2 testthat
 print(srcpkgs(paths = pkg1$path))
 #>                   package version                                          path
-#> dummy.srcpkg dummy.srcpkg  3.1416 /tmp/Rtmp7TeFwM/file1bba3345ab1e/dummy_srcpkg
+#> dummy.srcpkg dummy.srcpkg  3.1416 /tmp/Rtmp2CbWDw/file1ac06e808204/dummy_srcpkg
 #>              imports depends suggests
 #> dummy.srcpkg                 testthat
 ```

@@ -63,8 +63,8 @@ pkg <- setup_and_get_dummy_srcpkg()
 deps_src <- pkgs_deps(pkg, installed = FALSE)
 deps_inst <- pkgs_deps(pkg, source = FALSE)
 print(get_srcpkgs())
-#>                   package version                                         path
-#> dummy.srcpkg dummy.srcpkg  3.1416 /tmp/Rtmp7TeFwM/file1bba31a8ae6/dummy_srcpkg
+#>                   package version                                          path
+#> dummy.srcpkg dummy.srcpkg  3.1416 /tmp/Rtmp2CbWDw/file1ac0572d9c49/dummy_srcpkg
 #>              imports depends suggests
 #> dummy.srcpkg                 testthat
 deps_rev <- pkgs_deps(pkg, reverse = TRUE, suggests = FALSE)

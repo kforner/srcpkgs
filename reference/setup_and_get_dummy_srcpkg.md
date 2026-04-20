@@ -24,5 +24,5 @@ the package as a `srcpkg` object
 pkg <- setup_and_get_dummy_srcpkg()
 print(pkg)
 #> dummy.srcpkg@<3.1416> source package
-#> [/tmp/Rtmp7TeFwM/file1bba5509d5ac/dummy_srcpkg]
+#> [/tmp/Rtmp2CbWDw/file1ac05d0c2a44/dummy_srcpkg]
 ```

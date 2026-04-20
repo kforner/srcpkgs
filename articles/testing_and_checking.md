@@ -150,17 +150,17 @@ print(test_results)
     ## ╒═════════╤══╤══════╤══════╤═══════╤═════╤═══════╤═════╕
     ## │ package │nb│failed│passed│skipped│error│warning│ time│
     ## ╞═════════╪══╪══════╪══════╪═══════╪═════╪═══════╪═════╡
-    ## │ aragorn │ 2│ 0    │ 1    │ 1     │ 0   │ 0     │0.032│
-    ## │ bilbo   │17│ 6    │ 7    │ 2     │ 2   │ 2     │0.434│
+    ## │ aragorn │ 2│ 0    │ 1    │ 1     │ 0   │ 0     │ 0.03│
+    ## │ bilbo   │17│ 6    │ 7    │ 2     │ 2   │ 2     │0.421│
     ## │ elrond  │ 2│ 0    │ 1    │ 1     │ 0   │ 0     │0.008│
-    ## │ elves   │ 2│ 0    │ 1    │ 1     │ 0   │ 0     │0.007│
-    ## │ frodo   │ 5│ 2    │ 2    │ 1     │ 0   │ 0     │0.051│
+    ## │ elves   │ 2│ 0    │ 1    │ 1     │ 0   │ 0     │0.008│
+    ## │ frodo   │ 5│ 2    │ 2    │ 1     │ 0   │ 0     │ 0.05│
     ## │galadriel│ 2│ 0    │ 1    │ 1     │ 0   │ 0     │0.007│
     ## │ gandalf │ 5│ 2    │ 1    │ 1     │ 0   │ 1     │0.063│
-    ## │ gimli   │ 5│ 2    │ 2    │ 1     │ 0   │ 0     │0.052│
-    ## │ hobbits │ 3│ 0    │ 2    │ 1     │ 1   │ 0     │0.023│
-    ## │ legolas │ 2│ 0    │ 1    │ 1     │ 0   │ 0     │0.007│
-    ## │ lotr    │ 5│ 2    │ 2    │ 1     │ 0   │ 0     │0.052│
+    ## │ gimli   │ 5│ 2    │ 2    │ 1     │ 0   │ 0     │ 0.05│
+    ## │ hobbits │ 3│ 0    │ 2    │ 1     │ 1   │ 0     │0.027│
+    ## │ legolas │ 2│ 0    │ 1    │ 1     │ 0   │ 0     │0.006│
+    ## │ lotr    │ 5│ 2    │ 2    │ 1     │ 0   │ 0     │0.048│
     ## ╘═════════╧══╧══════╧══════╧═══════╧═════╧═══════╧═════╛
 
     ## 
@@ -170,7 +170,7 @@ print(test_results)
     ## ╒═══════╤══╤══════╤══════╤═══════╤═════╤═══════╤═════╕
     ## │package│nb│failed│passed│skipped│error│warning│ time│
     ## ╞═══════╪══╪══════╪══════╪═══════╪═════╪═══════╪═════╡
-    ## │ 11    │50│ 14   │ 21   │ 12    │ 3   │ 3     │0.736│
+    ## │ 11    │50│ 14   │ 21   │ 12    │ 3   │ 3     │0.718│
     ## ╘═══════╧══╧══════╧══════╧═══════╧═════╧═══════╧═════╛
     ## 
     ## FAILED
@@ -201,24 +201,24 @@ print(as.data.frame(test_results))
 ```
 
     ##             package nb failed passed skipped error warning  time
-    ## aragorn     aragorn  2      0      1       1     0       0 0.032
-    ## bilbo         bilbo 17      6      7       2     2       2 0.434
+    ## aragorn     aragorn  2      0      1       1     0       0 0.030
+    ## bilbo         bilbo 17      6      7       2     2       2 0.421
     ## elrond       elrond  2      0      1       1     0       0 0.008
-    ## elves         elves  2      0      1       1     0       0 0.007
-    ## frodo         frodo  5      2      2       1     0       0 0.051
+    ## elves         elves  2      0      1       1     0       0 0.008
+    ## frodo         frodo  5      2      2       1     0       0 0.050
     ## galadriel galadriel  2      0      1       1     0       0 0.007
     ## gandalf     gandalf  5      2      1       1     0       1 0.063
-    ## gimli         gimli  5      2      2       1     0       0 0.052
-    ## hobbits     hobbits  3      0      2       1     1       0 0.023
-    ## legolas     legolas  2      0      1       1     0       0 0.007
-    ## lotr           lotr  5      2      2       1     0       0 0.052
+    ## gimli         gimli  5      2      2       1     0       0 0.050
+    ## hobbits     hobbits  3      0      2       1     1       0 0.027
+    ## legolas     legolas  2      0      1       1     0       0 0.006
+    ## lotr           lotr  5      2      2       1     0       0 0.048
 
 ``` r
 print(summary(test_results))
 ```
 
     ##   package nb failed passed skipped error warning  time
-    ## 1      11 50     14     21      12     3       3 0.736
+    ## 1      11 50     14     21      12     3       3 0.718
 
 ``` r
 print(as.logical(test_results))
@@ -238,15 +238,15 @@ print(test_results$bilbo)
     ## │ file  │ test  │nb│failed│passed│skipped│error│warning│ time│
     ## ╞═══════╪═══════╪══╪══════╪══════╪═══════╪═════╪═══════╪═════╡
     ## │ errors│ errors│ 1│ 0    │ 1    │ FALSE │ TRUE│ 0     │ 0.02│
-    ## │failure│failure│ 1│ 1    │ 0    │ FALSE │FALSE│ 0     │0.203│
-    ## │ misc  │ misc1 │ 2│ 1    │ 1    │ FALSE │FALSE│ 0     │0.027│
+    ## │failure│failure│ 1│ 1    │ 0    │ FALSE │FALSE│ 0     │0.197│
+    ## │ misc  │ misc1 │ 2│ 1    │ 1    │ FALSE │FALSE│ 0     │0.026│
     ## │ misc  │ misc2 │ 2│ 1    │ 0    │ TRUE  │FALSE│ 0     │0.027│
     ## │ misc  │ misc3 │ 2│ 0    │ 2    │ FALSE │FALSE│ 0     │0.008│
     ## │ misc  │ misc4 │ 2│ 0    │ 1    │ FALSE │ TRUE│ 1     │0.046│
-    ## │ mixed │ mixed │ 2│ 1    │ 1    │ FALSE │FALSE│ 0     │0.031│
-    ## │ skip  │ skip  │ 1│ 0    │ 0    │ TRUE  │FALSE│ 0     │0.004│
+    ## │ mixed │ mixed │ 2│ 1    │ 1    │ FALSE │FALSE│ 0     │0.029│
+    ## │ skip  │ skip  │ 1│ 0    │ 0    │ TRUE  │FALSE│ 0     │0.003│
     ## │success│success│ 1│ 0    │ 1    │ FALSE │FALSE│ 0     │0.005│
-    ## │warning│warning│ 3│ 2    │ 0    │ FALSE │FALSE│ 1     │0.063│
+    ## │warning│warning│ 3│ 2    │ 0    │ FALSE │FALSE│ 1     │ 0.06│
     ## ╘═══════╧═══════╧══╧══════╧══════╧═══════╧═════╧═══════╧═════╛
 
     ## 
@@ -257,32 +257,32 @@ print(test_results$bilbo)
     ## │ file  │nb│failed│passed│skipped│error│warning│ time│
     ## ╞═══════╪══╪══════╪══════╪═══════╪═════╪═══════╪═════╡
     ## │ errors│ 1│ 0    │ 1    │ 0     │ 1   │ 0     │ 0.02│
-    ## │failure│ 1│ 1    │ 0    │ 0     │ 0   │ 0     │0.203│
-    ## │ misc  │ 8│ 2    │ 4    │ 1     │ 1   │ 1     │0.108│
-    ## │ mixed │ 2│ 1    │ 1    │ 0     │ 0   │ 0     │0.031│
-    ## │ skip  │ 1│ 0    │ 0    │ 1     │ 0   │ 0     │0.004│
+    ## │failure│ 1│ 1    │ 0    │ 0     │ 0   │ 0     │0.197│
+    ## │ misc  │ 8│ 2    │ 4    │ 1     │ 1   │ 1     │0.107│
+    ## │ mixed │ 2│ 1    │ 1    │ 0     │ 0   │ 0     │0.029│
+    ## │ skip  │ 1│ 0    │ 0    │ 1     │ 0   │ 0     │0.003│
     ## │success│ 1│ 0    │ 1    │ 0     │ 0   │ 0     │0.005│
-    ## │warning│ 3│ 2    │ 0    │ 0     │ 0   │ 1     │0.063│
+    ## │warning│ 3│ 2    │ 0    │ 0     │ 0   │ 1     │ 0.06│
     ## ╘═══════╧══╧══════╧══════╧═══════╧═════╧═══════╧═════╛
 
     ## 
 
     ## ── Test results overview for package bilbo ─────────────────────────────────────
 
-    ## ╒══╤══════╤══════╤═══════╤═════╤═══════╤═════════════════╕
-    ## │nb│failed│passed│skipped│error│warning│ time            │
-    ## ╞══╪══════╪══════╪═══════╪═════╪═══════╪═════════════════╡
-    ## │17│ 6    │ 7    │ 2     │ 2   │ 2     │0.433999999999998│
-    ## ╘══╧══════╧══════╧═══════╧═════╧═══════╧═════════════════╛
+    ## ╒══╤══════╤══════╤═══════╤═════╤═══════╤═════╕
+    ## │nb│failed│passed│skipped│error│warning│ time│
+    ## ╞══╪══════╪══════╪═══════╪═════╪═══════╪═════╡
+    ## │17│ 6    │ 7    │ 2     │ 2   │ 2     │0.421│
+    ## ╘══╧══════╧══════╧═══════╧═════╧═══════╧═════╛
 
 ``` r
 print(as.data.frame(test_results$lotr))
 ```
 
     ##      file    test nb failed passed skipped error warning  time
-    ## 1 failure failure  1      1      0   FALSE FALSE       0 0.022
-    ## 2   mixed   mixed  2      1      1   FALSE FALSE       0 0.023
-    ## 3    skip    skip  1      0      0    TRUE FALSE       0 0.003
+    ## 1 failure failure  1      1      0   FALSE FALSE       0 0.020
+    ## 2   mixed   mixed  2      1      1   FALSE FALSE       0 0.022
+    ## 3    skip    skip  1      0      0    TRUE FALSE       0 0.002
     ## 4 success success  1      0      1   FALSE FALSE       0 0.004
 
 ``` r
@@ -290,9 +290,9 @@ print(summary(test_results$lotr))
 ```
 
     ##      file nb failed passed skipped error warning  time
-    ## 1 failure  1      1      0       0     0       0 0.022
-    ## 2   mixed  2      1      1       0     0       0 0.023
-    ## 3    skip  1      0      0       1     0       0 0.003
+    ## 1 failure  1      1      0       0     0       0 0.020
+    ## 2   mixed  2      1      1       0     0       0 0.022
+    ## 3    skip  1      0      0       1     0       0 0.002
     ## 4 success  1      0      1       0     0       0 0.004
 
 ``` r
@@ -348,9 +348,9 @@ print(check_results)
     ## ╒═════════╤══════╤════════╤═════╤════╕
     ## │ package │errors│warnings│notes│time│
     ## ╞═════════╪══════╪════════╪═════╪════╡
-    ## │ elves   │ 0    │ 0      │ 2   │8.82│
-    ## │galadriel│ 0    │ 0      │ 2   │8.75│
-    ## │ legolas │ 0    │ 0      │ 2   │ 8.8│
+    ## │ elves   │ 0    │ 0      │ 2   │8.71│
+    ## │galadriel│ 0    │ 0      │ 2   │ 8.5│
+    ## │ legolas │ 0    │ 0      │ 2   │8.54│
     ## ╘═════════╧══════╧════════╧═════╧════╛
 
     ## 
@@ -359,7 +359,7 @@ print(check_results)
     ## ╒═══════╤══════╤════════╤═════╤════╕
     ## │package│errors│warnings│notes│time│
     ## ╞═══════╪══════╪════════╪═════╪════╡
-    ## │ 3     │ 0    │ 0      │ 6   │26.4│
+    ## │ 3     │ 0    │ 0      │ 6   │25.7│
     ## ╘═══════╧══════╧════════╧═════╧════╛
     ## 
     ## SUCCESS
@@ -387,16 +387,16 @@ print(as.data.frame(check_results))
 ```
 
     ##             package errors warnings notes     time
-    ## elves         elves      0        0     2 8.823339
-    ## galadriel galadriel      0        0     2 8.752485
-    ## legolas     legolas      0        0     2 8.802058
+    ## elves         elves      0        0     2 8.708120
+    ## galadriel galadriel      0        0     2 8.502726
+    ## legolas     legolas      0        0     2 8.535558
 
 ``` r
 print(summary(check_results))
 ```
 
-    ##   package errors warnings notes     time
-    ## 1       3      0        0     6 26.37788
+    ##   package errors warnings notes    time
+    ## 1       3      0        0     6 25.7464
 
 ``` r
 print(as.logical(check_results))

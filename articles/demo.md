@@ -277,17 +277,17 @@ print(get_srcpkgs())
 ```
 
     ##             package version                                                         path                     imports depends suggests
-    ## aragorn     aragorn     0.1   /tmp/RtmpxOOiLH/file1d6d57473e1f/srcpkgs_lotr_demo/aragorn                                             
-    ## bilbo         bilbo     0.1     /tmp/RtmpxOOiLH/file1d6d57473e1f/srcpkgs_lotr_demo/bilbo                                             
-    ## elrond       elrond     0.1    /tmp/RtmpxOOiLH/file1d6d57473e1f/srcpkgs_lotr_demo/elrond                                             
-    ## elves         elves     0.1     /tmp/RtmpxOOiLH/file1d6d57473e1f/srcpkgs_lotr_demo/elves           galadriel,legolas                 
-    ## frodo         frodo     0.1     /tmp/RtmpxOOiLH/file1d6d57473e1f/srcpkgs_lotr_demo/frodo                                             
-    ## galadriel galadriel     0.1 /tmp/RtmpxOOiLH/file1d6d57473e1f/srcpkgs_lotr_demo/galadriel                                             
-    ## gandalf     gandalf     0.1   /tmp/RtmpxOOiLH/file1d6d57473e1f/srcpkgs_lotr_demo/gandalf                                             
-    ## gimli         gimli     0.1     /tmp/RtmpxOOiLH/file1d6d57473e1f/srcpkgs_lotr_demo/gimli                                             
-    ## hobbits     hobbits     0.1   /tmp/RtmpxOOiLH/file1d6d57473e1f/srcpkgs_lotr_demo/hobbits                       frodo   bilbo         
-    ## legolas     legolas     0.1   /tmp/RtmpxOOiLH/file1d6d57473e1f/srcpkgs_lotr_demo/legolas                                             
-    ## lotr           lotr     0.1      /tmp/RtmpxOOiLH/file1d6d57473e1f/srcpkgs_lotr_demo/lotr elves,gimli,aragorn,gandalf hobbits
+    ## aragorn     aragorn     0.1   /tmp/RtmpwuF77a/file1c6f26a0056f/srcpkgs_lotr_demo/aragorn                                             
+    ## bilbo         bilbo     0.1     /tmp/RtmpwuF77a/file1c6f26a0056f/srcpkgs_lotr_demo/bilbo                                             
+    ## elrond       elrond     0.1    /tmp/RtmpwuF77a/file1c6f26a0056f/srcpkgs_lotr_demo/elrond                                             
+    ## elves         elves     0.1     /tmp/RtmpwuF77a/file1c6f26a0056f/srcpkgs_lotr_demo/elves           galadriel,legolas                 
+    ## frodo         frodo     0.1     /tmp/RtmpwuF77a/file1c6f26a0056f/srcpkgs_lotr_demo/frodo                                             
+    ## galadriel galadriel     0.1 /tmp/RtmpwuF77a/file1c6f26a0056f/srcpkgs_lotr_demo/galadriel                                             
+    ## gandalf     gandalf     0.1   /tmp/RtmpwuF77a/file1c6f26a0056f/srcpkgs_lotr_demo/gandalf                                             
+    ## gimli         gimli     0.1     /tmp/RtmpwuF77a/file1c6f26a0056f/srcpkgs_lotr_demo/gimli                                             
+    ## hobbits     hobbits     0.1   /tmp/RtmpwuF77a/file1c6f26a0056f/srcpkgs_lotr_demo/hobbits                       frodo   bilbo         
+    ## legolas     legolas     0.1   /tmp/RtmpwuF77a/file1c6f26a0056f/srcpkgs_lotr_demo/legolas                                             
+    ## lotr           lotr     0.1      /tmp/RtmpwuF77a/file1c6f26a0056f/srcpkgs_lotr_demo/lotr elves,gimli,aragorn,gandalf hobbits
 
 ### unloading
 
@@ -465,7 +465,7 @@ Now let’s ask `srcpkgs` to make sure the `lotr` package is up-to-date:
 plan <- pkg_load('lotr')
 ```
 
-    ## package /tmp/RtmpxOOiLH/file1d6d57473e1f/srcpkgs_lotr_demo/frodo has changed: R/main.R was "modified"
+    ## package /tmp/RtmpwuF77a/file1c6f26a0056f/srcpkgs_lotr_demo/frodo has changed: R/main.R was "modified"
 
     ## executing unload on lotr
 
