@@ -35,7 +35,9 @@ This function will test a source package using \code{testthat},
 making sure the package and its source package dependencies are up-to-date and loaded
 }
 \examples{
- pkg <- setup_and_get_dummy_srcpkg()
+ root <- tempfile()
+ pkg <- setup_and_get_dummy_srcpkg(root)
+ reset(root)
  res <- pkg_test(pkg)
  print(res)
 }

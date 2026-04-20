@@ -39,10 +39,3 @@ the results as a \code{pkg_test} object, or NULL if no tests found
 \description{
 This function will check a source package.
 }
-\examples{
-\donttest{
- pkg <- setup_and_get_dummy_srcpkg()
- res <- pkg_check(pkg, lib = tempfile(), error_on = "never")
- print(res)
-}
-}

@@ -75,7 +75,9 @@ must be loaded in proper order.
 i.e. if A-->B-->C, the load order must be C, B, A
 }
 \examples{
- pkg <- setup_and_get_dummy_srcpkg()
+root <- tempfile()
+pkg <- setup_and_get_dummy_srcpkg(root)
+reset(root)
 # load and attach a package
 pkg_load(pkg)
 
