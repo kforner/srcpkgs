@@ -27,7 +27,7 @@ setup_temp_dir <- function(setwd = TRUE, .local_envir = parent.frame(), ...) {
 
 find_dangling_srcpkgs <- function() {
   # pkgs loaded via devtools
-  pkgs_names <- sort(devtools::dev_packages())
+  pkgs_names <- sort(dev_packages_fixed())
   # metadata stored by devtools
   pkgs <- lapply(pkgs_names, fetch_srcpkg_meta)
   pkgs <- pkgs[lengths(pkgs) > 0] %||% return(NULL)
